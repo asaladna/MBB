@@ -25,30 +25,68 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
+  .state('app.dashboard', {
+    url: '/dashboard',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/dashboard.html'
       }
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
+  .state('app.workouts', {
+      url: '/workouts',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/workouts.html',
+          controller: 'WorkoutsCtrl'
         }
       }
-    })
+  })
+
+  .state('app.running', {
+      url: '/running',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/running.html',
+        }
+      }
+  })
+
+  .state('app.achievements', {
+      url: '/achievements',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/achievements.html'
+        }
+      }
+  })
+
+  .state('app.leaderboards', {
+      url: '/leaderboards',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/leaderboards.html'
+        }
+      }
+  })
+
+  .state('app.help', {
+      url: '/help',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/help.html'
+        }
+      }
+  })
+
     .state('app.playlists', {
       url: '/playlists',
       views: {
@@ -69,5 +107,5 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/dashboard');
 });

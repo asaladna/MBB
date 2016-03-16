@@ -53,4 +53,37 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('WorkoutsCtrl', function($state, $scope, $ionicModal) {
+
+  // Form data for the addWorkout modal
+  $scope.workoutData = {};
+
+  // Create the workout modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/addWorkout.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  // Triggered in the addWorkout modal to close it
+  $scope.closeAddWorkout = function() {
+    $scope.modal.hide();
+  };
+
+  // Open the addWorkout modal
+  $scope.addWorkout = function() {
+    $scope.modal.show();
+  };
+
+  // Perform the addWorkout action when the user submits the addWorkout form
+  $scope.doAddWorkout = function() {
+    console.log('Adding workout', $scope.workoutData);
+  };
+
+  $scope.startRun = function() {
+    $state.go('app.running');
+  }
+
 });
