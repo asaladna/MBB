@@ -51,6 +51,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
   })
 
+  .state('app.activeWorkout', {
+      url: '/activeWorkout',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/activeWorkout.html',
+        }
+      }
+  })
+
+    .state('app.history', {
+      url: '/history',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/history.html'
+        }
+      }
+  })
+
   .state('app.running', {
       url: '/running',
       views: {
@@ -86,7 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
   });
-  
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/dashboard');
 });
