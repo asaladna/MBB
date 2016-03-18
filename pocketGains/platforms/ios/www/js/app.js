@@ -51,6 +51,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
   })
 
+  .state('app.activeWorkout', {
+      url: '/activeWorkout',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/activeWorkout.html',
+        }
+      }
+  })
+
+    .state('app.history', {
+      url: '/history',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/history.html'
+        }
+      }
+  })
+
   .state('app.running', {
       url: '/running',
       views: {
@@ -85,27 +103,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           templateUrl: 'templates/help.html'
         }
       }
-  })
-
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
   });
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/dashboard');
 });
