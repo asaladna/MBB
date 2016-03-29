@@ -16,7 +16,17 @@
 <!--        <img class="full-image" src="img/graph.png">-->
 
     </div>
-    </div>
+    <ion-item ng-controller="ExampleController">
+
+        <div class="card">
+            <div class="item item-divider">
+                A bar chart
+            </div>
+            <div class="item item-text-wrap">
+                <canvas id="bar" class="chart chart-bar" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+            </div>
+        </div>
+    </ion-item>
     <button class="button button-full button-positive">
       Block Button
     </button>
