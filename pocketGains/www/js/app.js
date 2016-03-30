@@ -33,44 +33,42 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
+  .state('app.dashboard', {
+    url: '/dashboard',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/dashboard.html'
       }
     }
   })
 
-  
-  
-  .state('app.browse', {
-      url: '/browse',
+  .state('app.achievements', {
+      url: '/achievements',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'templates/achievements.html'
         }
       }
     })
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+  .state('app.leaderboards', {
+      url: '/leaderboards',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/leaderboards.html'
+        }
       }
-    }
-  });
+    })
+
+  .state('app.help', {
+      url: '/help',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/help.html'
+        }
+      }
+    })
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/dashboard');
 });
