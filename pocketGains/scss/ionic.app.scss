@@ -14,16 +14,21 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
-
-$big-bg:      #212121 !default;
+$assertive:                       #ef473a !default;
+$big-bg:                          #212121 !default;
+$positive:                        #212121 !default;
 
 .scroll-bg {
   background: $big-bg;
   background-size: cover;
 }
 
+.button-block{
+    border: 4px solid $assertive;
+    padding: 20px;
+}
 
-$positive:                        #212121 !default;
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 

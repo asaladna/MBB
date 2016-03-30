@@ -19,6 +19,10 @@ $dark:                            #444 !default;
   background: #212121;
   background-size: cover; }
 
+.button-block {
+  border: 4px solid #ef473a;
+  padding: 20px; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
