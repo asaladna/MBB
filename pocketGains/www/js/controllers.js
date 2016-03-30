@@ -40,6 +40,8 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+    
+
 })
 
 

@@ -52,6 +52,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
         }
       }
     })
+    .state('app.createAccount', {
+      url: '/createAccount',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/createAccount.html'
+        }
+      }
+    })
     .state('app.playlists', {
       url: '/playlists',
       views: {
