@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-03-29 00:32:07.955
+-- Last modification date: 2016-03-29 23:29:23.585
 
 
 
@@ -10,15 +10,14 @@ CREATE TABLE Achievements (
     achieve_id int  NOT NULL,
     name varchar(100)  NOT NULL,
     `desc` varchar(500)  NOT NULL,
-    points int  NULL,
     CONSTRAINT Achievements_pk PRIMARY KEY (achieve_id)
 );
 
 -- Table Achievements_Completed
 CREATE TABLE Achievements_Completed (
-    Achievements_achieve_id int  NOT NULL,
     User_user_id int  NOT NULL,
-    CONSTRAINT Achievements_Completed_pk PRIMARY KEY (Achievements_achieve_id,User_user_id)
+    Achievements_achieve_id int  NOT NULL,
+    CONSTRAINT Achievements_Completed_pk PRIMARY KEY (User_user_id,Achievements_achieve_id)
 );
 
 -- Table Faved_Workouts
@@ -72,13 +71,12 @@ CREATE TABLE User (
     authToken varchar(25)  NOT NULL,
     session_id int  NOT NULL,
     username varchar(25)  NOT NULL,
-    email varchar(25)  NOT NULL,
+    email varchar(35)  NOT NULL,
     password varchar(25)  NOT NULL,
     salt varchar(50)  NOT NULL,
     sex bool  NOT NULL,
     goal int  NOT NULL,
     cardioPref int  NOT NULL,
-    level int  NOT NULL,
     exp int  NOT NULL,
     CONSTRAINT User_pk PRIMARY KEY (user_id)
 );
