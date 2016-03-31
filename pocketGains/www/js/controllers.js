@@ -44,6 +44,18 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('SignInCtrl', function($scope, $state) {
+  
+  $scope.signIn = function(user) {
+    console.log('Sign-In', user);
+    $state.go('app.dashboard');
+  };
+  
+})
+
+.controller('HomeTabCtrl', function($scope) {
+  console.log('HomeTabCtrl');
+})
 
 .controller("ExampleController", function($scope) {
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
