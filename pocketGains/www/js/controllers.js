@@ -44,6 +44,35 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('ProfBuilderCtrl', function($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate) {
+
+  $ionicSideMenuDelegate.canDragContent(false);
+  $ionicSlideBoxDelegate.enableSlide(0);
+
+  $scope.disableSlide = function() {
+    $ionicSlideBoxDelegate.enableSlide(0);
+  };
+
+  $scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+
+  };
+
+  $scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  };
+
+  $scope.selectMale = function() {
+    console.log("Male selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+  $scope.selectFemale = function() {
+    console.log("Female selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+})
 
 .controller("ExampleController", function($scope) {
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
@@ -53,6 +82,6 @@ angular.module('starter.controllers', [])
         [28, 48, 40, 19, 86, 27, 90]
     ];
  
-})
+});
 
 

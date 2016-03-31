@@ -42,11 +42,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
     }
   })
 
-  .state('app.createAccount', {
-      url: '/createAccount',
+  .state('app.profileBuilder', {
+      url: '/profileBuilder',
       views: {
         'menuContent': {
-          templateUrl: 'templates/createAccount.html'
+          templateUrl: 'templates/profileBuilder.html',
+          controller: 'ProfBuilderCtrl'
         }
       }
     })
@@ -79,5 +80,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/dashboard');
+  $urlRouterProvider.otherwise('/app/profileBuilder');
 });

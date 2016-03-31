@@ -1,0 +1,45 @@
+<ion-view view-title="Profile Builder">
+	
+		<ion-nav-buttons side="left">     
+	    </ion-nav-buttons>
+	    
+	    <ion-nav-buttons side="right"> 
+	        <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2">
+	        	Next
+	        </button>
+	      	<button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="slideIndex == 2">
+	        	Start using MyApp
+	      	</button>
+	    </ion-nav-buttons>
+	   
+	    <ion-slide-box ng-init="disableSlide()" on-slide-changed="slideChanged(index)">
+	      
+	    <!-- Get from user: Male or female? -->
+	    <ion-slide>
+	        <h3>Which are you?</h3>
+	        <div id="male-button-container" ng-click="selectMale()">
+	         	<img src="/img/male_icon.png">
+	         	<h1>Male</h1>
+	        </div>
+	        <div id="female-button-container" ng-click="selectMale()">
+	         	<img src="/img/female_icon.png">
+	         	<h1>Female</h1>
+	        </div>
+	    </ion-slide>
+	      
+	    <!-- Get from user: General workout goal? -->
+	    <ion-slide>
+	      	<h3>Which are you?</h3>
+	        
+	    </ion-slide>
+
+	    <ion-slide>
+	        <h3>Any questions?</h3>
+	        <p>
+	          Too bad!
+	        </p>
+	    </ion-slide>
+
+	</ion-slide-box>
+</ion-view>
+    
