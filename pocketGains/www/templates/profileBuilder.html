@@ -21,7 +21,7 @@
 	         	<img src="/img/male_icon.png">
 	         	<h1>Male</h1>
 	        </div>
-	        <div id="female-button-container" ng-click="selectMale()">
+	        <div id="female-button-container" ng-click="selectFemale()">
 	         	<img src="/img/female_icon.png">
 	         	<h1>Female</h1>
 	        </div>
@@ -29,8 +29,19 @@
 	      
 	    <!-- Get from user: General workout goal? -->
 	    <ion-slide>
-	      	<h3>Which are you?</h3>
-	        
+	      	<h3>What is your fitness goal?</h3>
+	      	<div id="scale-button-container" ng-click="selectScale()">
+	         	<img src="/img/scale_icon.png">
+	         	<h1>Lose<br/>Weight</h1>
+	        </div>
+	        <div id="muscle-button-container" ng-click="selectMuscle()">
+	         	<img src="/img/strong_icon.png">
+	         	<h1>Build<br/>Muscle</h1>
+	        </div>
+	        <div id="running-button-container" ng-click="selectRunning()">
+	         	<img src="/img/running_icon.png">
+	         	<h1>Improve<br/>Athletics</h1>
+	        </div>
 	    </ion-slide>
 
 	    <ion-slide>

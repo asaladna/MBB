@@ -65,6 +65,72 @@ body {
   	transform: translateY(-80%);
 }
 
+#scale-button-container {
+	width: 90%;
+	height: 140px;
+  	margin-left: 5%;
+  	border: 1px solid black;
+}
+
+#scale-button-container img {
+	width: 80px;
+	float: left;
+	margin-left: 10%;
+	height: auto;
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+}
+
+#scale-button-container h1 {
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-80%);
+}
+
+#muscle-button-container {
+	margin-top: 10px;
+	width: 90%;
+	height: 140px;
+  	margin-left: 5%;
+  	border: 1px solid black;
+}
+
+#muscle-button-container img {
+	width: 80px;
+	float: left;
+	margin-left: 10%;
+	height: auto;
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+}
+
+#muscle-button-container h1 {
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-80%);
+}
+
+#running-button-container {
+	margin-top: 10px;
+	width: 90%;
+	height: 140px;
+  	margin-left: 5%;
+  	border: 1px solid black;
+}
+
+#running-button-container img {
+	width: 100px;
+	float: left;
+	margin-left: 8%;
+	height: auto;
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+}
+
+
 #list {
   width: 170px;
   margin: 30px auto;

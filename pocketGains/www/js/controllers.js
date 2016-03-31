@@ -72,6 +72,21 @@ angular.module('starter.controllers', [])
     $ionicSlideBoxDelegate.next();
   }
 
+  $scope.selectScale = function() {
+    console.log("Lose Weight selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+  $scope.selectMuscle = function() {
+    console.log("Build Muscle selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+  $scope.selectRunning = function() {
+    console.log("Improve Athletics selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
 })
 
 .controller("ExampleController", function($scope) {
