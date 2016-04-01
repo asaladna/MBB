@@ -1,6 +1,10 @@
 <?php
 // Routes
 
+$app->get('/test', function ($request, $response, $args) {
+	return $response->write("Welcome to pocketgains");
+});
+
 $app->get('/achievements', 
 	function ($request, $response, $args) {
     try {
