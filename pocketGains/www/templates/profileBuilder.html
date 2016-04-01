@@ -4,12 +4,11 @@
 	    </ion-nav-buttons>
 	    
 	    <ion-nav-buttons side="right"> 
-	        <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2">
+	    	<!-- Next Button -->
+	       <!--  <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2">
 	        	Next
-	        </button>
-	      	<button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="slideIndex == 2">
-	        	Start using MyApp
-	      	</button>
+	        </button> -->
+	      	
 	    </ion-nav-buttons>
 	   
 	    <ion-slide-box ng-init="disableSlide()" on-slide-changed="slideChanged(index)">
@@ -46,19 +45,19 @@
 
 	    <ion-slide>
 	        <h3>Select your favorite workout for each category</h3>
-	        <div id="arms-selector-container" ng-click="openModal()">
+	        <div id="arms-selector-container" ng-click="openModal('arms')">
 	         	<h1>Arms</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="">
+	        <div id="arms-selector-container" ng-click="openModal('legs')">
 	         	<h1>Legs</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="">
+	        <div id="arms-selector-container" ng-click="openModal('back')">
 	         	<h1>Back</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="">
+	        <div id="arms-selector-container" ng-click="openModal('shoulders')">
 	         	<h1>Shoulders</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="">
+	        <div id="arms-selector-container" ng-click="openModal('chest')">
 	         	<h1>Chest</h1>
 	        </div>
 	    </ion-slide>

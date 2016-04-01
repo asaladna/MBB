@@ -47,10 +47,10 @@ angular.module('starter.controllers', [])
 .controller('ProfBuilderCtrl', function($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
   $ionicSideMenuDelegate.canDragContent(false);
-  $ionicSlideBoxDelegate.enableSlide(0);
+  $ionicSlideBoxDelegate.enableSlide(false);
 
   $scope.disableSlide = function() {
-    $ionicSlideBoxDelegate.enableSlide(0);
+    $ionicSlideBoxDelegate.enableSlide(false);
   };
 
   $scope.next = function() {
@@ -90,22 +90,12 @@ angular.module('starter.controllers', [])
   // Modal for selecting fav workout for each category
   var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com"
 
-  $scope.items = [
-      {
-        id: '1',
-        name: 'Pick up apples',
-        done: false
-      },
-      {
-        id: '2',
-        name: 'Mow the lawn',
-        done: true
-      }
-    ];
+  $scope.workouts = [ ];
 
-  $http.get(apiLink + "/achievements", { params: { } })
+  $http.get(apiLink + "/workout/", { params: {"type": "arms" } })
     .success(function(data) {
-        $scope.items = data;
+        $scope.workouts = data;
+        console.log(data);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + data);
@@ -115,23 +105,33 @@ angular.module('starter.controllers', [])
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
-    $scope.modal = modal
+    $scope.modal = modal;
   })
 
-  $scope.openModal = function() {
-    $scope.modal.show()
+  $scope.openModal = function(category) {
+    $scope.category = category;
+    console.log(category + " category selected!")
+    $scope.modal.show();
   }
+
+  $scope.selectFavWorkout = function(id) {
+    console.log("User selected workout with id: " + id + " from the " + $scope.category + " category");
+    $scope.modal.hide();
+  }
+})
+
+.controller('SignInCtrl', function($scope, $state) {
+  
+  $scope.signIn = function(user) {
+    console.log('Sign-In', user);
+    $state.go('app.dashboard');
+  };
 
 })
 
-.controller("ExampleController", function($scope) {
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['Cardio', 'Weight'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
- 
-});
+.controller('HomeTabCtrl', function($scope) {
+  console.log('HomeTabCtrl');
+})
+
 
 

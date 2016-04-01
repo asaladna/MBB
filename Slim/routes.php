@@ -1,6 +1,10 @@
 <?php
 // Routes
 
+$app->get('/test', function ($request, $response, $args) {
+	return $response->write("Welcome to pocketgains");
+});
+
 $app->get('/achievements', 
 	function ($request, $response, $args) {
     try {
@@ -31,8 +35,8 @@ $app->get('/achievements/{user_id}',
     	$db = $this->api_login;
  
  		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
-        $query = $db->prepare("SELECT * ");
-        $query->execute(array('user_id' => ));
+        $query = $db->prepare("SELECT * FROM Achievements");
+        $query->execute();
 
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  

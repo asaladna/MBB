@@ -69,6 +69,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
         }
       }
     })
+    .state('app.login', {
+      url: '/login',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/login.html',
+            controller: 'SignInCtrl'
+        }
+      }
+    })
+
 
   .state('app.help', {
       url: '/help',
@@ -80,5 +90,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/profileBuilder');
+  $urlRouterProvider.otherwise('/app/dashboard');
 });
