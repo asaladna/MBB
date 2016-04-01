@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
   
     $scope.form = {};
     
-    $scope.login = function() {
+    $scope.search = function() {
         var params= {}
         if($scope.form.username){
             params.user=$scope.form.user;
