@@ -44,7 +44,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProfBuilderCtrl', function($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate) {
+.controller('ProfBuilderCtrl', function($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(0);
@@ -85,6 +85,41 @@ angular.module('starter.controllers', [])
   $scope.selectRunning = function() {
     console.log("Improve Athletics selected!");
     $ionicSlideBoxDelegate.next();
+  }
+
+  // Modal for selecting fav workout for each category
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com"
+
+  $scope.items = [
+      {
+        id: '1',
+        name: 'Pick up apples',
+        done: false
+      },
+      {
+        id: '2',
+        name: 'Mow the lawn',
+        done: true
+      }
+    ];
+
+  $http.get(apiLink + "/achievements", { params: { } })
+    .success(function(data) {
+        $scope.items = data;
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + data);
+    });
+
+  $ionicModal.fromTemplateUrl('templates/workoutSelector-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal
+  })
+
+  $scope.openModal = function() {
+    $scope.modal.show()
   }
 
 })
