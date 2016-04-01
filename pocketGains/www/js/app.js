@@ -51,7 +51,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js'])
         }
       }
     })
-
+  
   .state('app.achievements', {
       url: '/achievements',
       views: {
