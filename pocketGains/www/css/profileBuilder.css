@@ -10,7 +10,8 @@ body {
   background-color: #fff;
   text-align: center;
 
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", 
+  	"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
   font-weight: 300;
 }
 
@@ -153,7 +154,7 @@ body {
 
 /* FAVORITE WORKOUTS */
 
-#arms-selector-container {
+#workout-selector-container {
 	margin-top: 10px;
 	width: 90%;
 	height: 70px;
@@ -161,10 +162,15 @@ body {
   	border: 1px solid black;
 }
 
-#arms-selector-container h1 {
+#workout-selector-container h1 {
 	position: relative;
   	top: 50%;
   	transform: translateY(-50%)
+}
+
+/* Refers to class workout-interacted */
+.workout-selector-interacted {
+	background-color: green;
 }
 
 

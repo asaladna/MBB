@@ -45,19 +45,19 @@
 
 	    <ion-slide>
 	        <h3>Select your favorite workout for each category</h3>
-	        <div id="arms-selector-container" ng-click="openModal('arms')">
+	        <div id="workout-selector-container" class="{{armsInteracted}}" ng-click="openModal('arms')">
 	         	<h1>Arms</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="openModal('legs')">
+	        <div id="workout-selector-container" class="{{legsInteracted}}" ng-click="openModal('legs')">
 	         	<h1>Legs</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="openModal('back')">
+	        <div id="workout-selector-container" class="{{backInteracted}}" ng-click="openModal('back')">
 	         	<h1>Back</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="openModal('shoulders')">
+	        <div id="workout-selector-container" class="{{shouldersInteracted}}" ng-click="openModal('shoulders')">
 	         	<h1>Shoulders</h1>
 	        </div>
-	        <div id="arms-selector-container" ng-click="openModal('chest')">
+	        <div id="workout-selector-container" class="{{chestInteracted}}" ng-click="openModal('chest')">
 	         	<h1>Chest</h1>
 	        </div>
 	    </ion-slide>

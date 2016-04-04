@@ -45,6 +45,10 @@ angular.module('starter.controllers', [])
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(false);
 
+  // This is for when a workout button is clicked to show user 
+  // which types they have already selected a workout for
+  $scope.isActivated = false;
+
   $scope.disableSlide = function() {
     $ionicSlideBoxDelegate.enableSlide(false);
   };
@@ -108,6 +112,19 @@ angular.module('starter.controllers', [])
     $scope.category = category;
     console.log(category + " category selected!")
     $scope.modal.show();
+
+    if (category == "arms") {
+      $scope.armsInteracted = "workout-selector-interacted";
+    } else if (category == "legs") {
+      $scope.legsInteracted = "workout-selector-interacted";
+    } else if (category == "back") {
+      $scope.backInteracted = "workout-selector-interacted";
+    } else if (category == "shoulders") {
+      $scope.shouldersInteracted = "workout-selector-interacted";
+    } else if (category == "chest") {
+      $scope.chestInteracted = "workout-selector-interacted";
+    }
+    
   }
 
   $scope.selectFavWorkout = function(id) {
