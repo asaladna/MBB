@@ -36,9 +36,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.factory('UserData', function(){                                          // This factory stores information as a singleton so multiple controllers can access it
-  return {data: {}};
-})
+
 
 .controller('ProfBuilderCtrl', function($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
@@ -203,39 +201,39 @@ angular.module('starter.controllers', [])
   
   
 
-.controller('SignInCtrl', function($scope,$state, $http, UserData) {
+.controller('SignInCtrl', function($scope,$state, $http) {
   
     $scope.form = {};
 
-    $scope.signIn = function(user) {
-      console.log('Sign-In', user);
-      $state.go('app.dashboard');
-    };
+    $scope.createAcc= function(){
+        $state.go('app.profileBuilder');
+    }
     
-    $scope.search = function() {
+    $scope.login = function($event) {
         var params= {}
         if($scope.form.username){
-            params.user=$scope.form.user;
+            params.username=$scope.form.username;
         }
         if($scope.form.password){
-            params.pass=$scope.form.pass;
-
+            params.password=$scope.form.password;
         }
-        $http({
-      method: 'Post',
-      url: 'http://private-1b0f9-pocketgains.apiary-mock.com/login',               // the link to my proxy
-      params: params                                                         // sets the GET params
-        
-        //item thumbnail
 
-      
-    }).then(function successCallback(response) {
-      UserData.data = response.data;                                      // save the response data in the factory
-//       $state.go('app.beers');                                             // go to the beer results state
-    });
-        
-        
-//        console.log("LOGIN user: " + $scope.data.username + " - PW: " + $scope.data.password);
+
+      var apiLink = "http://private-1b0f9-pocketgains.apiary-mock.com/login/"
+      $scope.workouts = [ ];
+
+      $http.post(apiLink, {params: {"username": params.username, "passowrd": params.password} })
+        .success(function(data) {
+            $scope.workouts = data;
+            console.log(data);
+        })
+        .error(function(data) {
+            alert("API ERROR at " + apiLink + "\n" + data);
+        });
+
+      console.log("Started from the bottom")
+
+
     }
 })
 
