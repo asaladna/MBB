@@ -134,7 +134,7 @@ body {
   	transform: translateY(-80%);
 }
 
-#running-button-container {
+#athletics-button-container {
 	margin-top: 10px;
 	width: 90%;
 	height: 140px;
@@ -142,7 +142,7 @@ body {
   	border: 1px solid black;
 }
 
-#running-button-container img {
+#athletics-button-container img {
 	width: 100px;
 	float: left;
 	margin-left: 8%;
@@ -171,6 +171,32 @@ body {
 /* Refers to class workout-interacted */
 .workout-selector-interacted {
 	background-color: green;
+}
+
+/* FAVORITE CARDIO */
+
+#cardio-button-container {
+	width: 90%;
+	height: 140px;
+  	margin-left: 5%;
+  	margin-bottom: 10px; 
+  	border: 1px solid black;
+}
+
+#cardio-button-container img {
+	width: 80px;
+	float: left;
+	margin-left: 10%;
+	height: auto;
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
+}
+
+#cardio-button-container h1 {
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-100%);
 }
 
 

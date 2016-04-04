@@ -55,7 +55,6 @@ angular.module('starter.controllers', [])
 
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
-
   };
 
   $scope.slideChanged = function(index) {
@@ -82,8 +81,23 @@ angular.module('starter.controllers', [])
     $ionicSlideBoxDelegate.next();
   }
 
-  $scope.selectRunning = function() {
+  $scope.selectAthletics = function() {
     console.log("Improve Athletics selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+  $scope.selectRunning = function() {
+    console.log("Running selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+  $scope.selectCycling = function() {
+    console.log("Cycling selected!");
+    $ionicSlideBoxDelegate.next();
+  }
+
+  $scope.selectSwimming = function() {
+    console.log("Swimming selected!");
     $ionicSlideBoxDelegate.next();
   }
 
@@ -124,6 +138,16 @@ angular.module('starter.controllers', [])
     } else if (category == "chest") {
       $scope.chestInteracted = "workout-selector-interacted";
     }
+
+
+    // If all the categorys have a selection, show the next button
+    if ($scope.armsInteracted == "workout-selector-interacted" &&
+        $scope.legsInteracted == "workout-selector-interacted" &&
+        $scope.backInteracted == "workout-selector-interacted" &&
+        $scope.shouldersInteracted == "workout-selector-interacted" &&
+        $scope.chestInteracted == "workout-selector-interacted") {
+      $scope.nextText = "Next";
+    }
     
   }
 
@@ -131,6 +155,8 @@ angular.module('starter.controllers', [])
     console.log("User selected workout with id: " + id + " from the " + $scope.category + " category");
     $scope.modal.hide();
   }
+
+
 })
   
   
