@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $timeout) {
     
   // Form data for the login modal
   $scope.loginData = {};
@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('ProfBuilderCtrl', function($scope, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
+.controller('ProfBuilderCtrl', function($scope, $rootScope, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(false);
@@ -189,7 +189,18 @@ angular.module('starter.controllers', [])
     )
     .success(function(data) {
         $scope.profileBuilderResponse = data;
-        console.log(data);
+
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true
+        });
+
+        // Set the user_id for the entire app
+        $rootScope.user_id = data.user_id;
+        console.log(data.user_id);
+
+        $state.go('app.dashboard');
+        
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + data);
