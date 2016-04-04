@@ -50,19 +50,19 @@
 	    <!-- Get from user: favorite workout from each category -->
 	    <ion-slide>
 	        <h3>Select your favorite workout for each category</h3>
-	        <div id="workout-selector-container" class="{{armsInteracted}}" ng-click="openModal('arms')">
+	        <div id="workout-selector-container" class="{{interacted['arms']}}" ng-click="openModal('arms')">
 	         	<h1>Arms</h1>
 	        </div>
-	        <div id="workout-selector-container" class="{{legsInteracted}}" ng-click="openModal('legs')">
+	        <div id="workout-selector-container" class="{{interacted['legs']}}" ng-click="openModal('legs')">
 	         	<h1>Legs</h1>
 	        </div>
-	        <div id="workout-selector-container" class="{{backInteracted}}" ng-click="openModal('back')">
+	        <div id="workout-selector-container" class="{{interacted['back']}}" ng-click="openModal('back')">
 	         	<h1>Back</h1>
 	        </div>
-	        <div id="workout-selector-container" class="{{shouldersInteracted}}" ng-click="openModal('shoulders')">
+	        <div id="workout-selector-container" class="{{interacted['shoulders']}}" ng-click="openModal('shoulders')">
 	         	<h1>Shoulders</h1>
 	        </div>
-	        <div id="workout-selector-container" class="{{chestInteracted}}" ng-click="openModal('chest')">
+	        <div id="workout-selector-container" class="{{interacted['chest']}}" ng-click="openModal('chest')">
 	         	<h1>Chest</h1>
 	        </div>
 	    </ion-slide>

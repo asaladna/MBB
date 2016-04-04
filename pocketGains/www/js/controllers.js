@@ -47,6 +47,7 @@ angular.module('starter.controllers', [])
   $scope.sex = "n";
   $scope.goal = "n";
   $scope.favs = [ ];
+  $scope.interacted = [ ];
 
   // This is for when a workout button is clicked to show user 
   // which types they have already selected a workout for
@@ -136,34 +137,35 @@ angular.module('starter.controllers', [])
   $scope.openModal = function(category) {
     $scope.category = category;
     console.log(category + " category selected!")
-    $scope.modal.show();
-
-    if (category == "arms") {
-      $scope.armsInteracted = "workout-selector-interacted";
-    } else if (category == "legs") {
-      $scope.legsInteracted = "workout-selector-interacted";
-    } else if (category == "back") {
-      $scope.backInteracted = "workout-selector-interacted";
-    } else if (category == "shoulders") {
-      $scope.shouldersInteracted = "workout-selector-interacted";
-    } else if (category == "chest") {
-      $scope.chestInteracted = "workout-selector-interacted";
-    }
-
-
-    // If all the categorys have a selection, show the next button
-    if ($scope.armsInteracted == "workout-selector-interacted" &&
-        $scope.legsInteracted == "workout-selector-interacted" &&
-        $scope.backInteracted == "workout-selector-interacted" &&
-        $scope.shouldersInteracted == "workout-selector-interacted" &&
-        $scope.chestInteracted == "workout-selector-interacted") {
-      $scope.nextText = "Next";
-    }
+    $scope.modal.show();    
     
   }
 
   $scope.selectFavWorkout = function(id, title) {
     console.log("User selected workout with id: " + id + " from the " + $scope.category + " category");
+    
+    // Change color of workout selector button to indicate a workout has already been chosen
+    if ($scope.category == "arms") {
+      $scope.interacted["arms"] = "workout-selector-interacted";
+    } else if ($scope.category == "legs") {
+      $scope.interacted["legs"] = "workout-selector-interacted";
+    } else if ($scope.category == "back") {
+      $scope.interacted["back"] = "workout-selector-interacted";
+    } else if ($scope.category == "shoulders") {
+      $scope.interacted["shoulders"] = "workout-selector-interacted";
+    } else if ($scope.category == "chest") {
+      $scope.interacted["chest"] = "workout-selector-interacted";
+    }
+
+    // If all the categorys have a selection, show the next button
+    if ($scope.interacted["arms"] == "workout-selector-interacted" &&
+        $scope.interacted["legs"] == "workout-selector-interacted" &&
+        $scope.interacted["back"] == "workout-selector-interacted" &&
+        $scope.interacted["shoulders"] == "workout-selector-interacted" &&
+        $scope.interacted["chest"] == "workout-selector-interacted") {
+      $scope.nextText = "Next";
+    }
+
     $scope.favs[$scope.category] = id;
     $scope.modal.hide();
   }
