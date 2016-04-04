@@ -4,18 +4,12 @@
 // index page
 $app->get('/', function ($request, $response, $args) {
     // can change return files/endpoints as needed    
-    return $this->renderer->render($response, 'index.html', $args);
-});
-
-// Create account page
-$app->get('/createNewUser', function ($request, $response, $args) {
-    // can change return files/endpoints as needed
     return $this->renderer->render($response, 'createaccount.html', $args);
 });
 
 // Creates an acccount and adds it to the database then takes the user
 // to the login page
-$app->post('/login', function ($request, $response, $args) {
+$app->post('/createNewUser', function ($request, $response, $args) {
         
     // assumes fields aren't left blank and contain proper information from client side
     if (isset($_POST['submit']))
@@ -63,6 +57,10 @@ $app->post('/login', function ($request, $response, $args) {
             }
         }
     }                
+});
+
+$app->post('/login', function ($request, $response, $args) {
+    return $this->renderer->render($response, 'index.html', $args);
 });
 
 $app->get('/achievements', 
