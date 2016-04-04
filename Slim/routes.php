@@ -35,8 +35,13 @@ $app->get('/achievements/{user_id}',
     	$db = $this->api_login;
  
  		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
-        $query = $db->prepare("SELECT * FROM Achievements");
-        $query->execute();
+        $query = $db->prepare
+            ("SELECT a.achieve_id, a.name, a.desc
+            FROM Achievements a, User u, Achievements_Completed ac
+            WHERE u.user_id = 1
+            AND u.user_id = ac.User_user_id
+            AND ac.Achievements_achieve_id = a.achieve_id;");
+        $query->execute(array('u.user_id'=>$args['user_id']));
 
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
