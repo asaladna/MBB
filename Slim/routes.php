@@ -1,4 +1,6 @@
 <?php
+
+header('Access-Control-Allow-Origin: *');  
 // Routes
 
 $app->get('/test', function ($request, $response, $args) {
