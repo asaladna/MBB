@@ -213,6 +213,7 @@ INSERT INTO Achievements (achieve_id, name, `desc`) values (62, 'Drowning in poi
 INSERT INTO Achievements (achieve_id, name, `desc`) values (63, 'Show stopper', 'Earn 250 points in 1 week');
 INSERT INTO Achievements (achieve_id, name, `desc`) values (64, 'Extreme Training', 'Earn 500 points in 1 week');
 INSERT INTO Achievements (achieve_id, name, `desc`) values (65, 'Hell Week', 'Earn 1000 points in 1 week');
+INSERT INTO Achievements (achieve_id, name, desc) values (66, 'Gym Rat', 'Create an account on PocketGains!');
 
 -- End of file.
 
