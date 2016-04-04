@@ -1,4 +1,6 @@
 <?php
+
+header('Access-Control-Allow-Origin: *');  
 // DIC configuration
 
 $container = $app->getContainer();
