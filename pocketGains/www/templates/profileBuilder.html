@@ -8,6 +8,10 @@
 	       <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex == 2">
 				{{nextText}}
 	        </button>
+
+	        <button class="button button-positive button-clear no-animation" ng-click="profileBuilderFinish()" ng-show="slideIndex == 4">
+				Confirm
+	        </button>
 	      	
 	    </ion-nav-buttons>
 	   
@@ -78,6 +82,19 @@
 	         	<img src="/img/swimming_icon.png">
 	         	<h1>Swimming</h1>
 	        </div>
+	    </ion-slide>
+
+	    <!-- Summary and confimartion of selections -->
+	    <ion-slide>
+	      	<h3>Are these details correct?</h3>
+	      	<p>Sex: {{sex}}</p>
+	      	<p>Workout Goal: {{goal}}</p>
+	      	<p>Favorite Arms: {{favs["arms"]}}</p>
+	      	<p>Favorite Legs: {{favs["legs"]}}</p>
+	      	<p>Favorite Back: {{favs["back"]}}</p>
+	      	<p>Favorite Shoulders: {{favs["shoulders"]}}</p>
+	      	<p>Favorite Chest: {{favs["chest"]}}</p>
+	      	<p>Favorite Cardio: {{favs["cardio"]}}</p>
 	    </ion-slide>
 
 	</ion-slide-box>

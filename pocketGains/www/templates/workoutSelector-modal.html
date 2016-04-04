@@ -8,7 +8,7 @@
 
     	<ion-list>
         	<ion-item ng-repeat="workout in workouts track by workout.id">
-          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.id)">{{workout.title}}</button>
+          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.id, workout.title)">{{workout.title}}</button>
         	</ion-item>
        	</ion-list>
       

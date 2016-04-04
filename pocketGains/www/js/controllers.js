@@ -45,6 +45,11 @@ angular.module('starter.controllers', [])
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(false);
 
+  // Data to be sent to API
+  $scope.sex = "n";
+  $scope.goal = "n";
+  $scope.favs = [ ];
+
   // This is for when a workout button is clicked to show user 
   // which types they have already selected a workout for
   $scope.isActivated = false;
@@ -63,41 +68,49 @@ angular.module('starter.controllers', [])
 
   $scope.selectMale = function() {
     console.log("Male selected!");
+    $scope.sex = "Male";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectFemale = function() {
     console.log("Female selected!");
+    $scope.sex = "Female";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectScale = function() {
     console.log("Lose Weight selected!");
+    $scope.goal = "Lose Weight";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectMuscle = function() {
     console.log("Build Muscle selected!");
+    $scope.goal = "Build Muscle";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectAthletics = function() {
     console.log("Improve Athletics selected!");
+    $scope.goal = "Improve Athletics";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectRunning = function() {
     console.log("Running selected!");
+    $scope.favs["cardio"] = "Running";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectCycling = function() {
     console.log("Cycling selected!");
+    $scope.favs["cardio"] = "Cycling";
     $ionicSlideBoxDelegate.next();
   }
 
   $scope.selectSwimming = function() {
     console.log("Swimming selected!");
+    $scope.favs["cardio"] = "Swimming";
     $ionicSlideBoxDelegate.next();
   }
 
@@ -151,9 +164,38 @@ angular.module('starter.controllers', [])
     
   }
 
-  $scope.selectFavWorkout = function(id) {
+  $scope.selectFavWorkout = function(id, title) {
     console.log("User selected workout with id: " + id + " from the " + $scope.category + " category");
+    $scope.favs[$scope.category] = id;
     $scope.modal.hide();
+  }
+
+  $scope.profileBuilderFinish = function() {
+    $http.post(apiLink + "/createNewUser", 
+      [
+        {
+          "user_id": 23, // provided from login.html
+          "username": "A", // provided from login.html
+          "password": "abc", // provided from login.html
+          "sex": $scope.sex,
+          "goal": $scope.goal,
+          "arms": $scope.favs["arms"],
+          "legs": $scope.favs["legs"],
+          "back": $scope.favs["back"],
+          "shoulders": $scope.favs["shoulders"],
+          "chest": $scope.favs["chest"],
+          "cardio": $scope.favs["cardio"],
+          "cardioPref": 2 // What is this?
+        }
+      ]
+    )
+    .success(function(data) {
+        $scope.profileBuilderResponse = data;
+        console.log(data);
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + data);
+    });
   }
 
 
