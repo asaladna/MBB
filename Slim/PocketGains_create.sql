@@ -213,7 +213,7 @@ INSERT INTO Achievements (achieve_id, name, `desc`) values (62, 'Drowning in poi
 INSERT INTO Achievements (achieve_id, name, `desc`) values (63, 'Show stopper', 'Earn 250 points in 1 week');
 INSERT INTO Achievements (achieve_id, name, `desc`) values (64, 'Extreme Training', 'Earn 500 points in 1 week');
 INSERT INTO Achievements (achieve_id, name, `desc`) values (65, 'Hell Week', 'Earn 1000 points in 1 week');
-INSERT INTO Achievements (achieve_id, name, desc) values (66, 'Gym Rat', 'Create an account on PocketGains!');
+INSERT INTO Achievements (achieve_id, name, `desc`) values (66, 'Gym Rat', 'Create an account on PocketGains!');
 
 insert into User (user_id, username, password, salt, email, sex, goal, cardioPref, exp) values (1, 'Ruby', 'FY5KEdDhu4il', 'm6QfQAIm', 'rpierce0@noaa.gov', 1, 2, 2, 2702);
 insert into User (user_id, username, password, salt, email, sex, goal, cardioPref, exp) values (2, 'Carlos', 'Pzn9r0n', 'ccMaL5m73b8q', 'cgordon1@intel.com', 0, 1, 1, 42);
@@ -1718,5 +1718,11 @@ insert into Workout (workout_id, title, `desc`, type) values (498, 'NITROGEN', '
 insert into Workout (workout_id, title, `desc`, type) values (499, 'Sucrets', 'massa volutpat convallis morbi odio odio elementum eu interdum eu', 'kdKiURTwQAx');
 insert into Workout (workout_id, title, `desc`, type) values (500, 'Clarithromycin', 'duis consequat', '6XoabTrGIjO');
 
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (1, 1);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (1, 2);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (1, 3);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 4);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 5);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 6);
 -- End of file.
 

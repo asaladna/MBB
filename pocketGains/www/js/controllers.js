@@ -1,11 +1,97 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, userData, $ionicModal, $ionicHistory, $timeout) {
+.controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
+
+
+  
+})
+
+.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory) {
     
-  // Form data for the login modal
+  // User data
   $scope.username = userData.getUsername();
   $scope.user_id = userData.getId();
+
+  var apiLink = "http://52.37.226.62";
+
+  $ionicModal.fromTemplateUrl('templates/completedAchievement-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  })
+
+  $scope.openModal = function(achievement) {
+    $scope.achievementTitle = achievement.name;
+    $scope.achievementDesc = achievement.desc;
+    $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+  // ----- Get First achievement for creating account (gym rat) if not complete
+  // Get list of completed achievements
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
+      .success(function(data) {
+          $scope.compAchievements = data;
+
+          console.log(data);
+
+          for (i = 0; i < data.achievementsC.length; i++) {
+            if(data.achievementsC[i].achieve_id == 65) {
+              $scope.firstAchievement = true;
+              console.log($scope.firstAchievement)
+            } else {
+              $scope.firstAchievement = false;
+            }
+          }
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + data);
+      });
+
+  // IF the user has not yet earned the Gym Rat achieve, give it to them
+  if ($scope.firstAchievement == false) {
+
+    $http.get(apiLink + "/achievements", { } )
+      .success(function(data) {
+
+          var gymRat_id = 65;
+
+          $scope.completedAchievement = data[gymRat_id];
+
+          //POST that achievement was completed
+          $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/completedAchievement", 
+                {
+                  "user_id": $scope.user_id,
+                  "achieve_id": gymRat_id
+                }
+            )
+            .success(function(data) {
+
+                console.log(data);
+
+                $scope.openModal($scope.completedAchievement);
+                
+            })
+            .error(function(data) {
+                alert("API ERROR at " + apiLink + "\n" + data);
+            });
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + data);
+      });
+  }
+
+  $scope.leaderboardsClick = function() {
+    $state.go('app.leaderboards');
+  }
+
 })
+
+
 
 
 
@@ -85,7 +171,7 @@ angular.module('starter.controllers', [])
   }
 
   // Modal for selecting fav workout for each category
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com"
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
   $scope.workouts = [ ];
 
@@ -182,8 +268,8 @@ angular.module('starter.controllers', [])
   
   
 
-.controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicSideMenuDelegate, $state, $http, userData) {
-  
+.controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicConfig, $ionicSideMenuDelegate, $state, $http, userData) {
+
     var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
     $scope.form = {};
@@ -271,15 +357,48 @@ angular.module('starter.controllers', [])
 
   var apiLink = "http://52.37.226.62";
 
+  
+
   $http.get(apiLink + "/achievements", { } )
     .success(function(data) {
         $scope.achievements = data;
-        console.log(data[0].desc);
+        //console.log(data[0].desc);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + data);
     });
+
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
+    .success(function(data) {
+        $scope.compAchievements = data;
+
+        console.log($scope.achievements);
+
+        for (i = 0; i < $scope.achievements.length; i++) {
+          $scope.achievements[i].image = "lock";
+        }
+
+        // Give the check mark to completed achievements
+        for (i = 0; i < data.achievementsC.length; i++) {
+          $scope.achievements[data.achievementsC[i].achieve_id].image = "checkmark_icon";    
+        }
+
+        console.log(data);
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + data);
+    });
+
+
 })
 
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 
