@@ -40,10 +40,10 @@ $app->get('/achievements/{user_id}',
         $query = $db->prepare
             ("SELECT a.achieve_id, a.name, a.desc
             FROM Achievements a, User u, Achievements_Completed ac
-            WHERE u.user_id =: user_id
+            WHERE u.user_id = :user_id
             AND u.user_id = ac.User_user_id
             AND ac.Achievements_achieve_id = a.achieve_id;");
-        $query->execute(array('u.user_id'=>$args['user_id']));
+        $query->execute(array('user_id'=>$args['user_id']));
 
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
