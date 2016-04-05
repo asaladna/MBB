@@ -268,7 +268,7 @@ angular.module('starter.controllers', [])
   $http.get(apiLink + "/achievements", { } )
     .success(function(data) {
         $scope.achievements = data;
-        console.log(data.achievementsC[0].desc);
+        console.log(data[0].desc);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + data);
