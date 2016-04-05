@@ -343,7 +343,20 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('HomeTabCtrl', function($scope) {
+.controller('HomeTabCtrl', function($scope, userData, $http) {
+
+  $scope.user_id = userData.getId();
+
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/userPoints/", {"user_id": $scope.user_id } )
+    .success(function(data) {
+        console.log(data);
+        $scope.userPoints = data;
+        console.log($scope.userPoints.exp);
+    })
+    .error(function(data) {
+        alert("API ERROR" + "\n" + data);
+    });
+
   console.log('HomeTabCtrl');
     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
     $scope.series = ['Cardio', 'Weight'];
@@ -362,43 +375,36 @@ angular.module('starter.controllers', [])
   $http.get(apiLink + "/achievements", { } )
     .success(function(data) {
         $scope.achievements = data;
-        //console.log(data[0].desc);
+
+        $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
+          .success(function(data) {
+              $scope.compAchievements = data;
+
+              console.log($scope.achievements);
+
+              for (i = 0; i < $scope.achievements.length; i++) {
+                $scope.achievements[i].image = "lock";
+              }
+
+              // Give the check mark to completed achievements
+              for (i = 0; i < data.achievementsC.length; i++) {
+                $scope.achievements[data.achievementsC[i].achieve_id].image = "checkmark_icon";    
+              }
+
+              console.log(data);
+          })
+          .error(function(data) {
+              alert("API ERROR at " + apiLink + "\n" + data);
+          });
+          //console.log(data[0].desc);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + data);
     });
 
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
-    .success(function(data) {
-        $scope.compAchievements = data;
-
-        console.log($scope.achievements);
-
-        for (i = 0; i < $scope.achievements.length; i++) {
-          $scope.achievements[i].image = "lock";
-        }
-
-        // Give the check mark to completed achievements
-        for (i = 0; i < data.achievementsC.length; i++) {
-          $scope.achievements[data.achievementsC[i].achieve_id].image = "checkmark_icon";    
-        }
-
-        console.log(data);
-    })
-    .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + data);
-    });
+  
 
 
 })
-
-
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
 
 
