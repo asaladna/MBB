@@ -1718,5 +1718,11 @@ insert into Workout (workout_id, title, `desc`, type) values (498, 'NITROGEN', '
 insert into Workout (workout_id, title, `desc`, type) values (499, 'Sucrets', 'massa volutpat convallis morbi odio odio elementum eu interdum eu', 'kdKiURTwQAx');
 insert into Workout (workout_id, title, `desc`, type) values (500, 'Clarithromycin', 'duis consequat', '6XoabTrGIjO');
 
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (1, 1);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (1, 2);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (1, 3);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 4);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 5);
+insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 6);
 -- End of file.
 
