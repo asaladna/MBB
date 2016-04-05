@@ -352,18 +352,13 @@ angular.module('starter.controllers', [])
         console.log(data);
         $scope.userPoints = data;
         console.log($scope.userPoints.exp);
+        $scope.labels = ['Cardio', 'Legs', 'Arms'];
+        $scope.data = [$scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.chest];
     })
     .error(function(data) {
         alert("API ERROR" + "\n" + data);
     });
 
-  console.log('HomeTabCtrl');
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['Cardio', 'Weight'];
-    $scope.data = [
-        [65, 59, 80, 81, 56, 55, 40],
-        [28, 48, 40, 19, 86, 27, 90]
-    ];
 })
 
 .controller('AchieveCtrl', function($scope, $http) {
