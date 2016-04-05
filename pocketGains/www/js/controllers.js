@@ -184,6 +184,8 @@ angular.module('starter.controllers', [])
 
 .controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicSideMenuDelegate, $state, $http, userData) {
   
+    var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+
     $scope.form = {};
 
     $ionicSideMenuDelegate.canDragContent(false);
@@ -217,10 +219,6 @@ angular.module('starter.controllers', [])
       if($scope.form.password){
           $scope.password=$scope.form.password;
       }
-
-
-      var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
-      $scope.workouts = [ ];
 
       $http.post(apiLink + "/login", 
             {
@@ -261,6 +259,20 @@ angular.module('starter.controllers', [])
 
 .controller('HomeTabCtrl', function($scope) {
   console.log('HomeTabCtrl');
+})
+
+.controller('AchieveCtrl', function($scope, $http) {
+
+  var apiLink = "http://52.37.226.62";
+
+  $http.get(apiLink + "/achievements", { } )
+    .success(function(data) {
+        $scope.achievements = data;
+        console.log(data.achievementsC[0].desc);
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + data);
+    });
 })
 
 

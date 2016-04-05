@@ -84,7 +84,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
       url: '/achievements',
       views: {
         'menuContent': {
-          templateUrl: 'templates/achievements.html'
+          templateUrl: 'templates/achievements.html',
+          controller: 'AchieveCtrl'
         }
       }
     })
