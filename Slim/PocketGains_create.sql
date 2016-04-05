@@ -213,7 +213,7 @@ INSERT INTO Achievements (achieve_id, name, `desc`) values (62, 'Drowning in poi
 INSERT INTO Achievements (achieve_id, name, `desc`) values (63, 'Show stopper', 'Earn 250 points in 1 week');
 INSERT INTO Achievements (achieve_id, name, `desc`) values (64, 'Extreme Training', 'Earn 500 points in 1 week');
 INSERT INTO Achievements (achieve_id, name, `desc`) values (65, 'Hell Week', 'Earn 1000 points in 1 week');
-INSERT INTO Achievements (achieve_id, name, desc) values (66, 'Gym Rat', 'Create an account on PocketGains!');
+INSERT INTO Achievements (achieve_id, name, `desc`) values (66, 'Gym Rat', 'Create an account on PocketGains!');
 
 insert into User (user_id, username, password, salt, email, sex, goal, cardioPref, exp) values (1, 'Ruby', 'FY5KEdDhu4il', 'm6QfQAIm', 'rpierce0@noaa.gov', 1, 2, 2, 2702);
 insert into User (user_id, username, password, salt, email, sex, goal, cardioPref, exp) values (2, 'Carlos', 'Pzn9r0n', 'ccMaL5m73b8q', 'cgordon1@intel.com', 0, 1, 1, 42);
