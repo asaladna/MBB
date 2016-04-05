@@ -1,11 +1,95 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, userData, $ionicModal, $ionicHistory, $timeout) {
+.controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
+
+
+  
+})
+
+.controller('DashboardCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
     
-  // Form data for the login modal
+  // User data
   $scope.username = userData.getUsername();
   $scope.user_id = userData.getId();
+
+  var apiLink = "http://52.37.226.62";
+
+  $scope.firstAchievement = false;
+
+  $ionicModal.fromTemplateUrl('templates/completedAchievement-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  })
+
+  $scope.openModal = function(achievement) {
+    $scope.achievementTitle = achievement.name;
+    $scope.achievementDesc = achievement.desc;
+    $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
+
+  // ----- Get First achievement for creating account (gym rat) if not complete
+  // Get list of completed achievements
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
+      .success(function(data) {
+          $scope.compAchievements = data;
+
+          for (i = 0; i < data.achievementsC.length; i++) {
+            if(data.achievementsC[i].achieve_id == 65) {
+              $scope.firstAchievement = false;
+            } else {
+              $scope.firstAchievement = true;
+            }
+          }
+          
+          console.log(data.achievementsC.length);
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + data);
+      });
+
+  // IF the user has not yet earned the Gym Rat achieve, give it to them
+  if ($scope.firstAchievement == false) {
+
+    $http.get(apiLink + "/achievements", { } )
+      .success(function(data) {
+
+          var gymRat_id = 65;
+
+          $scope.completedAchievement = data[gymRat_id];
+
+          //POST that achievement was completed
+          $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/completedAchievement", 
+                {
+                  "user_id": $scope.user_id,
+                  "achieve_id": gymRat_id
+                }
+            )
+            .success(function(data) {
+
+                console.log(data);
+
+                $scope.openModal($scope.completedAchievement);
+                
+            })
+            .error(function(data) {
+                alert("API ERROR at " + apiLink + "\n" + data);
+            });
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + data);
+      });
+  }
+
 })
+
+
 
 
 
@@ -85,7 +169,7 @@ angular.module('starter.controllers', [])
   }
 
   // Modal for selecting fav workout for each category
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com"
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
   $scope.workouts = [ ];
 

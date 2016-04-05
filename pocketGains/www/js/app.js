@@ -65,7 +65,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
     views: {
       'menuContent': {
         templateUrl: 'templates/dashboard.html',
-        controller: 'AppCtrl'
+        controller: 'DashboardCtrl'
       }
     }
   })
