@@ -7,6 +7,33 @@
 	
 angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.router'])
 
+.factory('userData', function() {
+  var username = "nulluser";
+  var password = "nullpass";
+  var user_id = 0;
+
+  return {
+    setUsername: function(n) {
+      username = n;
+    },
+    getUsername: function() {
+      return username;
+    },
+    setPassword: function(pass) {
+      password = pass;
+    },
+    getPassword: function() {
+      return password;
+    },
+    setId: function(id) {
+      user_id = id;
+    },
+    getId: function() {
+      return user_id;
+    }
+  }
+})
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -75,7 +102,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
       views: {
         'menuContent': {
           templateUrl: 'templates/login.html',
-            controller: 'SignInCtrl'
+          controller: 'SignInCtrl'
         }
       }
     })
@@ -92,4 +119,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/login');
+
+
+
 });
+
+
+
+
+
+

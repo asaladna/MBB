@@ -1,0 +1,29 @@
+<ion-view hide-back-button="true" view-title="Create Account">
+	   
+
+	<ion-header-bar>
+      <h1 class="title">Create Account</h1>
+    </ion-header-bar>
+
+ 	<ion-content class="padding">
+
+		<div class="list list-inset">
+	      <form name="info" name='input' action="" ng-submit='createAcc()'>
+	          <label class="item item-input">
+	              <input type="text" placeholder="Username" ng-model="form.username">
+	          </label>
+	          <label class="item item-input">
+	              <input type="password" placeholder="Password" ng-model="form.password">
+	          </label>
+	          <label class="item item-input">
+	              <input type="password" placeholder="Verify Password" ng-model="form.verifyPassword">
+	          </label>
+	        <button class="button button-block button-positive">Create Account</button>
+	      </form>
+	      <h3>{{message}}</h3>
+	  </div>
+
+	 </ion-content>
+</ion-view>
+
+    

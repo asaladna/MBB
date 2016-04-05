@@ -1,44 +1,15 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $rootScope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, userData, $ionicModal, $ionicHistory, $timeout) {
     
   // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
-    
-
+  $scope.username = userData.getUsername();
+  $scope.user_id = userData.getId();
 })
 
 
 
-.controller('ProfBuilderCtrl', function($scope, $rootScope, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
+.controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(false);
@@ -172,11 +143,9 @@ angular.module('starter.controllers', [])
 
   $scope.profileBuilderFinish = function() {
     $http.post(apiLink + "/createNewUser", 
-      [
         {
-          "user_id": 23, // provided from login.html
-          "username": "A", // provided from login.html
-          "password": "abc", // provided from login.html
+          "username": userData.getUsername(),
+          "password": userData.getPassword(), 
           "sex": $scope.sex,
           "goal": $scope.goal,
           "arms": $scope.favs["arms"],
@@ -187,7 +156,6 @@ angular.module('starter.controllers', [])
           "cardio": $scope.favs["cardio"],
           "cardioPref": 2 // What is this?
         }
-      ]
     )
     .success(function(data) {
         $scope.profileBuilderResponse = data;
@@ -198,7 +166,7 @@ angular.module('starter.controllers', [])
         });
 
         // Set the user_id for the entire app
-        $rootScope.user_id = data.user_id;
+        userData.setId(data.user_id);
         console.log(data.user_id);
 
         $state.go('app.dashboard');
@@ -214,39 +182,80 @@ angular.module('starter.controllers', [])
   
   
 
-.controller('SignInCtrl', function($scope,$state, $http) {
+.controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicSideMenuDelegate, $state, $http, userData) {
   
     $scope.form = {};
 
+    $ionicSideMenuDelegate.canDragContent(false);
+
+
     $scope.createAcc= function(){
+      $scope.username = $scope.form.username;
+      $scope.password = $scope.form.password;
+      $scope.verifyPass = $scope.form.verifyPassword;
+
+      console.log($scope.username);
+      console.log($scope.password);
+      console.log($scope.verifyPass);
+
+      if ($scope.password == $scope.verifyPass) {
+        userData.setUsername($scope.username);
+        userData.setPassword($scope.password);
         $state.go('app.profileBuilder');
+        $scope.modal.hide();
+      } else {
+        $scope.message = "Passwords do not match!";
+      }
+
+      
     }
     
-    $scope.login = function($event) {
-        var params= {}
-        if($scope.form.username){
-            params.username=$scope.form.username;
-        }
-        if($scope.form.password){
-            params.password=$scope.form.password;
-        }
+    $scope.login = function() {
+      if($scope.form.username){
+          $scope.username=$scope.form.username;
+      }
+      if($scope.form.password){
+          $scope.password=$scope.form.password;
+      }
 
 
-      var apiLink = "http://private-1b0f9-pocketgains.apiary-mock.com/login/"
+      var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
       $scope.workouts = [ ];
 
-      $http.post(apiLink, {params: {"username": params.username, "passowrd": params.password} })
+      $http.post(apiLink + "/login", 
+            {
+              "username": $scope.username, 
+              "password": $scope.password 
+            }
+        )
         .success(function(data) {
-            $scope.workouts = data;
-            console.log(data);
+            userData.setId(data.user_id);
+            userData.setUsername($scope.username);
+            console.log(userData.getUsername());
+            console.log(data.user_id);
+
+            $ionicHistory.nextViewOptions({
+              disableAnimate: true,
+              disableBack: true
+            });
+
+            $state.go('app.dashboard');
         })
         .error(function(data) {
             alert("API ERROR at " + apiLink + "\n" + data);
         });
+    }
 
-      console.log("Started from the bottom")
+    // Modal for creating new account
+    $ionicModal.fromTemplateUrl('templates/createAccount-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    })
 
-
+    $scope.openModal = function() {
+      $scope.modal.show();    
     }
 })
 
