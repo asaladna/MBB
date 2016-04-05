@@ -47,8 +47,6 @@ angular.module('starter.controllers', [])
               $scope.firstAchievement = true;
             }
           }
-          
-          console.log(data.achievementsC.length);
       })
       .error(function(data) {
           alert("API ERROR at " + apiLink + "\n" + data);
@@ -266,8 +264,8 @@ angular.module('starter.controllers', [])
   
   
 
-.controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicSideMenuDelegate, $state, $http, userData) {
-  
+.controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicConfig, $ionicSideMenuDelegate, $state, $http, userData) {
+
     var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
     $scope.form = {};
@@ -352,7 +350,7 @@ angular.module('starter.controllers', [])
   $http.get(apiLink + "/achievements", { } )
     .success(function(data) {
         $scope.achievements = data;
-        console.log(data[0].desc);
+        //console.log(data[0].desc);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + data);
