@@ -31,7 +31,36 @@ $app->get('/achievements',
     }
 });
 
-$app->get('/achievements/{user_id}', 
+$app->get('/achievements/user_id={user_id}', 
+	function ($request, $response, $args) {
+    try {
+    	$db = $this->api_login;
+ 
+ 		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
+        $query = $db->prepare
+            ("SELECT a.achieve_id, a.name, a.desc
+            FROM Achievements a, User u, Achievements_Completed ac
+            WHERE u.user_id = :user_id
+            AND u.user_id = ac.User_user_id
+            AND ac.Achievements_achieve_id = a.achieve_id;");
+        $query->execute(array('user_id'=>$args['user_id']));
+
+        $arr = $query->fetchAll(PDO::FETCH_ASSOC);
+ 
+        if($arr) {
+            return $response->write(json_encode($arr));
+            $db = null;
+        } 
+        else {
+            throw new PDOException('No records found.');
+        }
+ 
+    } catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
+});
+
+$app->get('/achievements/?user_id={user_id}', 
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
