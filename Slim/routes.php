@@ -24,11 +24,13 @@ $app->get('/achievements',
             return $response->write(json_encode($arr));
             $db = null;
         } 
-        else {
+        else 
+        {
             throw new PDOException('No records found.');
         }
  
-    } catch(PDOException $e) {
+    } 
+    catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 });
@@ -61,42 +63,39 @@ $app->get('/achievements/{user_id}',
             throw new PDOException('No records found.');
         }
  
-    } catch(PDOException $e) {
+    } 
+    catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 });
 
 $app->post('/completedAchievement', 
 	function ($request, $response, $args) {
+    try{
         $db = $this->api_login;
     
         $parms = $request->getParsedbody();
         if ($parms) {
             echo "Has  already parsed body";
         }
-        else if(!$parms) {
+        if(!$parms) {
             echo "Has no body";
         }
-        else {
-            echo "Why am I here?";
-        }
-
-        echo gettype($parms['User_user_id']);
-        echo gettype($parms['Achievements_achieve_id']);
-        echo($parms['User_user_id']);
-        echo($parms['Achievements_achieve_id']);
 
         $statement = $db->prepare(
             'INSERT INTO Achievements_Completed (User_user_id, Achievements_achieve_id)
-                VALUES (:user, :pass);');
+                VALUES (:iser, :pass);');
+
         $statement->execute(
             array(
                 'user' => $parms['User_user_id'],
-                'pass' => $parms['Achievements_achieve_id']
+                'achieve' => $parms['Achievements_achieve_id']
                 )
             );
-
-        echo "Should have run the sql";
+    } 
+    catch(PDOException $e) {
+        echo '{"error":{"text":'. $e->getMessage() .'}}';
+    }
 });
 
 $app->get('/leaderboards', 
