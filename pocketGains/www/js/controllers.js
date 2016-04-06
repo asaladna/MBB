@@ -12,6 +12,8 @@ angular.module('starter.controllers', [])
   $scope.username = userData.getUsername();
   $scope.user_id = userData.getId();
 
+  $scope.firstAchievement = false;
+
   var apiLink = "http://52.37.226.62";
 
   $ionicModal.fromTemplateUrl('templates/completedAchievement-modal.html', {
@@ -43,47 +45,48 @@ angular.module('starter.controllers', [])
             if(data.achievementsC[i].achieve_id == 65) {
               $scope.firstAchievement = true;
               console.log($scope.firstAchievement)
-            } else {
-              $scope.firstAchievement = false;
             }
           }
+
+          // IF the user has not yet earned the Gym Rat achieve, give it to them
+            console.log("achieve flag = " + $scope.firstAchievement)
+            if ($scope.firstAchievement == false) {
+
+              $http.get(apiLink + "/achievements", { } )
+                .success(function(data) {
+
+                    var gymRat_id = 65;
+
+                    $scope.completedAchievement = data[gymRat_id];
+
+                    //POST that achievement was completed
+                    $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/completedAchievement", 
+                          {
+                            "user_id": $scope.user_id,
+                            "achieve_id": gymRat_id
+                          }
+                      )
+                      .success(function(data) {
+
+                          console.log(data);
+
+                          $scope.openModal($scope.completedAchievement);
+                          
+                      })
+                      .error(function(data) {
+                          alert("API ERROR at " + apiLink + "\n" + data);
+                      });
+                })
+                .error(function(data) {
+                    alert("API ERROR at " + apiLink + "\n" + data);
+                });
+            }
       })
       .error(function(data) {
           alert("API ERROR at " + apiLink + "\n" + data);
       });
 
-  // IF the user has not yet earned the Gym Rat achieve, give it to them
-  if ($scope.firstAchievement == false) {
-
-    $http.get(apiLink + "/achievements", { } )
-      .success(function(data) {
-
-          var gymRat_id = 65;
-
-          $scope.completedAchievement = data[gymRat_id];
-
-          //POST that achievement was completed
-          $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/completedAchievement", 
-                {
-                  "user_id": $scope.user_id,
-                  "achieve_id": gymRat_id
-                }
-            )
-            .success(function(data) {
-
-                console.log(data);
-
-                $scope.openModal($scope.completedAchievement);
-                
-            })
-            .error(function(data) {
-                alert("API ERROR at " + apiLink + "\n" + data);
-            });
-      })
-      .error(function(data) {
-          alert("API ERROR at " + apiLink + "\n" + data);
-      });
-  }
+  
 
   $scope.leaderboardsClick = function() {
     $state.go('app.leaderboards');
@@ -352,8 +355,8 @@ angular.module('starter.controllers', [])
         console.log(data);
         $scope.userPoints = data;
         console.log($scope.userPoints.exp);
-        $scope.labels = ['Cardio', 'Legs', 'Arms'];
-        $scope.data = [$scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.chest];
+        $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
+        $scope.data = [$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest];
     })
     .error(function(data) {
         alert("API ERROR" + "\n" + data);
@@ -361,29 +364,31 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('AchieveCtrl', function($scope, $http) {
+.controller('AchieveCtrl', function($scope, $http, userData) {
 
   var apiLink = "http://52.37.226.62";
 
+  $scope.user_id = 2;//userData.getId();
   
 
   $http.get(apiLink + "/achievements", { } )
     .success(function(data) {
         $scope.achievements = data;
 
-        $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
+        $http.get(apiLink + "/achievements/" + $scope.user_id)
           .success(function(data) {
               $scope.compAchievements = data;
 
-              console.log($scope.achievements);
+              console.log($scope.compAchievements);
 
+              // Give a lock icon to all achievements
               for (i = 0; i < $scope.achievements.length; i++) {
                 $scope.achievements[i].image = "lock";
               }
 
               // Give the check mark to completed achievements
-              for (i = 0; i < data.achievementsC.length; i++) {
-                $scope.achievements[data.achievementsC[i].achieve_id].image = "checkmark_icon";    
+              for (i = 0; i < $scope.compAchievements.length; i++) {
+                $scope.achievements[$scope.compAchievements[i].achieve_id - 1].image = "checkmark_icon";    
               }
 
               console.log(data);
