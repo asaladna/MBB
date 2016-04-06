@@ -1,0 +1,13 @@
+<ion-view view-title="Achievements">
+<ion-content>
+    <ion-list>
+      <div class="list">
+          <a class="item item-thumbnail-left" ng-repeat="achievement in achievements">
+            <img ng-src="img/{{achievement.image}}.png">
+            <h2>{{achievement.name}}</h2>
+            <h4>{{achievement.desc}}</h4>
+          </a>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,23 @@
+<ion-view view-title="Login">
+
+  <!-- Hides menu icon and any other nac buttons on right side-->
+  <ion-nav-buttons side="left">     
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">     
+  </ion-nav-buttons>
+
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <form name="info" name='input' action="" ng-submit='login()'>
+              <label class="item item-input">
+                  <input type="text" placeholder="Username" ng-model="form.username">
+              </label>
+              <label class="item item-input">
+                  <input type="password" placeholder="Password" ng-model="form.password">
+              </label>
+            <button class="button button-block button-positive">Login</button>
+          </form>
+          <button class="button button-block button-positive" ng-click= "openModal()">Create Account</button>
+      </div>
+  </ion-content>
+</ion-view>

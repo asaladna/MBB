@@ -1,0 +1,17 @@
+<ion-modal-view>
+
+    <ion-header-bar>
+      <h1 class="title">Select a Workout</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+    	<ion-list>
+        	<ion-item ng-repeat="workout in workouts track by workout.id">
+          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.id, workout.title)">{{workout.title}}</button>
+        	</ion-item>
+       	</ion-list>
+      
+    </ion-content>
+
+</ion-modal-view>

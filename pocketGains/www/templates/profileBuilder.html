@@ -1,0 +1,103 @@
+<ion-view hide-back-button="true" view-title="Profile Builder">
+	
+		<ion-nav-buttons side="left">     
+	    </ion-nav-buttons>
+	    
+	    <ion-nav-buttons side="right"> 
+	    	<!-- Next Button -->
+	       <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex == 2">
+				{{nextText}}
+	        </button>
+
+	        <button class="button button-positive button-clear no-animation" ng-click="profileBuilderFinish()" ng-show="slideIndex == 4">
+				Confirm
+	        </button>
+	      	
+	    </ion-nav-buttons>
+	   
+	    <ion-slide-box ng-init="disableSlide()" on-slide-changed="slideChanged(index)">
+	      
+	    <!-- Get from user: Male or female? -->
+	    <ion-slide>
+	        <h3>Which are you?</h3>
+	        <div id="male-button-container" ng-click="selectMale()">
+	         	<img src="/img/male_icon.png">
+	         	<h1>Male</h1>
+	        </div>
+	        <div id="female-button-container" ng-click="selectFemale()">
+	         	<img src="/img/female_icon.png">
+	         	<h1>Female</h1>
+	        </div>
+	    </ion-slide>
+	      
+	    <!-- Get from user: General workout goal? -->
+	    <ion-slide>
+	      	<h3>What is your fitness goal?</h3>
+	      	<div id="scale-button-container" ng-click="selectScale()">
+	         	<img src="/img/scale_icon.png">
+	         	<h1>Lose<br/>Weight</h1>
+	        </div>
+	        <div id="muscle-button-container" ng-click="selectMuscle()">
+	         	<img src="/img/strong_icon.png">
+	         	<h1>Build<br/>Muscle</h1>
+	        </div>
+	        <div id="athletics-button-container" ng-click="selectAthletics()">
+	         	<img src="/img/running_icon.png">
+	         	<h1>Improve<br/>Athletics</h1>
+	        </div>
+	    </ion-slide>
+
+	    <!-- Get from user: favorite workout from each category -->
+	    <ion-slide>
+	        <h3>Select your favorite workout for each category</h3>
+	        <div id="workout-selector-container" class="{{interacted['arms']}}" ng-click="openModal('arms')">
+	         	<h1>Arms</h1>
+	        </div>
+	        <div id="workout-selector-container" class="{{interacted['legs']}}" ng-click="openModal('legs')">
+	         	<h1>Legs</h1>
+	        </div>
+	        <div id="workout-selector-container" class="{{interacted['back']}}" ng-click="openModal('back')">
+	         	<h1>Back</h1>
+	        </div>
+	        <div id="workout-selector-container" class="{{interacted['shoulders']}}" ng-click="openModal('shoulders')">
+	         	<h1>Shoulders</h1>
+	        </div>
+	        <div id="workout-selector-container" class="{{interacted['chest']}}" ng-click="openModal('chest')">
+	         	<h1>Chest</h1>
+	        </div>
+	    </ion-slide>
+
+	    <!-- Get from user: favorite cardio activity -->
+	    <ion-slide>
+	      	<h3>What is your preferred cardio?</h3>
+	      	<div id="cardio-button-container" ng-click="selectRunning()">
+	         	<img src="/img/running_icon.png">
+	         	<h1>Running</h1>
+	        </div>
+	        <div id="cardio-button-container" ng-click="selectCycling()">
+	         	<img src="/img/cycling_icon.png">
+	         	<h1>Cycling</h1>
+	        </div>
+	        <div id="cardio-button-container" ng-click="selectSwimming()">
+	         	<img src="/img/swimming_icon.png">
+	         	<h1>Swimming</h1>
+	        </div>
+	    </ion-slide>
+
+	    <!-- Summary and confimartion of selections -->
+	    <ion-slide>
+	      	<h3>Are these details correct?</h3>
+	      	<p>Sex: {{sex}}</p>
+	      	<p>Workout Goal: {{goal}}</p>
+	      	<p>Favorite Arms: {{favs["arms"]}}</p>
+	      	<p>Favorite Legs: {{favs["legs"]}}</p>
+	      	<p>Favorite Back: {{favs["back"]}}</p>
+	      	<p>Favorite Shoulders: {{favs["shoulders"]}}</p>
+	      	<p>Favorite Chest: {{favs["chest"]}}</p>
+	      	<p>Favorite Cardio: {{favs["cardio"]}}</p>
+	    </ion-slide>
+
+	</ion-slide-box>
+</ion-view>
+
+    

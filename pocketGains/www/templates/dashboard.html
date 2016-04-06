@@ -1,0 +1,36 @@
+<ion-view view-title="Pocket Gains">
+  <ion-content class="padding scroll-bg">
+      <div class="card">
+
+        <div class="item item-avatar">
+          <img src="img/photo.jpg">
+          <h2>{{username}}</h2>
+          <p>user_id: {{user_id}}</p>
+        </div>
+
+    </div>
+    <ion-item ng-controller="HomeTabCtrl">
+
+        <div class="card">
+            <div class="item item-divider">
+                Points Spread
+            </div>
+            <div class="item item-text-wrap">
+                <canvas id="doughnut" class="chart chart-doughnut" data="data" labels="labels" legend="true" series="series" options="{showTooltips: true}"></canvas>
+            </div>
+        </div>
+    </ion-item>
+    <button class="button button-full button-positive">
+      Workouts
+    </button>
+
+    <button class="button button-full button-positive" ng-click="leaderboardsClick()">
+      Leaderboards
+    </button>
+
+    <button class="button button-full button-positive">
+      History
+    </button>
+
+  </ion-content>
+</ion-view>
