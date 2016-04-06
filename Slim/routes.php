@@ -83,7 +83,7 @@ $app->post('/completedAchievement',
 
         $statement = $db->prepare(
             'INSERT INTO Achievements_Completed (User_user_id, Achievements_achieve_id)
-                VALUES (:user, :pass);');
+                VALUES (:user, :achieve);');
 
         $statement->execute(
             array(
