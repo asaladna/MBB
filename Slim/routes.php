@@ -71,7 +71,6 @@ $app->get('/achievements/{user_id}',
 
 $app->post('/completedAchievement', 
 	function ($request, $response, $args) {
-    try{
         $db = $this->api_login;
     
         $parms = $request->getParsedbody();
@@ -93,9 +92,6 @@ $app->post('/completedAchievement',
                 )
             );
     } 
-    catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
-    }
 });
 
 $app->get('/leaderboards', 
