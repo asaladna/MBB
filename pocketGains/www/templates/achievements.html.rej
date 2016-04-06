@@ -1,0 +1,294 @@
+diff a/pocketGains/www/templates/achievements.html b/pocketGains/www/templates/achievements.html	(rejected hunks)
+@@ -1,55 +1,249 @@
+ <ion-view view-title="Achievements">
+   <ion-content overflow-scroll="true" padding="true" class="has-header">
+-      <ion-list></ion-list>
+-      <html ng-app="achievementsApp">
++      <ion-list ng-controller="achievement1Ctrl">
++
++        <!--Fix line clamping-->
++
++          <ion-item class="achievement1" ng-if="isVisible">
++            <table style="width:100%">
++              <tr>
++                <td>
++                  <button class="button button-large icon ion-locked" id="1" ng-click="makeInvisible()">
++                  </button>
++                </td>
++                <td style="text-align:left; padding:5%; vertical-align:top">Open this app for the first time</td>
++              </tr>
++            </table>
++          </ion-item>
++
++          <ion-item class="achievement1" ng-if="isVisible2">
++              <div class="row">
++                <div class="col col-20">
++                  <i class="ion-power" style="font-size:300%; color:MediumBlue"></i>
++                </div>
++                <div class="col col-80">
++                  <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%"><b>A new life</b></p>
++                </div>
++              </div>
++          </ion-item>
++
++          <ion-item class="achievement2" ng-if="isVisible3">
++            <table style="width:100%">
++              <tr>
++                <td>
++                  <button class="button button-large icon ion-locked" ng-click="makeInvisible2()">
++                  </button>
++                </td>
++                <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 1 mile</td>
++              </tr>
++            </table>
++          </ion-item>
++
++          <ion-item class="achievement2" ng-if="isVisible4">
++              <div class="row">
++                <div class="col col-20">
++                  <i class="ion-android-walk" style="font-size:300%; color:BlueViolet"></i>
++                </div>
++                <div class="col col-80">
++                  <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%"><b>A journey of 1000 miles starts with a single step</b></p>
++                </div>
++              </div>
++          </ion-item>
++
++          <ion-item class="achievement3" ng-if="isVisible5">
++            <table style="width:100%">
++              <tr>
++                <td>
++                  <button class="button button-large icon ion-locked" ng-click="makeInvisible3()">
++                  </button>
++                </td>
++                <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 5 mile</td>
++              </tr>
++            </table>
++          </ion-item>
++
++          <ion-item class="achievement3" ng-if="isVisible6">
++              <div class="row">
++                <div class="col col-20">
++                  <i class="ion-android-walk" style="font-size:300%; color:Indigo"></i>
++                </div>
++                <div class="col col-80">
++                  <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%"><b>The running man</b></p>
++                </div>
++              </div>
++          </ion-item>
++
++          <ion-item class="achievement4" ng-if="isVisible7">
++            <table style="width:100%">
++              <tr>
++                <td>
++                  <button class="button button-large icon ion-locked" ng-click="makeInvisible4()">
++                  </button>
++                </td>
++                <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 25 mile</td>
++              </tr>
++            </table>
++          </ion-item>
++
++          <ion-item class="achievement4" ng-if="isVisible8">
++              <div class="row">
++                <div class="col col-20">
++                  <i class="ion-android-walk" style="font-size:300%; color:Blue"></i>
++                </div>
++                <div class="col col-80">
++                  <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%"><b>Quick Feet</b></p>
++                </div>
++              </div>
++          </ion-item>
++
++          <ion-item class="achievement5" ng-if="isVisible9">
++            <table style="width:100%">
++              <tr>
++                <td>
++                  <button class="button button-large icon ion-locked" ng-click="makeInvisible5()">
++                  </button>
++                </td>
++                <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 50 mile</td>
++              </tr>
++            </table>
++          </ion-item>
++
++          <ion-item class="achievement5" ng-if="isVisible10">
++              <div class="row">
++                <div class="col col-20">
++                  <i class="ion-android-walk" style="font-size:300%; color:Green"></i>
++                </div>
++                <div class="col col-80">
++                  <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%"><b>Hamster on a wheel</b></p>
++                </div>
++              </div>
++          </ion-item>
++
++          <ion-item class="achievement6">
++            <div class="row">
++              <div class="col col-20">
++                <i class="ion-locked" style="font-size:300%"></i>
++              </div>
++              <div class="col col-80">
++                <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%">Run for a total of 100 miles</p>
++              </div>
++            </div>
++          </ion-item>
++
++          <ion-item class="achievement7">
++            <div class="row">
++              <div class="col col-20">
++                <i class="ion-locked" style="font-size:300%"></i>
++              </div>
++              <div class="col col-80">
++                <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%">Run for a total of 250 miles</p>
++              </div>
++            </div>
++          </ion-item>
++
++          <ion-item class="achievement8">
++            <div class="row">
++              <div class="col col-20">
++                <i class="ion-locked" style="font-size:300%"></i>
++              </div>
++              <div class="col col-80">
++                <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%">Run for a total of 500 miles</p>
++              </div>
++            </div>
++          </ion-item>
++
++          <ion-item class="achievement9">
++            <div class="row">
++              <div class="col col-20">
++                <i class="ion-locked" style="font-size:300%"></i>
++              </div>
++              <div class="col col-80">
++                <p style="text-align:left; padding:5%; vertical-align:top; font-size:95%">Run for a total of 1000 miles</p>
++              </div>
++            </div>
++          </ion-item>
++      </ion-list>
++
++      <!--<script language="JavaScript"
++        type="text/javascript" src="xmlhttp.js"></script>
++      <script language="JavaScript" type="text/javascript">
++        var request = new XMLHttpRequest();
++        request.open('GET', 'http://private-c00ec-pocketgains.apiary-mock.com/achievements/?user_id=user_id');
++
++        request.onreadystatechange = function () {
++          if (this.readyState === 4) {
++            console.log('Status:', this.status);
++            console.log('Headers:', this.getAllResponseHeaders());
++            console.log('Body:', this.responseText);
++          }
++        };
++
++ request.send();
++        }
++      }
++    </script>
++
++      <style>
++        #1:before {
++          font-size: 650% !important;
++        }
++      </style> -->
++
++
++
++  <!--    <div ng-controller="achievement1" ng-show="isVisible}">
+         <div>
+             <hr width="100%">
+         </div>
+         <table style="width:100%">
+           <tr>
+-            <td class="ion-locked" id="1" data-pack="default" style="font-size:650%"></td>          
++            <td>
++              <button class="button button-large icon ion-locked" id="1" ng-click="makeInvisible()">
++              </button>
++            </td>
+             <td style="text-align:left; padding:5%; vertical-align:top">Open this app for the first time</td>
+           </tr>
+         </table>
+-        <div>
+-            <hr width="100%">
+-        </div>
+-        <table style="width:100%">
+-          <tr>
+-            <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
+-            <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 1 mile</td>
+-          </tr>
+-        </table>
+-        <div>
+-            <hr width="100%">
+-        </div>
+-        <table style="width:100%">
+-          <tr>
+-            <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
+-            <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 5 miles</td>
+-          </tr>
+-        </table>
+-        <div>
+-            <hr width="100%">
+-        </div>
+-        <table style="width:100%">
+-          <tr>
+-            <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
+-            <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 25 miles</td>
+-          </tr>
+-        </table>
+-        <div>
+-            <hr width="100%">
+-        </div>
+-        <table style="width:100%">
+-          <tr>
+-            <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
+-            <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 50 miles</td>
+-          </tr>
+-        </table>
+-        <div>
+-            <hr width="100%">
+-        </div>
+-      </html>
++      </div>
++      <div>
++          <hr width="100%">
++      </div>
++      <table style="width:100%">
++        <tr>
++          <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
++          <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 1 mile</td>
++        </tr>
++      </table>
++      <div>
++          <hr width="100%">
++      </div>
++      <table style="width:100%">
++        <tr>
++          <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
++          <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 5 miles</td>
++        </tr>
++      </table>
++      <div>
++          <hr width="100%">
++      </div>
++      <table style="width:100%">
++        <tr>
++          <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
++          <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 25 miles</td>
++        </tr>
++      </table>
++      <div>
++          <hr width="100%">
++      </div>
++      <table style="width:100%">
++        <tr>
++          <td class="ion-locked" data-pack="default" style="font-size:650%"></td>
++          <td style="text-align:left; padding:5%; vertical-align:top">Run for a total of 50 miles</td>
++        </tr>
++      </table>
++      <div>
++          <hr width="100%">
++      </div>
++    -->
+   </ion-content>
+ </ion-view>

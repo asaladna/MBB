@@ -1,0 +1,16 @@
+<ion-view view-title="Login">
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <form name="info" name='input' action="" ng-submit='login($event)'>
+              <label class="item item-input">
+                  <input type="text" placeholder="Username" ng-model="form.username">
+              </label>
+              <label class="item item-input">
+                  <input type="password" placeholder="Password" ng-model="form.password">
+              </label>
+            <button class="button button-block button-positive">Login</button>
+          </form>
+          <button class="button button-block button-positive" ng-click= "createAcc()">Create Account</button>
+      </div>
+  </ion-content>
+</ion-view>

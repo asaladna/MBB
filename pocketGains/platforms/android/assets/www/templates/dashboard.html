@@ -1,0 +1,43 @@
+<ion-view view-title="Pocket Gains">
+  <ion-content class="padding scroll-bg">
+      <div class="card">
+
+      <div class="item item-avatar">
+        <img src="img/photo.jpg">
+        <h2>Alex Saladna</h2>
+        <p>Points 9001</p>
+      </div>
+
+
+          <!--
+    <c3chart bindto-id="chart" chart-data="datapoints" chart-columns="datacolumns" chart-x="datax">
+    </c3chart>
+-->
+<!--        <img class="full-image" src="img/graph.png">-->
+
+    </div>
+    <ion-item ng-controller="ExampleController">
+
+        <div class="card">
+            <div class="item item-divider">
+                Points Spread
+            </div>
+            <div class="item item-text-wrap">
+                <canvas id="bar" class="chart chart-bar" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+            </div>
+        </div>
+    </ion-item>
+    <button class="button button-full button-positive">
+      Workouts
+    </button>
+
+    <button class="button button-full button-positive">
+      Leaderboards
+    </button>
+
+    <button class="button button-full button-positive">
+      History
+    </button>
+
+  </ion-content>
+</ion-view>

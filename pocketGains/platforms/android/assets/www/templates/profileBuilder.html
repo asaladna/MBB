@@ -1,0 +1,68 @@
+<ion-view hide-back-button="true" view-title="Profile Builder">
+	
+		<ion-nav-buttons side="left">     
+	    </ion-nav-buttons>
+	    
+	    <ion-nav-buttons side="right"> 
+	    	<!-- Next Button -->
+	       <!--  <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2">
+	        	Next
+	        </button> -->
+	      	
+	    </ion-nav-buttons>
+	   
+	    <ion-slide-box ng-init="disableSlide()" on-slide-changed="slideChanged(index)">
+	      
+	    <!-- Get from user: Male or female? -->
+	    <ion-slide>
+	        <h3>Which are you?</h3>
+	        <div id="male-button-container" ng-click="selectMale()">
+	         	<img src="/img/male_icon.png">
+	         	<h1>Male</h1>
+	        </div>
+	        <div id="female-button-container" ng-click="selectFemale()">
+	         	<img src="/img/female_icon.png">
+	         	<h1>Female</h1>
+	        </div>
+	    </ion-slide>
+	      
+	    <!-- Get from user: General workout goal? -->
+	    <ion-slide>
+	      	<h3>What is your fitness goal?</h3>
+	      	<div id="scale-button-container" ng-click="selectScale()">
+	         	<img src="/img/scale_icon.png">
+	         	<h1>Lose<br/>Weight</h1>
+	        </div>
+	        <div id="muscle-button-container" ng-click="selectMuscle()">
+	         	<img src="/img/strong_icon.png">
+	         	<h1>Build<br/>Muscle</h1>
+	        </div>
+	        <div id="running-button-container" ng-click="selectRunning()">
+	         	<img src="/img/running_icon.png">
+	         	<h1>Improve<br/>Athletics</h1>
+	        </div>
+	    </ion-slide>
+
+	    <ion-slide>
+	        <h3>Select your favorite workout for each category</h3>
+	        <div id="arms-selector-container" ng-click="openModal('arms')">
+	         	<h1>Arms</h1>
+	        </div>
+	        <div id="arms-selector-container" ng-click="openModal('legs')">
+	         	<h1>Legs</h1>
+	        </div>
+	        <div id="arms-selector-container" ng-click="openModal('back')">
+	         	<h1>Back</h1>
+	        </div>
+	        <div id="arms-selector-container" ng-click="openModal('shoulders')">
+	         	<h1>Shoulders</h1>
+	        </div>
+	        <div id="arms-selector-container" ng-click="openModal('chest')">
+	         	<h1>Chest</h1>
+	        </div>
+	    </ion-slide>
+
+	</ion-slide-box>
+</ion-view>
+
+    
