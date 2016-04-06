@@ -35,7 +35,7 @@ angular.module('starter.controllers', [])
 
   // ----- Get First achievement for creating account (gym rat) if not complete
   // Get list of completed achievements
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/", {"user_id": $scope.user_id } )
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/" + $scope.user_id )
       .success(function(data) {
           $scope.compAchievements = data;
 
@@ -74,16 +74,16 @@ angular.module('starter.controllers', [])
                           
                       })
                       .error(function(data) {
-                          alert("API ERROR at " + apiLink + "\n" + data);
+                          alert("API ERROR at " + apiLink + "\n" + "");
                       });
                 })
                 .error(function(data) {
-                    alert("API ERROR at " + apiLink + "\n" + data);
+                    alert("API ERROR at " + apiLink + "\n" + "8");
                 });
             }
       })
       .error(function(data) {
-          alert("API ERROR at " + apiLink + "\n" + data);
+          alert("API ERROR at " + apiLink + "\n" + "7");
       });
 
   
@@ -174,17 +174,17 @@ angular.module('starter.controllers', [])
   }
 
   // Modal for selecting fav workout for each category
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+  var apiLink = null;
 
   $scope.workouts = [ ];
 
-  $http.get(apiLink + "/workout/", { params: {"type": "arms" } })
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workouts/" + "arms")
     .success(function(data) {
         $scope.workouts = data;
         console.log(data);
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + data);
+        alert("API ERROR at " + apiLink + "\n" + "6");
     });
 
   $ionicModal.fromTemplateUrl('templates/workoutSelector-modal.html', {
@@ -262,7 +262,7 @@ angular.module('starter.controllers', [])
         
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + data);
+        alert("API ERROR at " + apiLink + "\n" + "5");
     });
   }
 
@@ -329,7 +329,7 @@ angular.module('starter.controllers', [])
             $state.go('app.dashboard');
         })
         .error(function(data) {
-            alert("API ERROR at " + apiLink + "\n" + data);
+            alert("API ERROR at " + apiLink + "\n" + "4");
         });
     }
 
@@ -350,7 +350,7 @@ angular.module('starter.controllers', [])
 
   $scope.user_id = userData.getId();
 
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/userPoints/", {"user_id": $scope.user_id } )
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/userPoints/" + $scope.user_id )
     .success(function(data) {
         console.log(data);
         $scope.userPoints = data;
@@ -359,7 +359,7 @@ angular.module('starter.controllers', [])
         $scope.data = [$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest];
     })
     .error(function(data) {
-        alert("API ERROR" + "\n" + data);
+        alert("API ERROR" + "\n" + 3);
     });
 
 })
@@ -371,7 +371,7 @@ angular.module('starter.controllers', [])
   $scope.user_id = 2;//userData.getId();
   
 
-  $http.get(apiLink + "/achievements", { } )
+  $http.get(apiLink + "/achievements")
     .success(function(data) {
         $scope.achievements = data;
 
@@ -394,12 +394,12 @@ angular.module('starter.controllers', [])
               console.log(data);
           })
           .error(function(data) {
-              alert("API ERROR at " + apiLink + "\n" + data);
+              alert("API ERROR at " + apiLink + "\n" + 1);
           });
           //console.log(data[0].desc);
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + data);
+        alert("API ERROR at " + apiLink + "\n" + 2);
     });
 
   
