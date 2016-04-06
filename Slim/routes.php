@@ -83,7 +83,7 @@ $app->post('/completedAchievement',
 
         $statement = $db->prepare(
             'INSERT INTO Achievements_Completed (User_user_id, Achievements_achieve_id)
-                VALUES (:iser, :pass);');
+                VALUES (:user, :pass);');
 
         $statement->execute(
             array(
@@ -91,7 +91,6 @@ $app->post('/completedAchievement',
                 'achieve' => $parms['Achievements_achieve_id']
                 )
             );
-    } 
 });
 
 $app->get('/leaderboards', 
