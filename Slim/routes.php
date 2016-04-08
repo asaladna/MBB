@@ -68,25 +68,13 @@ $app->get('/achievements/{user_id}',
 $app->post('/completedAchievement', 
 	function ($request, $response, $args) {
         $db = $this->api_login;
-    
-        $parms = $request->getParsedBody();
-        if($parms) {
-            echo "Has  already parsed body";
-        }
-        if(!$parms) {
-            echo "Has no body";
-        }
+            
+        $user_id = $_POST['User_user_id'];
+        $achieve_id = $_POST['Achievements_achieve_id'];
 
-        $statement = $db->prepare(
-            'INSERT INTO Achievements_Completed (User_user_id, Achievements_achieve_id)
-                VALUES (:user, :achieve);');
-
-        $statement->execute(
-            array(
-                'user' => $parms['User_user_id'],
-                'achieve' => $parms['Achievements_achieve_id']
-                )
-            );
+        $query = $db->prepare("insert into Achievements_Completed (User_user_id, Achievements_achieve_id)
+                    values (:user_id, :achieve_id)");
+        $query->execute(array('user_id' => $user_id, 'achieve_id' => $achieve_id));
 });
 
 $app->get('/getLeaders/top_{x}', 
