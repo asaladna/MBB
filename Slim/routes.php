@@ -117,7 +117,7 @@ $app->get('/leaderboards',
     }
 });
 
-$app->get('//userPoints/{user_id}', 
+$app->get('/userPoints/{user_id}', 
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
