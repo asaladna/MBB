@@ -46,9 +46,9 @@ CREATE TABLE Geolocation (
 
 -- Table Is_Type
 CREATE TABLE Is_Type (
-    Type_id int  NOT NULL,
+    Types_type_id int  NOT NULL,
     Workout_workout_id int  NOT NULL,
-    CONSTRAINT Is_Type_pk PRIMARY KEY (Type_id,Workout_workout_id)
+    CONSTRAINT Is_Type_pk PRIMARY KEY (Types_type_id,Workout_workout_id)
 );
 
 -- Table Points
