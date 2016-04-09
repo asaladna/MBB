@@ -200,4 +200,40 @@ $app->get('/favorites/{user_id}',
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 });
+
+$app->get('/userData',
+    function ($request, $response, $args) {
+    try {
+			$db = $this->api_login;
+
+			$user_id = $_POST['user_id'];
+
+			//TEST CASE HARDCODED TEST USER
+			//$user_id = 12;
+
+			$query = $db->prepare(
+			'SELECT u.username, u.exp, p.arms, p.legs, p.chest, p.back, p.shoulders, p.cardio
+					FROM User as u LEFT JOIN Points as p
+					ON u.user_id = p.User_user_id
+					WHERE u.user_id = :user_id'
+			);
+			$query->execute(
+					array(
+							'user_id' => $user_id
+						)
+			);
+			$arr = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if($arr) {
+					return $response->write(json_encode($arr));
+					$db = null;
+			}
+			else {
+					throw new PDOException('No records found.');
+			}
+		}
+		catch(PDOException $e) {
+				echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+});
 ?>
