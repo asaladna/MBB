@@ -11,7 +11,7 @@ USE pocketgains;
 -- tables
 -- Table Achievements
 CREATE TABLE Achievements (
-    achieve_id int  NOT NULL,
+    achieve_id int  NOT NULL AUTO_INCREMENT,
     name varchar(100)  NOT NULL,
     `desc` varchar(500)  NOT NULL,
     CONSTRAINT Achievements_pk PRIMARY KEY (achieve_id)
@@ -19,14 +19,14 @@ CREATE TABLE Achievements (
 
 -- Table Achievements_Completed
 CREATE TABLE Achievements_Completed (
-    User_user_id int  NOT NULL,
+    User_user_id int  NOT NULL AUTO_INCREMENT,
     Achievements_achieve_id int  NOT NULL,
     CONSTRAINT Achievements_Completed_pk PRIMARY KEY (User_user_id,Achievements_achieve_id)
 );
 
 -- Table Faved_Workouts
 CREATE TABLE Faved_Workouts (
-    fav_id int  NOT NULL,
+    fav_id int  NOT NULL AUTO_INCREMENT,
     User_user_id int  NOT NULL,
     title varchar(25)  NOT NULL,
     reps int  NULL,
@@ -38,14 +38,14 @@ CREATE TABLE Faved_Workouts (
 
 -- Table Faved_types
 CREATE TABLE Faved_types (
-    Types_type_id int  NOT NULL,
+    Types_type_id int  NOT NULL AUTO_INCREMENT,
     Faved_Workouts_fav_id int  NOT NULL,
     CONSTRAINT Faved_types_pk PRIMARY KEY (Types_type_id,Faved_Workouts_fav_id)
 );
 
 -- Table Geolocation
 CREATE TABLE Geolocation (
-    location_id int  NOT NULL,
+    location_id int  NOT NULL AUTO_INCREMENT,
     latitude int  NOT NULL,
     longitude int  NOT NULL,
     radius int  NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE Points (
 
 -- Table Suggested_Workouts
 CREATE TABLE Suggested_Workouts (
-    sug_id int  NOT NULL,
+    sug_id int  NOT NULL AUTO_INCREMENT,
     Workout_workout_id int  NOT NULL,
     User_user_id int  NOT NULL,
     reps int  NULL,
@@ -92,14 +92,14 @@ CREATE TABLE Suggested_Workouts (
 
 -- Table Types
 CREATE TABLE Types (
-    type_id int  NOT NULL,
+    type_id int  NOT NULL AUTO_INCREMENT,
     name varchar(25)  NOT NULL,
     CONSTRAINT Types_pk PRIMARY KEY (type_id)
 );
 
 -- Table User
 CREATE TABLE User (
-    user_id int  NOT NULL,
+    user_id int  NOT NULL AUTO_INCREMENT,
     authToken varchar(25)  NULL,
     session_id int  NULL,
     username varchar(25)  NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE User (
 
 -- Table Workout
 CREATE TABLE Workout (
-    workout_id int  NOT NULL,
+    workout_id int  NOT NULL AUTO_INCREMENT,
     title varchar(50)  NOT NULL,
     `desc` varchar(500)  NULL,
     CONSTRAINT Workout_pk PRIMARY KEY (workout_id)
@@ -122,7 +122,7 @@ CREATE TABLE Workout (
 
 -- Table Workout_History
 CREATE TABLE Workout_History (
-    hist_id int  NOT NULL,
+    hist_id int  NOT NULL AUTO_INCREMENT,
     User_user_id int  NOT NULL,
     title varchar(25)  NOT NULL,
     time_stamp timestamp  NOT NULL,
