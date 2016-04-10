@@ -273,4 +273,32 @@ $app->get('/addCompletedWorkout',
 						)
 			);
 });
+
+$app->get('/workoutTypes',
+    function ($request, $response, $args) {
+			try {
+	    	$db = $this->api_login;
+
+
+	        $query = $db->prepare(
+	            'SELECT *
+	                FROM Types');
+	        $query->execute();
+	        $arr = $query->fetchAll(PDO::FETCH_ASSOC);
+
+	        if($arr) {
+	            return $response->write(json_encode($arr));
+	            $db = null;
+	        }
+	        else
+	        {
+	            throw new PDOException('No records found.');
+	        }
+
+	    }
+	    catch(PDOException $e) {
+	        echo '{"error":{"text":'. $e->getMessage() .'}}';
+	    }
+});
+
 ?>
