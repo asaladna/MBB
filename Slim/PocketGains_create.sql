@@ -1,12 +1,12 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2016-04-09 23:01:41.785
+-- Last modification date: 2016-04-10 22:49:44.835
+
 
 DROP DATABASE IF EXISTS pocketgains;
 
 CREATE DATABASE pocketgains;
 
 USE pocketgains;
-
 
 -- tables
 -- Table Achievements
@@ -27,20 +27,13 @@ CREATE TABLE Achievements_Completed (
 -- Table Faved_Workouts
 CREATE TABLE Faved_Workouts (
     fav_id int  NOT NULL AUTO_INCREMENT,
+    Workout_workout_id int  NOT NULL,
     User_user_id int  NOT NULL,
-    title varchar(25)  NOT NULL,
     reps int  NULL,
     sets int  NULL,
     weight int  NULL,
     duration int  NULL,
     CONSTRAINT Faved_Workouts_pk PRIMARY KEY (fav_id)
-);
-
--- Table Faved_types
-CREATE TABLE Faved_types (
-    Types_type_id int  NOT NULL AUTO_INCREMENT,
-    Faved_Workouts_fav_id int  NOT NULL,
-    CONSTRAINT Faved_types_pk PRIMARY KEY (Types_type_id,Faved_Workouts_fav_id)
 );
 
 -- Table Geolocation
@@ -50,13 +43,6 @@ CREATE TABLE Geolocation (
     longitude int  NOT NULL,
     radius int  NOT NULL,
     CONSTRAINT Geolocation_pk PRIMARY KEY (location_id)
-);
-
--- Table History_Types
-CREATE TABLE History_Types (
-    Types_type_id int  NOT NULL,
-    Workout_History_hist_id int  NOT NULL,
-    CONSTRAINT History_Types_pk PRIMARY KEY (Types_type_id,Workout_History_hist_id)
 );
 
 -- Table Is_Type
@@ -123,8 +109,8 @@ CREATE TABLE Workout (
 -- Table Workout_History
 CREATE TABLE Workout_History (
     hist_id int  NOT NULL AUTO_INCREMENT,
+    Workout_workout_id int  NOT NULL,
     User_user_id int  NOT NULL,
-    title varchar(25)  NOT NULL,
     time_stamp timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     duration int  NULL,
     reps int  NULL,
@@ -150,22 +136,10 @@ ALTER TABLE Achievements_Completed ADD CONSTRAINT Achievements_Completed_User FO
 
 ALTER TABLE Faved_Workouts ADD CONSTRAINT Faved_Workouts_User FOREIGN KEY Faved_Workouts_User (User_user_id)
     REFERENCES User (user_id);
--- Reference:  Faved_types_Faved_Workouts (table: Faved_types)
+-- Reference:  Faved_Workouts_Workout (table: Faved_Workouts)
 
-ALTER TABLE Faved_types ADD CONSTRAINT Faved_types_Faved_Workouts FOREIGN KEY Faved_types_Faved_Workouts (Faved_Workouts_fav_id)
-    REFERENCES Faved_Workouts (fav_id);
--- Reference:  Faved_types_Types (table: Faved_types)
-
-ALTER TABLE Faved_types ADD CONSTRAINT Faved_types_Types FOREIGN KEY Faved_types_Types (Types_type_id)
-    REFERENCES Types (type_id);
--- Reference:  History_Types_Types (table: History_Types)
-
-ALTER TABLE History_Types ADD CONSTRAINT History_Types_Types FOREIGN KEY History_Types_Types (Types_type_id)
-    REFERENCES Types (type_id);
--- Reference:  History_Types_Workout_History (table: History_Types)
-
-ALTER TABLE History_Types ADD CONSTRAINT History_Types_Workout_History FOREIGN KEY History_Types_Workout_History (Workout_History_hist_id)
-    REFERENCES Workout_History (hist_id);
+ALTER TABLE Faved_Workouts ADD CONSTRAINT Faved_Workouts_Workout FOREIGN KEY Faved_Workouts_Workout (Workout_workout_id)
+    REFERENCES Workout (workout_id);
 -- Reference:  Suggested_Workouts_User (table: Suggested_Workouts)
 
 ALTER TABLE Suggested_Workouts ADD CONSTRAINT Suggested_Workouts_User FOREIGN KEY Suggested_Workouts_User (User_user_id)
@@ -190,6 +164,16 @@ ALTER TABLE Is_Type ADD CONSTRAINT Type_List_Workout FOREIGN KEY Type_List_Worko
 
 ALTER TABLE Workout_History ADD CONSTRAINT Workout_History_User FOREIGN KEY Workout_History_User (User_user_id)
     REFERENCES User (user_id);
+-- Reference:  Workout_History_Workout (table: Workout_History)
+
+ALTER TABLE Workout_History ADD CONSTRAINT Workout_History_Workout FOREIGN KEY Workout_History_Workout (Workout_workout_id)
+    REFERENCES Workout (workout_id);
+
+
+
+-- End of file.
+
+
 
 
 
