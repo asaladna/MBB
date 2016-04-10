@@ -125,7 +125,7 @@ CREATE TABLE Workout_History (
     hist_id int  NOT NULL AUTO_INCREMENT,
     User_user_id int  NOT NULL,
     title varchar(25)  NOT NULL,
-    time_stamp timestamp  NOT NULL,
+    time_stamp timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     duration int  NULL,
     reps int  NULL,
     sets int  NULL,
