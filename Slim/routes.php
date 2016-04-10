@@ -236,4 +236,39 @@ $app->get('/userData',
 				echo '{"error":{"text":'. $e->getMessage() .'}}';
 		}
 });
+
+$app->get('/addCompletedWorkout',
+    function ($request, $response, $args) {
+			$db = $this->api_login;
+
+/*
+			$user_id = $_POST['user_id'];
+			$title = $_POST['title'];
+			$sets = $_POST['sets'];
+			$reps = $_POST['reps'];
+			$weight = $_POST['weight'];
+			$desc = $_POST['desc'];
+			$duration = $_POST['duration']
+*/
+
+			//TEST CASE HARDCODED TEST USER
+			$user_id = 12;
+			$title = "Humbug";
+			$sets = 1;
+			$reps = 15156;
+			$weight = 9001;
+			$duration = NULL;
+
+			$query = $db->prepare(
+			"INSERT INTO Workout_History(User_user_id, title, sets, reps, weight,
+									 duration) VALUES (:user_id, :title, :sets, :reps, :weight,
+									 :duration)"
+			);
+			$query->execute(
+					array(
+							'user_id' => $user_id, 'title' => $title, 'sets' => $sets,
+							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
+						)
+			);
+});
 ?>
