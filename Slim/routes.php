@@ -241,7 +241,7 @@ $app->get('/addCompletedWorkout',
     function ($request, $response, $args) {
 			$db = $this->api_login;
 
-/*
+
 			$user_id = $_POST['user_id'];
 			$title = $_POST['title'];
 			$sets = $_POST['sets'];
@@ -249,8 +249,9 @@ $app->get('/addCompletedWorkout',
 			$weight = $_POST['weight'];
 			$desc = $_POST['desc'];
 			$duration = $_POST['duration']
-*/
 
+
+/*
 			//TEST CASE HARDCODED TEST USER
 			$user_id = 12;
 			$title = "Humbug";
@@ -258,6 +259,7 @@ $app->get('/addCompletedWorkout',
 			$reps = 15156;
 			$weight = 9001;
 			$duration = NULL;
+*/
 
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, title, sets, reps, weight,
