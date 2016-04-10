@@ -247,7 +247,7 @@ $app->get('/addCompletedWorkout',
 			$sets = $_POST['sets'];
 			$reps = $_POST['reps'];
 			$weight = $_POST['weight'];
-			$desc = $_POST['desc'];
+//			$desc = $_POST['desc'];
 			$duration = $_POST['duration'];
 
 
