@@ -301,4 +301,37 @@ $app->get('/workoutTypes',
 	    }
 });
 
+$app->get('/addFavorite',
+    function ($request, $response, $args) {
+		$db = $this->api_login;
+		
+		$user_id = $_POST['user_id'];
+		$workout_id = $_POST['workout_id'];
+		$weight = $_POST['weight'];
+		$sets = $_POST['sets'];
+		$reps = $_POST['reps'];
+		$duration = $_POST['duration'];
+/*
+		//Test code
+		$user_id = 12;
+		$workout_id = 1;
+		$weight = 120;
+		$sets = 3;
+		$reps = 12;
+		$duration = NULL;
+*/
+		$query = $db->prepare(
+		"INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
+								 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
+								 :duration)"
+		);
+		$query->execute(
+				array(
+						'user_id' => $user_id, 'workout_id' => $workout_id, 'weight' => $weight,
+						'sets' => $sets, 'reps' => $reps, 'duration' => $duration
+					)
+		);
+
+});
+
 ?>
