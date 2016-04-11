@@ -201,7 +201,7 @@ $app->get('/favorites/{user_id}',
     }
 });
 
-$app->get('/userData',
+$app->post('/userData',
     function ($request, $response, $args) {
     try {
 			$db = $this->api_login;
@@ -237,7 +237,7 @@ $app->get('/userData',
 		}
 });
 
-$app->get('/addCompletedWorkout',
+$app->post('/addCompletedWorkout',
     function ($request, $response, $args) {
 			$db = $this->api_login;
 
@@ -301,7 +301,7 @@ $app->get('/workoutTypes',
 	    }
 });
 
-$app->get('/addFavorite',
+$app->post('/addFavorite',
     function ($request, $response, $args) {
 		$db = $this->api_login;
 		
