@@ -334,4 +334,40 @@ $app->post('/addFavorite',
 
 });
 
+$app->get('/getHistoryWorkout/{user_id}/{hist_id}',
+    function ($request, $response, $args) {
+	try {
+		$db = $this->api_login;
+
+		$query = $db->prepare(
+				'SELECT w.workout_id, w.title, h.time_stamp, h.duration, h.reps,
+								h.sets, h.weight, w.desc
+					 FROM (Workout_History AS h LEFT JOIN Workout AS w ON h.Workout_workout_id
+					 = w.workout_id) RIGHT JOIN User AS u ON h.User_user_id = u.user_id
+					WHERE u.user_id = :user_id
+								AND h.hist_id = :hist_id'
+		);
+		$query->execute(
+				array(
+						'user_id' => $args['user_id'],
+						'hist_id' => $args['hist_id']
+						)
+				);
+		$arr = $query->fetchAll(PDO::FETCH_ASSOC);
+
+		if($arr) {
+				return $response->write(json_encode($arr));
+				$db = null;
+		}
+		else {
+				throw new PDOException('No records found.');
+		}
+
+		}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+	}
+
+});
+
 ?>
