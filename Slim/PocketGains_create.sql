@@ -1754,6 +1754,28 @@ insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values
 insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 5);
 insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 6);
 
+insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (1, 1, 1, 10, 20, 30, 40);
+insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (2, 2, 1, 10, 20, 30, 40);
+
+insert into Is_Type(Types_type_id, Workout_workout_id) values (3, 1);
+insert into Is_Type(Types_type_id, Workout_workout_id) values (5, 1);
+insert into Is_Type(Types_type_id, Workout_workout_id) values (1, 2);
+insert into Is_Type(Types_type_id, Workout_workout_id) values (4, 2);
+
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (1, 1, 1, '2013-01-19 03:14:07', 10, 10, 10, 10);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (2, 1, 1, '2012-01-19 03:14:07', 20, 20, 20, 20);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (3, 1, 1, '2011-01-19 03:14:07', 30, 30, 30, 30);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (4, 2, 1, '2013-01-19 03:14:07', 40, 40, 40, 40);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (5, 2, 1, '2012-01-19 03:14:07', 50, 50, 50, 50);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (6, 2, 1, '2011-01-19 03:14:07', 60, 60, 60, 60);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (7, 1, 2, '2013-01-19 03:14:07', 70, 70, 70, 70);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (8, 1, 2, '2012-01-19 03:14:07', 80, 80, 80, 80);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (9, 1, 2, '2011-01-19 03:14:07', 90, 90, 90, 90);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (10, 2, 2, '2013-01-19 03:14:07', 100, 100, 100, 100);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (11, 2, 2, '2012-01-19 03:14:07', 110, 110, 110, 110);
+insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (12, 2, 2, '2011-01-19 03:14:07', 120, 120, 120, 120);
+
+
 INSERT INTO Types(type_id, name) VALUES (1, 'Back');
 INSERT INTO Types(type_id, name) VALUES (2, 'Arms');
 INSERT INTO Types(type_id, name) VALUES (3, 'Shoulders');
