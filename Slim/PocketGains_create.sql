@@ -1757,11 +1757,6 @@ insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values
 insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (1, 1, 1, 10, 20, 30, 40);
 insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (2, 2, 1, 10, 20, 30, 40);
 
-insert into Is_Type(Types_type_id, Workout_workout_id) values (3, 1);
-insert into Is_Type(Types_type_id, Workout_workout_id) values (5, 1);
-insert into Is_Type(Types_type_id, Workout_workout_id) values (1, 2);
-insert into Is_Type(Types_type_id, Workout_workout_id) values (4, 2);
-
 insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (1, 1, 1, '2013-01-19 03:14:07', 10, 10, 10, 10);
 insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (2, 1, 1, '2012-01-19 03:14:07', 20, 20, 20, 20);
 insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (3, 1, 1, '2011-01-19 03:14:07', 30, 30, 30, 30);
@@ -1782,4 +1777,9 @@ INSERT INTO Types(type_id, name) VALUES (3, 'Shoulders');
 INSERT INTO Types(type_id, name) VALUES (4, 'Legs');
 INSERT INTO Types(type_id, name) VALUES (5, 'Cardio');
 INSERT INTO Types(type_id, name) VALUES (6, 'Chest');
+
+insert into Is_Type(Types_type_id, Workout_workout_id) values (3, 1);
+insert into Is_Type(Types_type_id, Workout_workout_id) values (5, 1);
+insert into Is_Type(Types_type_id, Workout_workout_id) values (1, 2);
+insert into Is_Type(Types_type_id, Workout_workout_id) values (4, 2);
 -- End of file.
