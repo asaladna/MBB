@@ -78,23 +78,21 @@ $app->post('/completedAchievement',
 });
 
 $app->get('/getLeaders/{type}', 
-	function ($request, $response, $args) {
+    function ($request, $response, $args) {
     try {
-    	$db = $this->api_login;
-
+        $db = $this->api_login;
         $query = $db->prepare(
-            'SELECT u.user_id, u.username, cardio AS points
+            'SELECT u.user_id, u.username, p.cardio AS points
                 FROM User u
                 LEFT JOIN Points p
                 ON u.user_id = p.User_user_id
-                GROUP BY cardio                
+                GROUP BY p.cardio                
                 DESC LIMIT 10');
         $query->execute(
             array(
                 'type' => $args['type']
                 )
             );
-
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
         if($arr) {
@@ -116,20 +114,20 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
         $db = $this->api_login;
  
         $query = $db->prepare(
-            'SELECT COUNT(:type) + 1 AS place
+            'SELECT COUNT(cardio) + 1 AS place
                 FROM (
-                    SELECT u.user_id, u.username, :type
+                    SELECT u.user_id, u.username, p.cardio
                     FROM User u 
                     LEFT JOIN Points p
                     ON u.user_id = p.User_user_id
-                    GROUP BY :type 
+                    GROUP BY p.cardio 
                     DESC) AS A
-                WHERE :type > (
-                    SELECT DISTINCT (:type) 
+                WHERE cardio > (
+                    SELECT DISTINCT (p.cardio) 
                     FROM User u
                     LEFT JOIN Points p
                     ON 1 = p.User_user_id
-                    ORDER BY (:type));'
+                    ORDER BY (p.cardio));'
             );
         $query->execute(
             array(
@@ -137,7 +135,6 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
                     'type' => $args['type']
                 )
             );
-
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
         if($arr) {
@@ -301,7 +298,7 @@ $app->post('/addCompletedWorkout',
 
 
 			$user_id = $_POST['user_id'];
-			$workout_id = $_POST['workout_id']
+			$workout_id = $_POST['workout_id'];
 //			$title = $_POST['title'];
 			$sets = $_POST['sets'];
 			$reps = $_POST['reps'];
@@ -321,7 +318,7 @@ $app->post('/addCompletedWorkout',
 */
 
 			$query = $db->prepare(
-			"INSERT INTO Workout_History(User_user_id, Workout_workout_id sets, reps, weight,
+			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
 									 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
 									 :duration)"
 			);
