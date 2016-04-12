@@ -200,3 +200,39 @@ $app->get('/workout/{workout_id}', function ($request, $response, $args) {
         echo '{"error":{"text"' . $e->getMessage() . '}}';
     }
 });
+
+// Displays the workout history of the logged in user
+$app->get('/getHistory/{user_id}', function ($request, $response, $args) {
+    // get user id
+    $user_id = $args['user_id'];
+
+    try
+    {
+        // connect to pocketgains db
+        // change dbConn to api_login for testing server
+        $db = $this->dbConn;
+
+        if ($db)
+        {
+            $query = $db->prepare("SELECT h.hist_id, h.time_stamp, h.duration, h.reps, h.weight
+                FROM Workout_History h, Workout w WHERE h.User_user_id = :user_id
+                AND w.workout_id = h.Workout_workout_id");
+            $query->execute(array('user_id' => $user_id));
+
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result)
+            {
+                return $response->write(json_encode($result));
+            }
+            else
+                throw new PDOException("no results found");
+        }
+        else
+            throw new PDOException("could not connect to db");
+    }
+    catch (PDOException $e)
+    {
+        echo '{"error":{"text"' . $e->getMessage() . '}}';
+    }
+});
