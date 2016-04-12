@@ -179,6 +179,7 @@ angular.module('starter.controllers', [])
   var apiLink = null;
 
   $scope.workouts = [ ];
+  $scope.nextText = "none";
 
   $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workouts/" + "arms")
     .success(function(data) {
@@ -225,7 +226,7 @@ angular.module('starter.controllers', [])
         $scope.interacted["back"] == "workout-selector-interacted" &&
         $scope.interacted["shoulders"] == "workout-selector-interacted" &&
         $scope.interacted["chest"] == "workout-selector-interacted") {
-      $scope.nextText = "Next";
+      $scope.nextText = "block";
     }
 
     $scope.favs[$scope.category] = id;
@@ -427,7 +428,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('WorkoutDashCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state) {
+.controller('WorkoutDashCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate) {
 
   var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
@@ -458,22 +459,50 @@ angular.module('starter.controllers', [])
         alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Favorites");
     });
 
+   $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workoutTypes")
+      .success(function(data) {
+          $scope.workoutTypes = data;
+          console.log(data);
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + "6");
+      });
+
     // Modal for active workout
     $ionicModal.fromTemplateUrl('templates/workoutActivity-modal.html', {
+      id: '1',
       scope: $scope,
       animation: 'slide-in-left'
     }).then(function(modal) {
       $scope.modal = modal;
     })
 
-    $scope.closeModal = function() {
-      $scope.modal.hide();    
+    // Modal for selecting workout type
+    $ionicModal.fromTemplateUrl('templates/typeSelector-modal.html', {
+      id: '2',
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.typeModal = modal;
+    })
+
+    $scope.closeModal = function(index) {
+      if (index == 1) {
+        $scope.modal.hide();
+      } else if (index == 2) {
+        $scope.typeModal.hide();
+      }
+          
     }
 
-    $scope.openModal = function(activeTitle, activeId) {
-      $scope.activeWorkout = activeTitle;
-      $scope.workoutId = activeId;
-      $scope.modal.show();    
+    $scope.openModal = function(index, activeTitle, activeId) {
+      if (index == 1) {
+        $scope.activeWorkout = activeTitle;
+        $scope.workoutId = activeId;
+        $scope.modal.show();  
+      } else if (index == 2) {
+        $scope.typeModal.show();
+      } 
     }
 
     $scope.submitWorkout = function(form) {
@@ -504,16 +533,27 @@ angular.module('starter.controllers', [])
             disableBack: true
           });
 
-          $scope.closeModal();
+          $scope.closeModal(2);
+          $scope.closeModal(1);
           
       })
       .error(function(data) {
           alert("API ERROR at " + apiLink + "\n" + "POST /addCompletedWorkout" + "\n" + data);
       });
-
-
     }
 
+    $scope.loadWorkouts = function(type) {
+      $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workouts/" + type)
+        .success(function(data) {
+            $scope.workouts = data;
+            console.log(data);
+        })
+        .error(function(data) {
+            alert("API ERROR at " + apiLink + "\n" + "6");
+      });
+
+      $ionicSlideBoxDelegate.next();
+    }
 })
 
 

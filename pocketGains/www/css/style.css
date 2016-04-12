@@ -2,3 +2,12 @@
 .centerText {
 	text-align: center
 }
+
+.gray-background {
+	background-color: gray;
+}
+
+.thick-border {
+	border-color: black;
+	border-width: 10px;
+}
