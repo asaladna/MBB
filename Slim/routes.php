@@ -236,3 +236,41 @@ $app->get('/getHistory/{user_id}', function ($request, $response, $args) {
         echo '{"error":{"text"' . $e->getMessage() . '}}';
     }
 });
+
+// Displays suggested workouts for the logged in user
+$app->get('/getSuggestedWorkouts/{user_id', function($request, $response, $args) {
+    // get user id
+    $user_id = $args['user_id'];
+
+    try
+    {
+        // connect to pocketgains db
+        // change dbConn to api_login for testing server
+        $db = $this->dbConn;
+
+        if ($db)
+        {
+            // assuming this query is correct, no dummy data in Suggested_Workouts table
+            // will add some later to check if query works properly
+            $query = $db->prepare("SELECT w.title, s.sets, s.reps, s.weight, s.duration
+                FROM Suggested_Workouts s, Workout w WHERE s.User_user_id = :user_id
+                AND s.Workout_workout_id = w.workout_id");
+            $query->execute(array('user_id' => $user_id));
+
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result)
+            {
+                return $response->write(json_encode($result));
+            }
+            else
+                throw new PDOException("no results found");
+        }
+        else
+            throw new PDOException("could not connect to db");
+    }
+    catch (PDOException $e)
+    {
+        echo '{"error":{"text"' . $e->getMessage() . '}}';
+    }
+});
