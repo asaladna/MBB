@@ -97,7 +97,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
       url: '/leaderboards',
       views: {
         'menuContent': {
-          templateUrl: 'templates/leaderboards.html'
+          templateUrl: 'templates/leaderboards.html',
+          controller: 'LeaderCtrl'
         }
       }
     })

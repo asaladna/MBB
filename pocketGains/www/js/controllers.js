@@ -1,9 +1,6 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
-
-
-  
 })
 
 .controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory) {
@@ -93,7 +90,6 @@ angular.module('starter.controllers', [])
   }
 
 })
-
 
 
 
@@ -407,4 +403,24 @@ angular.module('starter.controllers', [])
 
 })
 
+            
+//.controller('LeaderCtrl', function($scope, $state, userData, $http) {
+//    var apiLink = "http://private-1b0f9-pocketgains.apiary-mock.com";
+//    $scope.user_id = userData.getId();
+//
+//
+//
+//        $http.get(apiLink + "/workoutTypes")
+//          .success(function(data) {
+//              $scope.compAchievements = data;
+//
+//              console.log($scope.compAchievements);
+//              console.log(data);
+//          })
+//          .error(function(data) {
+//              alert("API ERROR at " + apiLink + "\n" + 1);
+//          });
+//          //console.log(data[0].desc);
+//
+//})
 
