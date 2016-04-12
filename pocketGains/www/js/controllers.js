@@ -100,6 +100,8 @@ angular.module('starter.controllers', [])
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(false);
 
@@ -231,7 +233,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.profileBuilderFinish = function() {
-    $http.post(apiLink + "/createNewUser", 
+    $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/createNewUser", 
         {
           "username": userData.getUsername(),
           "password": userData.getPassword(), 
@@ -242,8 +244,7 @@ angular.module('starter.controllers', [])
           "back": $scope.favs["back"],
           "shoulders": $scope.favs["shoulders"],
           "chest": $scope.favs["chest"],
-          "cardio": $scope.favs["cardio"],
-          "cardioPref": 2 // What is this?
+          "cardio": $scope.favs["cardio"]
         }
     )
     .success(function(data) {
@@ -312,14 +313,17 @@ angular.module('starter.controllers', [])
       $http.post(apiLink + "/login", 
             {
               "username": $scope.username, 
-              "password": $scope.password 
+              "password": $scope.password
             }
         )
         .success(function(data) {
-            userData.setId(data.user_id);
+
+            $scope.user_id = data.user_id;
+
             userData.setUsername($scope.username);
-            console.log(userData.getUsername());
-            console.log(data.user_id);
+            userData.setId($scope.user_id);
+
+            console.log("User " + userData.getUsername() + " login success.");
 
             $ionicHistory.nextViewOptions({
               disableAnimate: true,
@@ -327,9 +331,11 @@ angular.module('starter.controllers', [])
             });
 
             $state.go('app.dashboard');
+
         })
         .error(function(data) {
-            alert("API ERROR at " + apiLink + "\n" + "4");
+            $state.go('app.login');
+            alert("API ERROR at " + apiLink + "\n" + "POST /login");
         });
     }
 
@@ -348,19 +354,33 @@ angular.module('starter.controllers', [])
 
 .controller('HomeTabCtrl', function($scope, userData, $http) {
 
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+
   $scope.user_id = userData.getId();
 
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/userPoints/" + $scope.user_id )
-    .success(function(data) {
-        console.log(data);
-        $scope.userPoints = data;
-        console.log($scope.userPoints.exp);
-        $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
-        $scope.data = [$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest];
-    })
-    .error(function(data) {
-        alert("API ERROR" + "\n" + 3);
-    });
+  $http.post(apiLink + "/userData",
+    {
+      "user_id": $scope.user_id
+    }
+  )
+  .success(function(data) {
+      $scope.userPoints =  {
+                      "arms": data["arms"],
+                      "legs": data["legs"],
+                      "back": data["back"],
+                      "shoulders": data["shoulders"],
+                      "chest": data["chest"],
+                      "cardio": data["cardio"]
+                    };
+      $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
+      $scope.data = [$scope.userPoints["cardio"], $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest];
+
+  })
+  .error(function(data) {
+      alert("API ERROR" + "\n" + "POST userData");
+  });
+
+  
 
 })
 
@@ -379,7 +399,7 @@ angular.module('starter.controllers', [])
           .success(function(data) {
               $scope.compAchievements = data;
 
-              console.log($scope.compAchievements);
+              // console.log($scope.compAchievements);
 
               // Give a lock icon to all achievements
               for (i = 0; i < $scope.achievements.length; i++) {
@@ -391,7 +411,7 @@ angular.module('starter.controllers', [])
                 $scope.achievements[$scope.compAchievements[i].achieve_id - 1].image = "checkmark_icon";    
               }
 
-              console.log(data);
+              // console.log(data);
           })
           .error(function(data) {
               alert("API ERROR at " + apiLink + "\n" + 1);
@@ -404,6 +424,95 @@ angular.module('starter.controllers', [])
 
   
 
+
+})
+
+.controller('WorkoutDashCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state) {
+
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+
+  $scope.form = {};
+
+
+  $scope.user_id = userData.getId();
+  
+  // Get users suggested workouts
+  $http.get(apiLink + "/getSuggestedWorkouts/" + $scope.user_id)
+    .success(function(data) {
+        $scope.suggestedWorkouts = data;
+
+        console.log($scope.suggestedWorkouts);
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
+    });
+
+  // Get users favorite workouts
+  $http.get(apiLink + "/favorites/" + $scope.user_id)
+    .success(function(data) {
+        $scope.favoriteWorkouts = data;
+
+        console.log($scope.favoriteWorkouts);
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Favorites");
+    });
+
+    // Modal for active workout
+    $ionicModal.fromTemplateUrl('templates/workoutActivity-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-left'
+    }).then(function(modal) {
+      $scope.modal = modal;
+    })
+
+    $scope.closeModal = function() {
+      $scope.modal.hide();    
+    }
+
+    $scope.openModal = function(activeTitle, activeId) {
+      $scope.activeWorkout = activeTitle;
+      $scope.workoutId = activeId;
+      $scope.modal.show();    
+    }
+
+    $scope.submitWorkout = function(form) {
+      $scope.user_id = userData.getId();
+      $scope.workoutId = $scope.activeId;
+      console.log($scope.form)
+      $scope.reps = $scope.form.reps;
+      $scope.sets = $scope.form.sets;
+      $scope.weight = $scope.form.weight;
+      $scope.duration = null;
+
+      $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/addCompletedWorkout", 
+        {
+          "user_id": $scope.user_id,
+          "workout_id": $scope.workoutId,
+          "sets": $scope.sets,
+          "reps": $scope.reps,
+          "weight": $scope.weight,
+          "duration": $scope.duration
+        }
+      )
+      .success(function(data) {
+          $scope.addWorkoutResponse = data;
+          console.log($scope.addWorkoutResponse)
+
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true
+          });
+
+          $scope.closeModal();
+          
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + "POST /addCompletedWorkout" + "\n" + data);
+      });
+
+
+    }
 
 })
 

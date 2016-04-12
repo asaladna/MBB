@@ -10,10 +10,13 @@
 	
 angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.router'])
 
-.factory('userData', function() {
+.factory('userData', function($http) {
   var username = "nulluser";
   var password = "nullpass";
+  var userPoints = null;
   var user_id = 0;
+
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
   return {
     setUsername: function(n) {
@@ -33,6 +36,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
     },
     getId: function() {
       return user_id;
+    },
+    getUserPoints: function() {
+      return userPoints;
+    },
+    getPoints: function() {
+      console.log("Getting user points for id = " + user_id);
+      
+
+      return userPoints;
     }
   }
 })
@@ -83,6 +95,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
       }
     })
 
+  .state('app.workoutDashboard', {
+      url: '/workoutDashboard',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/workoutDashboard.html',
+          controller: 'WorkoutDashCtrl'
+        }
+      }
+    })
+
   .state('app.achievements', {
       url: '/achievements',
       views: {
@@ -101,6 +123,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
         }
       }
     })
+
     .state('app.login', {
       url: '/login',
       views: {
