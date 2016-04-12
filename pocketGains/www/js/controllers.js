@@ -501,7 +501,10 @@ angular.module('starter.controllers', [])
         $scope.workoutId = activeId;
         $scope.modal.show();  
       } else if (index == 2) {
+        $ionicSlideBoxDelegate.slide(0);
+        // console.log("On slide #" + $ionicSlideBoxDelegate.currentIndex());
         $scope.typeModal.show();
+
       } 
     }
 
