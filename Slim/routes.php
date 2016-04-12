@@ -130,6 +130,37 @@ $app->post('/login', function ($request, $response, $args) {
     }
 });
 
+// Displays a list of all the workouts for a particular workout type
 $app->get('/workouts/{type}', function ($request, $response, $args) {
-    
+    // get type id
+    $type = $args['type'];
+
+    try
+    {
+        // connect to pocketgains db;
+        // change dbConn to api_login for testing server
+        $db = $this->dbConn;
+
+        if ($db)
+        {
+            $query = $db->prepare("SELECT DISTINCT w.workout_id, w.title, w.desc FROM Workout w, Is_Type i
+                WHERE i.Types_type_id = :type AND i.Workout_workout_id = w.workout_id");
+            $query->execute(array('type' => $type));
+
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result)
+            {
+                return $response->write(json_encode($result));
+            }
+            else
+                throw new PDOException("no results found");
+        }
+        else
+            throw new PDOException("could not connect to db");
+    }
+    catch (PDOException $e)
+    {
+        echo '{"error":{"text"' . $e->getMessage() . '}}';
+    }    
 });
