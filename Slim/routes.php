@@ -238,7 +238,7 @@ $app->get('/getHistory/{user_id}', function ($request, $response, $args) {
 });
 
 // Displays suggested workouts for the logged in user
-$app->get('/getSuggestedWorkouts/{user_id', function($request, $response, $args) {
+$app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args) {
     // get user id
     $user_id = $args['user_id'];
 
