@@ -75,31 +75,57 @@ $app->post('/login', function ($request, $response, $args) {
         $username = stripslashes($username);
         $password = stripslashes($password);
 
+        // connect to pocketgains db
+        // change dbConn to api_login for testing server
         $db = $this->dbConn;
 
-        // grab username and password from db
-        // need to also add session info to db and query when I figure that stuff out
-        $query = $db->prepare("SELECT username, password FROM User WHERE username = :username LIMIT 1");
-        $query->execute(array('username' => $username));
-        
-        if ($query->rowCount() == 1)
+        try
         {
-            //retrieve query results
-            $result = $query->fetchAll();
-            $hash = "";
-
-            foreach($result as $row)
-                $hash = $row['password'];
-        
-            // verify passwords match
-            if (password_verify($password, $hash))
+            if ($db)
             {
-                // set session info here
-                // go to user dashboard
-                return $this->renderer->render($response, 'dashboard.html', $args);
+                // grab username and password from db
+                $query = $db->prepare("SELECT username, password FROM User WHERE username = :username
+                    LIMIT 1");
+                $query->execute(array('username' => $username));
+        
+                // ensures one result is returned
+                if ($query->rowCount() == 1)
+                {
+                    //retrieve query results
+                    $result = $query->fetchAll();
+                    $hash = "";
+
+                    foreach($result as $row)
+                        $hash = $row['password'];
+        
+                    // verify passwords match
+                    if (password_verify($password, $hash))
+                    {
+                        // create a new session for the user and store session id in db
+                        session_start();
+                        $session_id = session_id();
+                        // assign the username to the session
+                        $_SESSION['username'] = $username;
+
+                        $query = $db->prepare("UPDATE User SET session_id = :session_id
+                            WHERE username = :username");
+                        $query->execute(array('session_id' => $session_id, 'username' => $username));
+
+                        // go to user dashboard
+                        return $this->renderer->render($response, 'dashboard.html', $args);
+                    }
+                    else
+                        throw new PDOException("invalid username or password");
+                }
+                else
+                    throw new PDOException("invalid username or password");
             }
-            // add error stuff here
+            else
+                throw new PDOException("could not connect to db");
         }
-        // add more error stuff here
+        catch (PDOException $e)
+        {
+            echo '{"error":{"text":' . $e->getMessage() .'}}';
+        }
     }
 });
