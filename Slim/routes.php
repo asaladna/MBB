@@ -301,7 +301,7 @@ $app->post('/addCompletedWorkout',
 
 
 			$user_id = $_POST['user_id'];
-			$title = $_POST['title'];
+//			$title = $_POST['title'];
 			$sets = $_POST['sets'];
 			$reps = $_POST['reps'];
 			$weight = $_POST['weight'];
@@ -312,7 +312,7 @@ $app->post('/addCompletedWorkout',
 /*
 			//TEST CASE HARDCODED TEST USER
 			$user_id = 12;
-			$title = "Humbug";
+//			$title = "Humbug";
 			$sets = 1;
 			$reps = 15156;
 			$weight = 9001;
@@ -320,13 +320,13 @@ $app->post('/addCompletedWorkout',
 */
 
 			$query = $db->prepare(
-			"INSERT INTO Workout_History(User_user_id, title, sets, reps, weight,
-									 duration) VALUES (:user_id, :title, :sets, :reps, :weight,
+			"INSERT INTO Workout_History(User_user_id, sets, reps, weight,
+									 duration) VALUES (:user_id, :sets, :reps, :weight,
 									 :duration)"
 			);
 			$query->execute(
 					array(
-							'user_id' => $user_id, 'title' => $title, 'sets' => $sets,
+							'user_id' => $user_id, 'sets' => $sets,
 							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
 						)
 			);
