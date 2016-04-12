@@ -129,3 +129,7 @@ $app->post('/login', function ($request, $response, $args) {
         }
     }
 });
+
+$app->get('/workouts/{type}', function ($request, $response, $args) {
+    
+});
