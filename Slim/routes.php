@@ -164,3 +164,39 @@ $app->get('/workouts/{type}', function ($request, $response, $args) {
         echo '{"error":{"text"' . $e->getMessage() . '}}';
     }    
 });
+
+// Displays the workout id, title, desc, and type of a particular workout
+$app->get('/workout/{workout_id}', function ($request, $response, $args) {
+    // get workout id
+    $workout_id = $args['workout_id'];
+
+    try
+    {
+        // connect to pocketgains db
+        // change dbConn to api_login for testing server
+        $db = $this->dbConn;
+
+        if ($db)
+        {
+            $query = $db->prepare("SELECT w.workout_id, w.title, w.desc, t.name
+                FROM Workout w, Types t, Is_Type i WHERE w.workout_id = :workout_id
+                AND i.Workout_workout_id = :workout_id AND i.Types_type_id = t.type_id");
+            $query->execute(array('workout_id' => $workout_id, 'workout_id' => $workout_id));
+
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($result)
+            {
+                return $response->write(json_encode($result));
+            }
+            else
+                throw new PDOException("no results found");
+        }
+        else
+            throw new PDOException("could not connect to db");
+    }
+    catch (PDOException $e)
+    {
+        echo '{"error":{"text"' . $e->getMessage() . '}}';
+    }
+});
