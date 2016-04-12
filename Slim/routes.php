@@ -16,45 +16,64 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     {
         // retrieve user information from html page
         $username = $_POST['username'];
-        $email = $_POST['email'];
         $password = $_POST['password'];
+        $sex = $_POST['sex'];
+        $goal = $_POST['goal'];
 
-        // protect against sql injection using stripslashes and parameterized queries
+        // protect against 1st order sql injection using stripslashes and parameterized queries
         $username = stripslashes($username);
-        $email = stripslashes($email);
         $password = stripslashes($password);
+        $sex = stripslashes($sex);
+        $goal = stripslashes($goal);
 
         // hash and salt password using bcrypt
         $password = password_hash($password, PASSWORD_BCRYPT);
 
-        // connect to pocketgains database
-        $db = $this->dbConn;
-
-        // check if username is taken
-        $query = $db->prepare("SELECT username from User WHERE username = :username LIMIT 1");
-        $query->execute(array('username' => $username));
-
-        // username is not in use
-        // need to figure out the way we want to display errors to the user
-        if ($query->rowCount() == 0)
+        try
         {
-            // check if email is already in use
-            $query = $db->prepare("SELECT email from User WHERE email = :email LIMIT 1");
-            $query->execute(array('email' => $email));
+            // connect to pocketgains database
+            // change dbConn to api_login for testing server
+            $db = $this->dbConn;
 
-            // email is also not in use
-            if ($query->rowCount() == 0)
+            if ($db)
             {
-                // insert user info into db    
-                $query = $db->prepare("INSERT into User (username, email, password, user_level,
-                        exp) values (:username, :email, :password, :level, :exp)");
-                $query->execute(array('username' => $username, 'email' => $email, 'password' =>
-                        $password, 'level' => 1, 'exp' => 0));
+                // check if username is taken
+                $query = $db->prepare("SELECT username from User WHERE username = :username LIMIT 1");
+                $query->execute(array('username' => $username));
+
+                // username is not in use
+                // need to figure out the way we want to display errors to the user
+                if ($query->rowCount() == 0)
+                {
+                    // check if email is already in use
+                    $query = $db->prepare("SELECT email from User WHERE email = :email LIMIT 1");
+                    $query->execute(array('email' => $email));
+
+                    // email is also not in use
+                    if ($query->rowCount() == 0)
+                    {
+                        // insert user info into db    
+                        $query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
+                            values (:username, :password, :sex, :goal, :exp)");
+                        $query->execute(array('username' => $username, 'password' =>$password, 'sex' => $sex,
+                            'goal' => $goal, 'exp' => 0));
                 
-                // can change return files/endpoints as needed
-                // take user to login page
-                return $this->renderer->render($response, 'login.html', $args);
+                        // can change return files/endpoints as needed
+                        // take user to login page
+                        return $this->renderer->render($response, 'login.html', $args);
+                    }
+                    else
+                        throw new PDOException("username or email already in use");
+                }
+                else
+                    throw new PDOException("username or email already in use");
             }
+            else
+                throw new PDOException("could not connect to db");
+        }
+        catch (PDOException $e)
+        {
+            echo '{"error":{"text":' . $e->getMessage() .'}}';
         }
     }                
 });
