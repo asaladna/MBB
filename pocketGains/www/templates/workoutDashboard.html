@@ -1,0 +1,25 @@
+<ion-view view-title="Workout">
+
+  <!-- Hides menu icon and any other nac buttons on right side-->
+  <ion-nav-buttons side="right">     
+  </ion-nav-buttons>
+
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <h2 class="centerText"> Suggested Workouts </h2>
+          <div ng-repeat="workout in suggestedWorkouts">
+            <button class="button button-block button-positive" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</button>
+          </div>
+
+          <h2 class="centerText"> Favorite Workouts </h2>
+          <div ng-repeat="workout in favoriteWorkouts">
+            <button class="button button-block button-positive" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</button>
+          </div>
+
+          <a class="item gray-background thick-border" ng-click="openModal(2,1,1)">
+            <h1 class="centerText">Other Workouts ></h1>
+          </a>
+
+      </div>
+  </ion-content>
+</ion-view>

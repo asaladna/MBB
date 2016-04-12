@@ -1,0 +1,30 @@
+<ion-modal-view>
+
+    <ion-header-bar>
+      <h1 class="title">Workout in Progress</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+      <div class="list list-inset">
+        <form name="form" ng-submit='submitWorkout()'>
+
+            <h1 class="centerText"> {{activeWorkout}} </h1>
+
+            <label class="item item-input">
+                <input type="text" placeholder="reps" ng-model="form.reps">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="sets" ng-model="form.sets">
+            </label>
+            <label class="item item-input">
+                <input type="text" placeholder="weight" ng-model="form.weight">
+            </label>
+          <button class="button button-block button-positive">Finish Workout</button>
+        
+        </form>
+      </div>
+      
+    </ion-content>
+
+</ion-modal-view>
