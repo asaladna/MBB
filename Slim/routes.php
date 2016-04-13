@@ -1,6 +1,7 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');  
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 // Routes
 
 // Creates an acccount and adds it to the database then takes the user
