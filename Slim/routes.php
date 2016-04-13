@@ -208,7 +208,7 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
                     ORDER BY ($type));"
             );
 
-        $query->bindParam('user_id', $uid);
+        $query->bindParam(':user_id', $uid);
         $query->bindParam(':type', $type);
 
         $query->execute();
