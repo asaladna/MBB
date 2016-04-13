@@ -192,7 +192,7 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
         $type = $args['type'];
  
         $query = $db->prepare(
-            "SELECT COUNT($type) + 1 AS place
+            "SELECT COUNT($type) + 1 AS rank
                 FROM (
                     SELECT u.user_id, u.username, $type
                     FROM User u 
