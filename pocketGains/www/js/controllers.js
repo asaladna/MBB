@@ -533,7 +533,6 @@ angular.module('starter.controllers', ["chart.js"])
     $scope.submitWorkout = function(form) {
       $scope.user_id = userData.getId();
       $scope.workoutId = $scope.activeId;
-      console.log($scope.form)
       $scope.reps = $scope.form.reps;
       $scope.sets = $scope.form.sets;
       $scope.weight = $scope.form.weight;
