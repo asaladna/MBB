@@ -29,7 +29,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
         {
             // connect to pocketgains database
             // change dbConn to api_login for testing server
-            $db = $this->dbConn;
+            $db = $this->api_login;
 
             if ($db)
             {
