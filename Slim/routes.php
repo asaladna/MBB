@@ -153,18 +153,22 @@ $app->get('/getLeaders/{type}',
     function ($request, $response, $args) {
     try {
         $db = $this->api_login;
+
+        $type = $args['type'];
+
         $query = $db->prepare(
-            'SELECT u.user_id, u.username, p.cardio AS points
+            "SELECT u.user_id, u.username, $type AS points
                 FROM User u
                 LEFT JOIN Points p
                 ON u.user_id = p.User_user_id
-                GROUP BY p.cardio                
-                DESC LIMIT 10');
-        $query->execute(
-            array(
-                'type' => $args['type']
-                )
+                GROUP BY $type                
+                DESC LIMIT 10;"
             );
+
+        $query->bindParam(':type', $type);
+
+        $query->execute();
+
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
         if($arr) {
@@ -179,34 +183,36 @@ $app->get('/getLeaders/{type}',
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 });
-
 $app->get('/getLeaderboardUser/{user_id}/{type}', 
     function ($request, $response, $args) {
     try {
         $db = $this->api_login;
+
+        $uid = $args['user_id'];
+        $type = $args['type'];
  
         $query = $db->prepare(
-            'SELECT COUNT(cardio) + 1 AS place
+            "SELECT COUNT($type) + 1 AS place
                 FROM (
-                    SELECT u.user_id, u.username, p.cardio
+                    SELECT u.user_id, u.username, $type
                     FROM User u 
                     LEFT JOIN Points p
                     ON u.user_id = p.User_user_id
-                    GROUP BY p.cardio 
+                    GROUP BY $type 
                     DESC) AS A
-                WHERE cardio > (
-                    SELECT DISTINCT (p.cardio) 
+                WHERE $type > (
+                    SELECT DISTINCT ($type) 
                     FROM User u
                     LEFT JOIN Points p
-                    ON 1 = p.User_user_id
-                    ORDER BY (p.cardio));'
+                    ON $uid = p.User_user_id
+                    ORDER BY ($type));"
             );
-        $query->execute(
-            array(
-                    'user_id' => $args['user_id'],
-                    'type' => $args['type']
-                )
-            );
+
+        $query->bindParam('user_id', $uid);
+        $query->bindParam(':type', $type);
+
+        $query->execute();
+
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
         if($arr) {
