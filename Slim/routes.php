@@ -504,4 +504,46 @@ $app->get('/getHistoryWorkout/{user_id}/{hist_id}',
 
 });
 
+$app->get('/workoutDaysback/{user_id}/{start}/{end}',
+    function ($request, $response, $args) {
+			try {
+			$db = $this->api_login;
+
+			$start = $args['start'];
+			$end = $args['end'];
+			$uid = $args['user_id'];
+
+			$query = $db->prepare(
+					"SELECT h.hist_id
+						 FROM Workout_History AS h RIGHT JOIN User AS u
+						 	 ON h.User_user_id = u.user_id
+						WHERE u.user_id = :user_id
+							AND h.time_stamp > :start
+							AND h.time_stamp < $end"
+
+			);
+
+			$query->bindParam(':user_id', $uid);
+			$query->bindParam(':start', $start);
+			//$query->bindParam(':end', $end);
+
+			$query->execute();
+
+			$arr = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if($arr) {
+					return $response->write(json_encode($arr));
+					$db = null;
+			}
+			else {
+					throw new PDOException('No records found.');
+			}
+
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
+
+});
+
 ?>
