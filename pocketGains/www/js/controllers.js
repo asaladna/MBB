@@ -1,9 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ["chart.js"])
 
 .controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
-
-
-  
 })
 
 .controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory) {
@@ -93,7 +90,6 @@ angular.module('starter.controllers', [])
   }
 
 })
-
 
 
 
@@ -364,7 +360,9 @@ angular.module('starter.controllers', [])
       "user_id": $scope.user_id
     }
   )
+
   .success(function(data) {
+      $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
       $scope.userPoints =  {
                       "arms": data["arms"],
                       "legs": data["legs"],
@@ -373,8 +371,9 @@ angular.module('starter.controllers', [])
                       "chest": data["chest"],
                       "cardio": data["cardio"]
                     };
-      $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
-      $scope.data = [$scope.userPoints["cardio"], $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest];
+
+      $scope.data = [[$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest]];
+      
 
   })
   .error(function(data) {
@@ -425,6 +424,29 @@ angular.module('starter.controllers', [])
 
   
 
+
+})
+
+            
+.controller('LeaderCtrl', function($scope, $state, userData, $http) {
+    //var apiLink = "http://private-1b0f9-pocketgains.apiary-mock.com";
+    $scope.user_id = userData.getId();
+
+    var apiLink = "http://52.37.226.62";
+
+        $http.get(apiLink + "/workoutTypes")
+          .success(function(data) {
+              $scope.leaders = data;
+
+              for (i = 0; i < 5; i++) {
+                $scope.leaders= $scope.data[i].name;
+              }
+              
+          })
+          .error(function(data) {
+              alert("API ERROR at " + apiLink + "\n" + 1);
+          });
+          //console.log(data[0].desc);
 
 })
 

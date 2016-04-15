@@ -1,7 +1,79 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');  
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 // Routes
+
+// Creates an acccount and adds it to the database then takes the user
+// to the login page
+$app->post('/createNewUser', function ($request, $response, $args) {
+        
+    // assumes fields aren't left blank and contain proper information from client side
+    if (isset($_POST['submit']))
+    {
+        // retrieve user information from html page
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $sex = $_POST['sex'];
+        $goal = $_POST['goal'];
+
+        // protect against 1st order sql injection using stripslashes and parameterized queries
+        $username = stripslashes($username);
+        $password = stripslashes($password);
+        $sex = stripslashes($sex);
+        $goal = stripslashes($goal);
+
+        // hash and salt password using bcrypt
+        $password = password_hash($password, PASSWORD_BCRYPT);
+
+        try
+        {
+            // connect to pocketgains database
+            // change dbConn to api_login for testing server
+            $db = $this->api_login;
+
+            if ($db)
+            {
+                // check if username is taken
+                $query = $db->prepare("SELECT username from User WHERE username = :username LIMIT 1");
+                $query->execute(array('username' => $username));
+
+                // username is not in use
+                // need to figure out the way we want to display errors to the user
+                if ($query->rowCount() == 0)
+                {
+                    // check if email is already in use
+                    $query = $db->prepare("SELECT email from User WHERE email = :email LIMIT 1");
+                    $query->execute(array('email' => $email));
+
+                    // email is also not in use
+                    if ($query->rowCount() == 0)
+                    {
+                        // insert user info into db    
+                        $query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
+                            values (:username, :password, :sex, :goal, :exp)");
+                        $query->execute(array('username' => $username, 'password' =>$password, 'sex' => $sex,
+                            'goal' => $goal, 'exp' => 0));
+                
+                        // can change return files/endpoints as needed
+                        // take user to login page
+                        return $this->renderer->render($response, 'login.html', $args);
+                    }
+                    else
+                        throw new PDOException("username or email already in use");
+                }
+                else
+                    throw new PDOException("username or email already in use");
+            }
+            else
+                throw new PDOException("could not connect to db");
+        }
+        catch (PDOException $e)
+        {
+            echo '{"error":{"text":' . $e->getMessage() .'}}';
+        }
+    }                
+});
 
 $app->get('/achievements', 
 	function ($request, $response, $args) {
@@ -81,18 +153,22 @@ $app->get('/getLeaders/{type}',
     function ($request, $response, $args) {
     try {
         $db = $this->api_login;
+
+        $type = $args['type'];
+
         $query = $db->prepare(
-            'SELECT u.user_id, u.username, p.cardio AS points
+            "SELECT u.user_id, u.username, $type AS points
                 FROM User u
                 LEFT JOIN Points p
                 ON u.user_id = p.User_user_id
-                GROUP BY p.cardio                
-                DESC LIMIT 10');
-        $query->execute(
-            array(
-                'type' => $args['type']
-                )
+                GROUP BY $type                
+                DESC LIMIT 10;"
             );
+
+        $query->bindParam(':type', $type);
+
+        $query->execute();
+
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
         if($arr) {
@@ -107,34 +183,36 @@ $app->get('/getLeaders/{type}',
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 });
-
 $app->get('/getLeaderboardUser/{user_id}/{type}', 
     function ($request, $response, $args) {
     try {
         $db = $this->api_login;
+
+        $uid = $args['user_id'];
+        $type = $args['type'];
  
         $query = $db->prepare(
-            'SELECT COUNT(cardio) + 1 AS place
+            "SELECT COUNT($type) + 1 AS rank
                 FROM (
-                    SELECT u.user_id, u.username, p.cardio
+                    SELECT u.user_id, u.username, $type
                     FROM User u 
                     LEFT JOIN Points p
                     ON u.user_id = p.User_user_id
-                    GROUP BY p.cardio 
+                    GROUP BY $type 
                     DESC) AS A
-                WHERE cardio > (
-                    SELECT DISTINCT (p.cardio) 
+                WHERE $type > (
+                    SELECT DISTINCT ($type) 
                     FROM User u
                     LEFT JOIN Points p
-                    ON 1 = p.User_user_id
-                    ORDER BY (p.cardio));'
+                    ON $uid = p.User_user_id
+                    ORDER BY ($type));"
             );
-        $query->execute(
-            array(
-                    'user_id' => $args['user_id'],
-                    'type' => $args['type']
-                )
-            );
+
+        $query->bindParam(':user_id', $uid);
+        $query->bindParam(':type', $type);
+
+        $query->execute();
+
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
  
         if($arr) {
@@ -423,6 +501,48 @@ $app->get('/getHistoryWorkout/{user_id}/{hist_id}',
 	catch(PDOException $e) {
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 	}
+
+});
+
+$app->get('/workoutDaysback/{user_id}/{start}/{end}',
+    function ($request, $response, $args) {
+			try {
+			$db = $this->api_login;
+
+			$start = $args['start'];
+			$end = $args['end'];
+			$uid = $args['user_id'];
+
+			$query = $db->prepare(
+					"SELECT h.hist_id
+						 FROM Workout_History AS h RIGHT JOIN User AS u
+						 	 ON h.User_user_id = u.user_id
+						WHERE u.user_id = :user_id
+							AND h.time_stamp > :start
+							AND h.time_stamp < $end"
+
+			);
+
+			$query->bindParam(':user_id', $uid);
+			$query->bindParam(':start', $start);
+			//$query->bindParam(':end', $end);
+
+			$query->execute();
+
+			$arr = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if($arr) {
+					return $response->write(json_encode($arr));
+					$db = null;
+			}
+			else {
+					throw new PDOException('No records found.');
+			}
+
+	}
+	catch(PDOException $e) {
+			echo '{"error":{"text":'. $e->getMessage() .'}}';
+		}
 
 });
 
