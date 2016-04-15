@@ -204,15 +204,22 @@ $app->get('/achievements/{user_id}',
 });
 
 $app->post('/completedAchievement', 
-	function ($request, $response, $args) {
+    function ($request, $response, $args) {
         $db = $this->api_login;
-            
-        $user_id = $_POST['User_user_id'];
-        $achieve_id = $_POST['Achievements_achieve_id'];
+        
+        $parms = $request->getParsedBody();    
+        $uid = $parms['user_id'];
+        $aid = $parms['achieve_id'];
 
-        $query = $db->prepare("insert into Achievements_Completed (User_user_id, Achievements_achieve_id)
-                    values (:user_id, :achieve_id)");
-        $query->execute(array('user_id' => $user_id, 'achieve_id' => $achieve_id));
+        print_r($parms);
+
+        $query = $db->prepare("INSERT INTO Achievements_Completed (User_user_id, Achievements_achieve_id)
+                    VALUES ($uid, $aid)");
+
+        $query->bindParam(':user_id', $uid);
+        $query->bindParam(':achieve_id', $aid);
+
+        $query->execute();
 });
 
 $app->get('/getLeaders/{type}', 
