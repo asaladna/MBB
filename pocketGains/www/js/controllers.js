@@ -258,7 +258,7 @@ angular.module('starter.controllers', ["chart.js"])
   }
 
   $scope.profileBuilderFinish = function() {
-    $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/createNewUser", 
+    $http.post(apiLink + "/createNewUser", 
         {
           "username": userData.getUsername(),
           "password": userData.getPassword(), 
@@ -288,7 +288,7 @@ angular.module('starter.controllers', ["chart.js"])
         
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + "5");
+        alert("API ERROR at " + apiLink + "\n" + data);
     });
   }
 
@@ -509,7 +509,7 @@ angular.module('starter.controllers', ["chart.js"])
         alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Favorites");
     });
 
-   $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workoutTypes")
+   $http.get("http://52.37.226.62" + "/workoutTypes")
       .success(function(data) {
           $scope.workoutTypes = data;
           console.log(data);
