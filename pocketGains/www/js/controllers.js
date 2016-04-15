@@ -3,7 +3,7 @@ angular.module('starter.controllers', ["chart.js"])
 .controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
 })
 
-.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory) {
+.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory,$stateParams, $ionicSlideBoxDelegate) {
     
   // User data
   $scope.username = userData.getUsername();
@@ -85,9 +85,37 @@ angular.module('starter.controllers', ["chart.js"])
 
   
 
-  $scope.leaderboardsClick = function() {
-    $state.go('app.leaderboards');
+  $scope.workoutDashClick = function() {
+    $state.go('app.workoutDashboard');
   }
+  
+  
+  $http.get(apiLink + "/workoutTypes")
+          .success(function(data) {
+              $scope.buttons = data;
+
+              for (i = 0; i < 5; i++) {
+                $scope.buttons= $scope.data[i].name;
+              }
+              
+          })
+          .error(function(data) {
+              alert("API ERROR at " + apiLink + "\n" + 1);
+          });
+  
+//    $scope.buttons = [
+//        { name: 'Arms' },
+//        { name: 'Back' },
+//        { name: 'Legs' },
+//        { name: 'Cardio' },
+//        { name: 'Chest' },
+//        { name: 'Legs' }
+//    ];
+
+    $scope.slide = function(to) {
+        $scope.current = to;
+        $ionicSlideBoxDelegate.slide(to);
+    }
 
 })
 

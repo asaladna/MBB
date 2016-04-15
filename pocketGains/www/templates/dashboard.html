@@ -11,28 +11,35 @@
     </div>
     <div ng-controller="HomeTabCtrl">
 
-
-        <canvas id="radar" class="chart chart-radar" data="data" labels="labels" ></canvas>
-        
+        <canvas id="radar" class="chart chart-radar" data="data" labels="labels" ></canvas>      
 
     </div>
-    <div class="item item-text-wrap item-positive">
-        <button class="button button-full button-positive">
-          Workouts
-        </button>
-    </div>
-
-    <div class="item item-text-wrap item-positive">
-        <button class="button button-full button-positive" ng-click="leaderboardsClick()">
-          Leaderboards
-        </button>
-      </div>  
       
-    <div class="item item-text-wrap item-positive">
-        <button class="button button-full button-positive" ng-click="leaderboardsClick()">
-          History
-        </button>
-      </div>  
+<div class="item item-text-wrap item-positive">
+    <button class="button button-full button-positive">
+      Start Workout
+    </button>
+</div>
+      
+<div class="card">
+    <div class="button-bar">
+        <a ng-repeat="button in buttons"
+           ng-class="{'active': $index === current}"
+           ng-click="slide($index)"
+           class="button button-stable">{{ button.name }}</a>
+    </div>
+<div class="list">
+
+    <a class="item item-avatar" href="#">
+      <img src="venkman.jpg">
+      <h2>Venkman</h2>
+      <p>Back off, man. I'm a scientist.</p>
+    </a>
+
+    ...
+
+</div>
+</div>
       
 
   </ion-content>
