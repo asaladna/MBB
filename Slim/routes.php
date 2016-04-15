@@ -211,8 +211,6 @@ $app->post('/completedAchievement',
         $uid = $parms['user_id'];
         $aid = $parms['achieve_id'];
 
-        print_r($parms);
-
         $query = $db->prepare("INSERT INTO Achievements_Completed (User_user_id, Achievements_achieve_id)
                     VALUES ($uid, $aid)");
 
