@@ -54,10 +54,6 @@ $app->post('/createNewUser', function ($request, $response, $args) {
                             values (:username, :password, :sex, :goal, :exp)");
                         $query->execute(array('username' => $username, 'password' =>$password, 'sex' => $sex,
                             'goal' => $goal, 'exp' => 0));
-                
-                        // can change return files/endpoints as needed
-                        // take user to login page
-                        return $this->renderer->render($response, 'login.html', $args);
                     }
                     else
                         throw new PDOException("username or email already in use");
