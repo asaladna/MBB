@@ -29,7 +29,6 @@ $app->post('/createNewUser', function ($request, $response, $args) {
         try
         {
             // connect to pocketgains database
-            // change dbConn to api_login for testing server
             $db = $this->api_login;
 
             if ($db)
@@ -87,8 +86,7 @@ $app->post('/login', function ($request, $response, $args) {
         $password = stripslashes($password);
 
         // connect to pocketgains db
-        // change dbConn to api_login for testing server
-        $db = $this->dbConn;
+        $db = $this->api_login;
 
         try
         {
@@ -625,8 +623,7 @@ $app->get('/workouts/{type}', function ($request, $response, $args) {
     try
     {
         // connect to pocketgains db;
-        // change dbConn to api_login for testing server
-        $db = $this->dbConn;
+        $db = $this->api_login;
 
         if ($db)
         {
@@ -660,8 +657,7 @@ $app->get('/workout/{workout_id}', function ($request, $response, $args) {
     try
     {
         // connect to pocketgains db
-        // change dbConn to api_login for testing server
-        $db = $this->dbConn;
+        $db = $this->api_login;
 
         if ($db)
         {
@@ -696,8 +692,7 @@ $app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args
     try
     {
         // connect to pocketgains db
-        // change dbConn to api_login for testing server
-        $db = $this->dbConn;
+        $db = $this->api_login;
 
         if ($db)
         {
@@ -734,8 +729,7 @@ $app->get('/getHistory/{user_id}', function ($request, $response, $args) {
     try
     {
         // connect to pocketgains db
-        // change dbConn to api_login for testing server
-        $db = $this->dbConn;
+        $db = $this->api_login;
 
         if ($db)
         {
