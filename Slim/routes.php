@@ -392,6 +392,7 @@ $app->post('/addCompletedWorkout',
 			$weight = $_POST['weight'];
 //			$desc = $_POST['desc'];
 			$duration = $_POST['duration'];
+/*
 			//TEST CASE HARDCODED TEST USER
 			$user_id = 12;
 //			$title = "Humbug";
@@ -399,6 +400,7 @@ $app->post('/addCompletedWorkout',
 			$reps = 15156;
 			$weight = 9001;
 			$duration = NULL;
+*/
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
 									 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
