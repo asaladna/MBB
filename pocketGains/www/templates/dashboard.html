@@ -1,5 +1,12 @@
 <ion-view view-title="Pocket Gains">
-  <ion-content class="padding scroll-bg">
+    
+    <ion-nav-buttons side="secondary">
+      <button class="button" ng-click="leaders()">
+        Leaderboards
+      </button>
+        
+    </ion-nav-buttons>  
+    <ion-content class="padding scroll-bg">
       <div class="card">
 
         <div class="item item-avatar">
@@ -16,85 +23,20 @@
     </div>
       
 <div class="item item-text-wrap item-positive">
-    <button class="button button-full button-positive">
+    <button class="button button-full button-positive" ng-click= "workoutDashClick()">
       Start Workout
     </button>
 </div>
-<!--
-      
-<div class="card">
-    <div class="button-bar">
-        <a ng-repeat="button in buttons"
-           ng-class="{'active': $index === current}"
-           ng-click="slide($index)"
-           class="button button-stable">{{ button.name }}</a>
-    </div>
--->
-<div class="card">
-    <div class="list">
-        <a ng-repeat="item in buttons"
-           ng-class="{'active': $index === current}"
-           ng-click="showCard($item.name)"
-           class="item item-stable">
-          {{ item.name }}
-        </a>
-    </div>
-</div>   
-    
-<!--
-    
-   <ion-slide-box on-slide-changed="slideHasChanged($index)">
-  <ion-slide>
-    <div class="box blue"><h1>BLUE</h1></div>
-  </ion-slide>
-  <ion-slide>
-    <div class="box yellow"><h1>YELLOW</h1></div>
-  </ion-slide>
-  <ion-slide>
-    <div class="box pink"><h1>PINK</h1></div>
-  </ion-slide>
-</ion-slide-box> 
--->
-<div class="list">
-
-  <label class="item item-input item-select">
-    <div class="input-label">
-      Lightsaber
-    </div>
-    <select>
-      <option>Blue</option>
-      <option selected>Green</option>
-      <option>Red</option>
-    </select>
-  </label>
-
+        
+<div class="card" collection-repeat="item in items">
+          <div class="item item-text-wrap">
+            {{item}}
+          </div>
 </div>
-    
-<div class="list" id="startCard" ng-show="showstartCard">
-    <a class="item item-avatar" href="#">
-      <img src="img/one.png">
-      <h2>Venkman</h2>
-      <p>Back off, man. I'm a scientist.</p>
-    </a>
-    <a class="item item-avatar" href="#">
-      <img src="img/two.png">
-      <h2>Venkman</h2>
-      <p>Back off, man. I'm a scientist.</p>
-    </a>
-    <a class="item item-avatar" href="#">
-      <img src="img/three.png">
-      <h2>Venkman</h2>
-      <p>Back off, man. I'm a scientist.</p>
-    </a>
-    <a class="item item-avatar" href="#">
-      <h2>You</h2>
-      <p>Back off, man. I'm a scientist.</p>
-    </a>
-    
 
-</div>
-</div>
-      
+
+
+            
 
   </ion-content>
 </ion-view>

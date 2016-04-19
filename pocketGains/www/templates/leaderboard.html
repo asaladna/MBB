@@ -1,0 +1,11 @@
+<ion-view view-title="Leaderboards">
+<ion-content>
+    <ion-list>
+      <div class="list">
+          <a class="item item-thumbnail-left" ng-repeat="leader in leaders" href="#/app/leaderboards/{{leader.id}}">
+            <h4>{{leader.name}}</h4>
+          </a>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

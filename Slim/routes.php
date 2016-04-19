@@ -5,7 +5,6 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 // Creates an acccount and adds it to the database then takes the user
 // to the login page
 $app->post('/createNewUser', function ($request, $response, $args) {
-
     // assumes fields aren't left blank and contain proper information from client side
     if (isset($_POST['submit']))
     {
@@ -45,6 +44,8 @@ $app->post('/createNewUser', function ($request, $response, $args) {
                             values (:username, :password, :sex, :goal, :exp)");
                         $query->execute(array('username' => $username, 'password' =>$password, 'sex' => $sex,
                             'goal' => $goal, 'exp' => 0));
+
+                        echo 'User Created.';
                     }
                     else
                         throw new PDOException("username or email already in use");
@@ -84,7 +85,6 @@ $app->post('/login', function ($request, $response, $args) {
                 $query = $db->prepare("SELECT username, password FROM User WHERE username = :username
                     LIMIT 1");
                 $query->execute(array('username' => $username));
-
                 // ensures one result is returned
                 if ($query->rowCount() == 1)
                 {
@@ -93,7 +93,6 @@ $app->post('/login', function ($request, $response, $args) {
                     $hash = "";
                     foreach($result as $row)
                         $hash = $row['password'];
-
                     // verify passwords match
                     if (password_verify($password, $hash))
                     {
@@ -107,6 +106,8 @@ $app->post('/login', function ($request, $response, $args) {
                         $query->execute(array('session_id' => $session_id, 'username' => $username));
                         // go to user dashboard
                         return $this->renderer->render($response, 'dashboard.html', $args);
+
+                        echo "User logged in.";
                     }
                     else
                         throw new PDOException("invalid username or password");
@@ -127,14 +128,12 @@ $app->get('/achievements',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
-
  		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
         $query = $db->prepare(
             'SELECT *
                 FROM Achievements');
         $query->execute();
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -143,7 +142,6 @@ $app->get('/achievements',
         {
             throw new PDOException('No records found.');
         }
-
     }
     catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -153,7 +151,6 @@ $app->get('/achievements/{user_id}',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
-
  		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
         $query = $db->prepare(
             'SELECT a.achieve_id, a.name, a.desc
@@ -167,7 +164,6 @@ $app->get('/achievements/{user_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -175,7 +171,6 @@ $app->get('/achievements/{user_id}',
         else {
             throw new PDOException('No records found.');
         }
-
     }
     catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -183,8 +178,9 @@ $app->get('/achievements/{user_id}',
 });
 $app->post('/completedAchievement',
     function ($request, $response, $args) {
-        $db = $this->api_login;
 
+      try {
+        $db = $this->api_login;
         $parms = $request->getParsedBody();
         $uid = $parms['user_id'];
         $aid = $parms['achieve_id'];
@@ -193,6 +189,11 @@ $app->post('/completedAchievement',
         $query->bindParam(':user_id', $uid);
         $query->bindParam(':achieve_id', $aid);
         $query->execute();
+        echo "Completed Achievement Added.";
+      }
+      catch(PDOException $e) {
+          echo '{"error":{"text":'. $e->getMessage() .'}}';
+      }
 });
 $app->get('/getLeaders/{type}',
     function ($request, $response, $args) {
@@ -210,7 +211,6 @@ $app->get('/getLeaders/{type}',
         $query->bindParam(':type', $type);
         $query->execute();
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -218,7 +218,6 @@ $app->get('/getLeaders/{type}',
         else {
             throw new PDOException('No records found.');
         }
-
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -229,7 +228,6 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
         $db = $this->api_login;
         $uid = $args['user_id'];
         $type = $args['type'];
-
         $query = $db->prepare(
             "SELECT COUNT($type) + 1 AS rank
                 FROM (
@@ -250,7 +248,6 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
         $query->bindParam(':type', $type);
         $query->execute();
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -258,7 +255,6 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
         else {
             throw new PDOException('No records found.');
         }
-
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -267,7 +263,6 @@ $app->get('/workout/{user_id}/{workout_id}',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
-
  		 $query = $db->prepare(
             'SELECT t.name, wh.time_stamp, wh.weight, wh.sets, wh.reps
                 FROM User u, Workout_History wh, Workout w, Is_Type it, Types t
@@ -285,7 +280,6 @@ $app->get('/workout/{user_id}/{workout_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -293,7 +287,6 @@ $app->get('/workout/{user_id}/{workout_id}',
         else {
             throw new PDOException('No records found.');
         }
-
     } catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
@@ -316,7 +309,6 @@ $app->get('/favorites/{user_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -324,7 +316,6 @@ $app->get('/favorites/{user_id}',
         else {
             throw new PDOException('No records found.');
         }
-
     }
     catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -347,7 +338,6 @@ $app->get('/favoriteTypes/{fav_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
-
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -355,7 +345,6 @@ $app->get('/favoriteTypes/{fav_id}',
         else {
             throw new PDOException('No records found.');
         }
-
     }
     catch(PDOException $e) {
         echo '{"error":{"text":'. $e->getMessage() .'}}';
@@ -392,7 +381,6 @@ $app->post('/userData',
 				echo '{"error":{"text":'. $e->getMessage() .'}}';
 		}
 });
-
 $app->post('/addCompletedWorkout',
     function ($request, $response, $args) {
 			$db = $this->api_login;
@@ -422,8 +410,8 @@ $app->post('/addCompletedWorkout',
 							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
 						)
 			);
+      echo "Workout Added.";
 });
-
 $app->get('/workoutTypes',
     function ($request, $response, $args) {
 			try {
@@ -449,7 +437,6 @@ $app->get('/workoutTypes',
 $app->post('/addFavorite',
     function ($request, $response, $args) {
 		$db = $this->api_login;
-
 		$user_id = $_POST['user_id'];
 		$workout_id = $_POST['workout_id'];
 		$weight = $_POST['weight'];
@@ -465,6 +452,7 @@ $app->post('/addFavorite',
 		$reps = 12;
 		$duration = NULL;
 */
+    try {
 		$query = $db->prepare(
 		"INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
 								 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
@@ -476,6 +464,11 @@ $app->post('/addFavorite',
 						'sets' => $sets, 'reps' => $reps, 'duration' => $duration
 					)
 		);
+    echo "Favorite Added.";
+  }
+  catch(PDOException $e) {
+      echo '{"error":{"text":'. $e->getMessage() .'}}';
+  }
 });
 /*
 $app->get('/getHistoryWorkout/{user_id}/{hist_id}',
@@ -510,7 +503,6 @@ $app->get('/getHistoryWorkout/{user_id}/{hist_id}',
 	}
 });
 /*
-
 /*
 $app->get('/workoutDaysback/{user_id}/{start}/{end}',
     function ($request, $response, $args) {
@@ -544,7 +536,6 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			echo '{"error":{"text":'. $e->getMessage() .'}}';
 		}
 });
-
 */
 // Displays a list of all the workouts for a particular workout type
 $app->get('/workouts/{type}', function ($request, $response, $args) {
@@ -605,7 +596,6 @@ $app->get('/workout/{workout_id}', function ($request, $response, $args) {
         echo '{"error":{"text"' . $e->getMessage() . '}}';
     }
 });
-
 /*
 // Displays suggested workouts for the logged in user
 $app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args) {
@@ -639,9 +629,7 @@ $app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args
         echo '{"error":{"text"' . $e->getMessage() . '}}';
     }
 });
-
 */
-
 // Displays the workout history of the logged in user
 $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args) {
     // get user id
@@ -664,7 +652,6 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
 					$query->bindParam(':user_id', $uid);
 					$query->bindParam(':start', $start);
 					$query->execute();
-
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             if ($result)
             {
@@ -681,12 +668,9 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
         echo '{"error":{"text"' . $e->getMessage() . '}}';
     }
 });
-
-
-$app->post('/editFavorties',
+$app->post('/editFavorite',
     function ($request, $response, $args) {
 		$db = $this->api_login;
-
 		$user_id = $_POST['user_id'];
 		$workout_id = $_POST['workout_id'];
 		$weight = $_POST['weight'];
@@ -694,12 +678,12 @@ $app->post('/editFavorties',
 		$reps = $_POST['reps'];
 		$duration = $_POST['duration'];
 
+    try {
 		$query = $db->prepare(
 		"DELETE
 			 FROM Faved_Workouts
 			WHERE Workout_workout_id = :workout_id
 				AND User_user_id = :user_id
-
 		INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
 					 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
 						 :duration)"
@@ -710,5 +694,12 @@ $app->post('/editFavorties',
 					'sets' => $sets, 'reps' => $reps, 'duration' => $duration
 				)
 		);
+    echo "Favorite Edited";
+  }
+  catch (PDOException $e)
+  {
+      echo '{"error":{"text"' . $e->getMessage() . '}}';
+  }
+
 });
 ?>
