@@ -89,46 +89,16 @@ angular.module('starter.controllers', ["chart.js"])
     $state.go('app.workoutDashboard');
   }
   
-  
-  $http.get(apiLink + "/workoutTypes")
-          .success(function(data) {
-              $scope.buttons = data;
-
-              for (i = 0; i < 5; i++) {
-                $scope.buttons= $scope.data[i].name;
-              }
-              
-          })
-          .error(function(data) {
-              alert("API ERROR at " + apiLink + "\n" + 1);
-          });
-  
-//    $scope.buttons = [
-//        { name: 'Arms' },
-//        { name: 'Back' },
-//        { name: 'Legs' },
-//        { name: 'Cardio' },
-//        { name: 'Chest' },
-//        { name: 'Legs' }
-//    ];
-
-    $scope.slide = function(to) {
-        $scope.current = to;
-        $ionicSlideBoxDelegate.slide(to);
-    }
-    $scope.hideCard = function() {
-        $scope.showstartCard = true;
-        $scope.showsecondCard = false;
-    }
-
+ $scope.leaders = function() {
+    $state.go('app.leaderboards');
+  } 
 })
 
-//.controller("StartpageCtrl", function($scope){
-//    $scope.showstartCard = true;
-//    $scope.showsecondCard = false;
-//
-//
-//})
+
+
+
+
+
 
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
@@ -471,19 +441,18 @@ angular.module('starter.controllers', ["chart.js"])
 
     var apiLink = "http://52.37.226.62";
 
-        $http.get(apiLink + "/workoutTypes")
-          .success(function(data) {
-              $scope.leaders = data;
 
-              for (i = 0; i < 5; i++) {
-                $scope.leaders= $scope.data[i].name;
-              }
+  $http.get(apiLink + "/workoutTypes")
+          .success(function(data) {
+              $scope.buttons = data;
+
               
           })
           .error(function(data) {
               alert("API ERROR at " + apiLink + "\n" + 1);
           });
-          //console.log(data[0].desc);
+
+    
 
 })
 
@@ -615,6 +584,24 @@ angular.module('starter.controllers', ["chart.js"])
 
       $ionicSlideBoxDelegate.next();
     }
+    
+    
+    
+    $http.get(apiLink + "/workout/" + $scope.user_id)
+    .success(function(workoutData) {
+        $scope.items = workoutData;
+        console.log($scope.items);
+        $scope.items.push('Card ')
+//      
+//            for(var i = 0; i < 1000; i++) {
+//              $scope.items.push('Card ' + i);
+//        }
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
+    });
+    
+    
 })
 
 

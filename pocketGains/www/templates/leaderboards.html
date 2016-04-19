@@ -1,12 +1,12 @@
 <ion-view view-title="Leaderboards">
 <ion-content>
-    <ion-list>
-      <div class="list">
-          <a class="item item-thumbnail-left" ng-repeat="leader in leaders">
-            <h1 style= "text-align: center">{{leader.name}}</h1>
-          </a>
-      </div>
-    </ion-list>
+    <div class="list">
+        <a ng-repeat="item in buttons"
+           ng-click="showCard($item.name)"
+           class="item item-stable">
+          {{ item.name }}
+        </a>
+    </div>
   </ion-content>
 </ion-view>
       
