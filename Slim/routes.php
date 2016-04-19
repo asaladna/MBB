@@ -150,17 +150,13 @@ $app->post('/login', function ($request, $response, $args) {
                         // create a new session for the user and store session id in db
                         session_start();
                         $session_id = session_id();
+
                         // assign the username to the session
                         $_SESSION['username'] = $username;
+                        
                         $query = $db->prepare("UPDATE User SET session_id = :session_id
                             WHERE username = :username");
                         $query->execute(array('session_id' => $session_id, 'username' => $username));
-                        // go to user dashboard
-                        return $this->renderer->render($response, 'dashboard.html', $args);
-
-                        echo "User logged in.";
-                    }
-                    else
                         throw new PDOException("invalid username or password");
                 }
                 else
