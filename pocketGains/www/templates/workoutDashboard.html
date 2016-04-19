@@ -15,6 +15,9 @@
         <div class="row">
           <a class="col col-33 button border" ng-repeat="workout in favoriteWorkouts" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</a>
         </div>
+
+        <hr class="dividing-line"/>
+
         <h3 class="centerText">All </h3>
         <div class="row">
           <a ng-repeat="type in workoutTypes1"
@@ -25,7 +28,7 @@
                class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
         </div>
 
-        <hr class="dividing-line"/>
+        <br/>
 
         <div class="row gallery">
           <a ng-repeat="workout in workouts"
