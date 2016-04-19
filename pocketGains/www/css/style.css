@@ -7,4 +7,17 @@
 	border-color: black;
 	border-width: 10px;
 }
-ng-class="{'active': $index === current}"
+
+.border {
+	border-color: black;
+	border-width: 3px;
+}
+
+.centerText {
+	text-align: center;
+}
+
+.gallery {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}

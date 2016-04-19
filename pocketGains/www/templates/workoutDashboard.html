@@ -6,20 +6,33 @@
 
   <ion-content class="padding">
       <div class="list list-inset">
-          <h2 class="centerText"> Suggested Workouts </h2>
-          <div ng-repeat="workout in suggestedWorkouts">
-            <button class="button button-block button-positive" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</button>
+        <h2 class="centerText"> Suggested Workouts </h2>
+        <div class="row gallery">
+          <a class="col col-25 button border" ng-repeat="workout in suggestedWorkouts" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</a>
+        </div>
+        <h2 class="centerText"> Favorite Workouts </h2>
+        <div class="row">
+          <a class="col col-33 button border" ng-repeat="workout in favoriteWorkouts" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</a>
+        </div>
+
+        <div class="card">
+          <h2 class="centerText"> All Workouts </h2>
+          <div class="row">
+            <a ng-repeat="type in workoutTypes1"
+                 class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
           </div>
-
-          <h2 class="centerText"> Favorite Workouts </h2>
-          <div ng-repeat="workout in favoriteWorkouts">
-            <button class="button button-block button-positive" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</button>
+          <div class="row">
+            <a ng-repeat="type in workoutTypes2"
+                 class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
           </div>
-
-          <a class="item gray-background thick-border" ng-click="openModal(2,1,1)">
-            <h1 class="centerText">Other Workouts ></h1>
-          </a>
-
+        </div>
+        <div class="card">
+          <div class="row gallery">
+            <a ng-repeat="workout in workouts"
+                 class="button col-50 border"
+                 ng-click="openModal(1,workout.title,workout.id)">{{workout.title}}</a>
+          </div>
+        </div>
       </div>
   </ion-content>
 </ion-view>
