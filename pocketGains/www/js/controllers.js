@@ -116,10 +116,19 @@ angular.module('starter.controllers', ["chart.js"])
         $scope.current = to;
         $ionicSlideBoxDelegate.slide(to);
     }
+    $scope.hideCard = function() {
+        $scope.showstartCard = true;
+        $scope.showsecondCard = false;
+    }
 
 })
 
-
+//.controller("StartpageCtrl", function($scope){
+//    $scope.showstartCard = true;
+//    $scope.showsecondCard = false;
+//
+//
+//})
 
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {

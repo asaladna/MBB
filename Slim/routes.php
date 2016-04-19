@@ -683,17 +683,32 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
 });
 
 
-/*
 $app->post('/editFavorties',
     function ($request, $response, $args) {
-			$db = $this->api_login;
+		$db = $this->api_login;
 
-			$user_id = $app->request->put('user_id');
-			$workout_id = $app->request->put('workout_id');
-			$weight = $app->request->put('weight');
-			$sets = $app->request->put('sets');
-			$reps = $app->request->put('reps');
-			$duration = $app->request->put('duration');
+		$user_id = $_POST['user_id'];
+		$workout_id = $_POST['workout_id'];
+		$weight = $_POST['weight'];
+		$sets = $_POST['sets'];
+		$reps = $_POST['reps'];
+		$duration = $_POST['duration'];
+
+		$query = $db->prepare(
+		"DELETE
+			 FROM Faved_Workouts
+			WHERE Workout_workout_id = :workout_id
+				AND User_user_id = :user_id
+
+		INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
+					 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
+						 :duration)"
+		);
+		$query->execute(
+				array(
+					'user_id' => $user_id, 'workout_id' => $workout_id, 'weight' => $weight,
+					'sets' => $sets, 'reps' => $reps, 'duration' => $duration
+				)
+		);
 });
-*/
 ?>
