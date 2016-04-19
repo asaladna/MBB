@@ -3,6 +3,8 @@ angular.module('starter.controllers', ["chart.js"])
 .controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
 })
 
+// ******************** Main Page (Dashboard) Controller **********************************
+
 .controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory,$stateParams, $ionicSlideBoxDelegate) {
     
   // User data
@@ -13,6 +15,8 @@ angular.module('starter.controllers', ["chart.js"])
 
   var apiLink = "http://52.37.226.62";
 
+
+  // Modal for when an achievement is completed - celebrate the User
   $ionicModal.fromTemplateUrl('templates/completedAchievement-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -44,14 +48,14 @@ angular.module('starter.controllers', ["chart.js"])
 
   // ----- Get First achievement for creating account (gym rat) if not complete
   // Get list of completed achievements
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/achievements/" + $scope.user_id )
+  $http.get("http://52.37.226.62/achievements/" + $scope.user_id )
       .success(function(data) {
           $scope.compAchievements = data;
 
-          console.log(data);
+          console.log($scope.compAchievements);
 
-          for (i = 0; i < data.achievementsC.length; i++) {
-            if(data.achievementsC[i].achieve_id == 65) {
+          for (i = 0; i < $scope.compAchievements.length; i++) {
+            if($scope.compAchievements[i].achieve_id == 66) {
               $scope.firstAchievement = true;
               console.log($scope.firstAchievement)
             }
@@ -61,7 +65,7 @@ angular.module('starter.controllers', ["chart.js"])
             console.log("achieve flag = " + $scope.firstAchievement)
             if ($scope.firstAchievement == false) {
 
-              $http.get(apiLink + "/achievements", { } )
+              $http.get("http://52.37.226.62/achievements", { } )
                 .success(function(data) {
 
                     var gymRat_id = 65;
@@ -69,7 +73,7 @@ angular.module('starter.controllers', ["chart.js"])
                     $scope.completedAchievement = data[gymRat_id];
 
                     //POST that achievement was completed
-                    $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/completedAchievement", 
+                    $http.post("http://52.37.226.62/completedAchievement", 
                           {
                             "user_id": $scope.user_id,
                             "achieve_id": gymRat_id
@@ -83,16 +87,16 @@ angular.module('starter.controllers', ["chart.js"])
                           
                       })
                       .error(function(data) {
-                          alert("API ERROR at " + apiLink + "\n" + "");
+                          alert("API ERROR at " + apiLink + "\n" + "/achievements/{user_id}");
                       });
                 })
                 .error(function(data) {
-                    alert("API ERROR at " + apiLink + "\n" + "8");
+                    alert("API ERROR at " + apiLink + "\n" + "/achievements");
                 });
             }
       })
       .error(function(data) {
-          alert("API ERROR at " + apiLink + "\n" + "7");
+          alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
       });
 
   
@@ -249,7 +253,7 @@ angular.module('starter.controllers', ["chart.js"])
   }
 
   $scope.profileBuilderFinish = function() {
-    $http.post(apiLink + "/createNewUser", 
+    $http.post("http://private-9f4a2-pocketgains.apiary-mock.com/createNewUser", 
         {
           "username": userData.getUsername(),
           "password": userData.getPassword(), 
@@ -405,20 +409,16 @@ angular.module('starter.controllers', ["chart.js"])
 
 .controller('AchieveCtrl', function($scope, $http, userData) {
 
-  var apiLink = "http://52.37.226.62";
-
-  $scope.user_id = 2;//userData.getId();
+  $scope.user_id = userData.getId();
   
 
   $http.get("http://52.37.226.62/achievements")
     .success(function(data) {
         $scope.achievements = data;
 
-        $http.get(apiLink + "/achievements/" + $scope.user_id)
+        $http.get("http://52.37.226.62/achievements/" + $scope.user_id)
           .success(function(data) {
               $scope.compAchievements = data;
-
-              // console.log($scope.compAchievements);
 
               // Give a lock icon to all achievements
               for (i = 0; i < $scope.achievements.length; i++) {
@@ -446,26 +446,19 @@ angular.module('starter.controllers', ["chart.js"])
 
 })
 
+// ******************** Leaderboard Controller **********************************
             
 .controller('LeaderCtrl', function($scope, $state, userData, $http) {
-    //var apiLink = "http://private-1b0f9-pocketgains.apiary-mock.com";
-    $scope.user_id = userData.getId();
 
-    var apiLink = "http://52.37.226.62";
+  $scope.user_id = userData.getId();
 
-
-  $http.get(apiLink + "/workoutTypes")
-          .success(function(data) {
-              $scope.buttons = data;
-
-              
-          })
-          .error(function(data) {
-              alert("API ERROR at " + apiLink + "\n" + 1);
-          });
-
-    
-
+  $http.get("http://52.37.226.62/workoutTypes")
+    .success(function(data) {
+        $scope.buttons = data;
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + 1);
+    });
 })
 
 .controller('WorkoutDashCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate) {
@@ -475,8 +468,6 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.form = {};
 
   $scope.user_id = 1;//userData.getId();
-
-  console.log($scope.typeButtons);
 
   // Get users suggested workouts
   $http.get(apiLink + "/getSuggestedWorkouts/" + $scope.user_id)
@@ -499,7 +490,6 @@ angular.module('starter.controllers', ["chart.js"])
    $http.get("http://52.37.226.62" + "/workoutTypes")
       .success(function(data) {
           $scope.workoutTypes = data;
-          console.log(data);
           $scope.workoutTypes1 = data.slice(0,3);
           $scope.workoutTypes2 = data.slice(3,6);
 
