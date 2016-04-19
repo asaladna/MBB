@@ -1,10 +1,56 @@
+/* NAVBAR */
+
+.custom-dark{
+    color : #30393A !important; // text
+    background-color:blue!important; // for bg color
+ }
+
+
+/* MISC */
 
 .gray-background {
-	background-color: gray;
+	background-color: #333333;
 }
 
 .thick-border {
 	border-color: black;
 	border-width: 10px;
 }
-ng-class="{'active': $index === current}"
+
+.border {
+	border-color: black;
+	border-width: 3px;
+}
+
+.centerText {
+	text-align: center;
+}
+
+
+/* Below CSS is for WorkoutDash*/
+.gallery {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+h3 {
+	color: #01B0F0;
+}
+
+.button {
+	background-color: #333333;
+	color: white;
+}
+
+.button:hover {
+    color: #FF358B;
+}
+
+.content {
+	background-color: #000000;
+}
+
+
+.dividing-line {
+	color: #FF358B;
+}

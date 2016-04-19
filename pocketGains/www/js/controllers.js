@@ -398,7 +398,7 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.user_id = 2;//userData.getId();
   
 
-  $http.get(apiLink + "/achievements")
+  $http.get("http://52.37.226.62/achievements")
     .success(function(data) {
         $scope.achievements = data;
 
@@ -462,26 +462,23 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.form = {};
 
+  $scope.user_id = 1;//userData.getId();
 
-  $scope.user_id = userData.getId();
-  
+  console.log($scope.typeButtons);
+
   // Get users suggested workouts
   $http.get(apiLink + "/getSuggestedWorkouts/" + $scope.user_id)
     .success(function(data) {
         $scope.suggestedWorkouts = data;
-
-        console.log($scope.suggestedWorkouts);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
     });
 
   // Get users favorite workouts
-  $http.get(apiLink + "/favorites/" + $scope.user_id)
+  $http.get("http://52.37.226.62/favorites/" + $scope.user_id)
     .success(function(data) {
         $scope.favoriteWorkouts = data;
-
-        console.log($scope.favoriteWorkouts);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Favorites");
@@ -491,6 +488,9 @@ angular.module('starter.controllers', ["chart.js"])
       .success(function(data) {
           $scope.workoutTypes = data;
           console.log(data);
+          $scope.workoutTypes1 = data.slice(0,3);
+          $scope.workoutTypes2 = data.slice(3,6);
+
       })
       .error(function(data) {
           alert("API ERROR at " + apiLink + "\n" + "6");
@@ -582,7 +582,7 @@ angular.module('starter.controllers', ["chart.js"])
             alert("API ERROR at " + apiLink + "\n" + "6");
       });
 
-      $ionicSlideBoxDelegate.next();
+      
     }
     
     
