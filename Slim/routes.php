@@ -115,6 +115,8 @@ $app->post('/createNewUser', function ($request, $response, $args) {
 });
 // Queries db to see if entered credentials are correct
 // logs user in if proper credentials entered, returns error message if not
+// Queries db to see if entered credentials are correct
+// logs user in if proper credentials entered, returns error message if not
 $app->post('/login', function ($request, $response, $args) {
     // assumes fields aren't blank from client side
     // also assumes that the user has not logged in recently (session expired)
@@ -147,13 +149,12 @@ $app->post('/login', function ($request, $response, $args) {
                     // verify passwords match
                     if (password_verify($password, $hash))
                     {
-                        // create a new session for the user and store session id in db
+                      // create a new session for the user and store session id in db
                         session_start();
                         $session_id = session_id();
-
                         // assign the username to the session
                         $_SESSION['username'] = $username;
-                        
+
                         $query = $db->prepare("UPDATE User SET session_id = :session_id
                             WHERE username = :username");
                         $query->execute(array('session_id' => $session_id, 'username' => $username));
@@ -165,11 +166,12 @@ $app->post('/login', function ($request, $response, $args) {
             else
                 throw new PDOException("could not connect to db");
         }
-        catch (PDOException $e)
-        {
-            echo '{"error":{"text":' . $e->getMessage() .'}}';
-        }
     }
+    catch (PDOException $e)
+    {
+        echo '{"error":{"text":' . $e->getMessage() .'}}';
+    }
+  }
 });
 $app->get('/achievements',
 	function ($request, $response, $args) {
