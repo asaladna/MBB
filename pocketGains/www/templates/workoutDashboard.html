@@ -1,38 +1,37 @@
 <ion-view view-title="Workout">
 
   <!-- Hides menu icon and any other nac buttons on right side-->
+  <ion-nav-bar class="bar-positive custom-dark">
+</ion-nav-bar>
   <ion-nav-buttons side="right">     
   </ion-nav-buttons>
 
-  <ion-content class="padding">
-      <div class="list list-inset">
-        <h2 class="centerText"> Suggested Workouts </h2>
+  <ion-content class="padding content">
+        <h3 class="centerText">Suggested </h3>
         <div class="row gallery">
           <a class="col col-25 button border" ng-repeat="workout in suggestedWorkouts" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</a>
         </div>
-        <h2 class="centerText"> Favorite Workouts </h2>
+        <h3 class="centerText">Favorites </h3>
         <div class="row">
           <a class="col col-33 button border" ng-repeat="workout in favoriteWorkouts" ng-click="openModal(1, workout.title, workout.id)">{{workout.title}}</a>
         </div>
+        <h3 class="centerText">All </h3>
+        <div class="row">
+          <a ng-repeat="type in workoutTypes1"
+               class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
+        </div>
+        <div class="row">
+          <a ng-repeat="type in workoutTypes2"
+               class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
+        </div>
 
-        <div class="card">
-          <h2 class="centerText"> All Workouts </h2>
-          <div class="row">
-            <a ng-repeat="type in workoutTypes1"
-                 class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
-          </div>
-          <div class="row">
-            <a ng-repeat="type in workoutTypes2"
-                 class="button col-33 border" ng-click="loadWorkouts(type.name)">{{type.name}}</a>
-          </div>
+        <hr class="dividing-line"/>
+
+        <div class="row gallery">
+          <a ng-repeat="workout in workouts"
+               class="button col-50 border"
+               ng-click="openModal(1,workout.title,workout.id)">{{workout.title}}</a>
         </div>
-        <div class="card">
-          <div class="row gallery">
-            <a ng-repeat="workout in workouts"
-                 class="button col-50 border"
-                 ng-click="openModal(1,workout.title,workout.id)">{{workout.title}}</a>
-          </div>
-        </div>
-      </div>
+
   </ion-content>
 </ion-view>
