@@ -369,7 +369,7 @@ $app->post('/userData',
 			//TEST CASE HARDCODED TEST USER
 			//$user_id = 12;
 			$query = $db->prepare(
-			'SELECT u.username, u.exp, p.arms, p.legs, p.chest, p.back, p.shoulders, p.cardio
+			'SELECT u.username, u.exp, u.cardioPref, p.arms, p.legs, p.chest, p.back, p.shoulders, p.cardio
 					FROM User as u LEFT JOIN Points as p
 					ON u.user_id = p.User_user_id
 					WHERE u.user_id = :user_id'
