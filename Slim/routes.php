@@ -51,47 +51,39 @@ $app->post('/createNewUser', function ($request, $response, $args) {
                         values (:username, :password, :sex, :goal, :cardioPref :exp)");
                     $query->execute(array('username' => $username, 'password' =>$password, 'sex' => $sex,
                         'goal' => $goal, 'cardioPref' => $fav_cardio , 'exp' => 0));
-
                     // get user_id from db for the new account
                     $query = $db->prepare("SELECT user_id FROM User WHERE username = :username LIMIT 1");
                     $query->execute(array('username' => $username));
                     $result = $query->fetchAll(PDO::FETCH_ASSOC);
-
                     // insert user preferred workouts into db if the account was sucessfully created
                     if ($result)
                     {
                         $user_id = $result;
-
                         // add pref arm workout
                         $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
                             values (:Workout_workout_id, :User_user_id)");
                         $query->execute(array('Workout_workout_id' => $fav_arm_id, 'User_user_id' =>
                             $user_id));
-
                         // add pref leg workout
                         $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
                             values (:Workout_workout_id, :User_user_id)");
                         $query->execute(array('Workout_workout_id' => $fav_leg_id, 'User_user_id' =>
                             $user_id));
-
                         // add pref back workout
                         $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
                             values (:Workout_workout_id, :User_user_id)");
                         $query->execute(array('Workout_workout_id' => $fav_back_id, 'User_user_id' =>
                             $user_id));
-
                         // add pref shoulder workout
                         $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
                             values (:Workout_workout_id, :User_user_id)");
                         $query->execute(array('Workout_workout_id' => $fav_shoulder_id, 'User_user_id' =>
                             $user_id));
-
                         // add pref chest workout
                         $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
                             values (:Workout_workout_id, :User_user_id)");
                         $query->execute(array('Workout_workout_id' => $fav_chest_id, 'User_user_id' =>
                             $user_id));
-
                         // add pref cardio workout
                         $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
                              values (:Workout_workout_id, :User_user_id)");
@@ -109,7 +101,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
         }
         catch (PDOException $e)
         {
-            echo '{"error":{"text":' . $e->getMessage() .'}}';
+            echo "\"There was an error\"";
         }
     }
 });
@@ -154,7 +146,6 @@ $app->post('/login', function ($request, $response, $args) {
                         $session_id = session_id();
                         // assign the username to the session
                         $_SESSION['username'] = $username;
-
                         $query = $db->prepare("UPDATE User SET session_id = :session_id
                             WHERE username = :username");
                         $query->execute(array('session_id' => $session_id, 'username' => $username));
@@ -169,7 +160,7 @@ $app->post('/login', function ($request, $response, $args) {
     }
     catch (PDOException $e)
     {
-        echo '{"error":{"text":' . $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
   }
 });
@@ -193,7 +184,7 @@ $app->get('/achievements',
         }
     }
     catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->get('/achievements/{user_id}',
@@ -222,12 +213,11 @@ $app->get('/achievements/{user_id}',
         }
     }
     catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->post('/completedAchievement',
     function ($request, $response, $args) {
-
       try {
         $db = $this->api_login;
         $parms = $request->getParsedBody();
@@ -241,7 +231,7 @@ $app->post('/completedAchievement',
         echo "Completed Achievement Added.";
       }
       catch(PDOException $e) {
-          echo '{"error":{"text":'. $e->getMessage() .'}}';
+          echo "\"There was an error\"";
       }
 });
 $app->get('/getLeaders/{type}',
@@ -268,7 +258,7 @@ $app->get('/getLeaders/{type}',
             throw new PDOException('No records found.');
         }
     } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->get('/getLeaderboardUser/{user_id}/{type}',
@@ -305,7 +295,7 @@ $app->get('/getLeaderboardUser/{user_id}/{type}',
             throw new PDOException('No records found.');
         }
     } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->get('/workout/{user_id}/{workout_id}',
@@ -337,7 +327,7 @@ $app->get('/workout/{user_id}/{workout_id}',
             throw new PDOException('No records found.');
         }
     } catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->get('/favorites/{user_id}',
@@ -367,7 +357,7 @@ $app->get('/favorites/{user_id}',
         }
     }
     catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->get('/favoriteTypes/{fav_id}',
@@ -396,7 +386,7 @@ $app->get('/favoriteTypes/{fav_id}',
         }
     }
     catch(PDOException $e) {
-        echo '{"error":{"text":'. $e->getMessage() .'}}';
+        echo "\"There was an error\"";
     }
 });
 $app->post('/userData',
@@ -427,7 +417,7 @@ $app->post('/userData',
 			}
 		}
 		catch(PDOException $e) {
-				echo '{"error":{"text":'. $e->getMessage() .'}}';
+				echo "\"There was an error\"";
 		}
 });
 $app->post('/addCompletedWorkout',
@@ -482,7 +472,7 @@ $app->get('/workoutTypes',
 	        }
 	    }
 	    catch(PDOException $e) {
-	        echo '{"error":{"text":'. $e->getMessage() .'}}';
+	        echo "\"There was an error\"";
 	    }
 });
 $app->post('/addFavorite',
@@ -518,7 +508,7 @@ $app->post('/addFavorite',
     echo "Favorite Added.";
   }
   catch(PDOException $e) {
-      echo '{"error":{"text":'. $e->getMessage() .'}}';
+      echo "\"There was an error\"";
   }
 });
 /*
@@ -550,7 +540,7 @@ $app->get('/getHistoryWorkout/{user_id}/{hist_id}',
 		}
 		}
 	catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
+			echo "\"There was an error\"";
 	}
 });
 /*
@@ -584,7 +574,7 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			}
 	}
 	catch(PDOException $e) {
-			echo '{"error":{"text":'. $e->getMessage() .'}}';
+			echo "\"There was an error\"";
 		}
 });
 */
@@ -614,7 +604,7 @@ $app->get('/workouts/{type}', function ($request, $response, $args) {
     }
     catch (PDOException $e)
     {
-        echo '{"error":{"text"' . $e->getMessage() . '}}';
+        echo "\"There was an error\"";
     }
 });
 // Displays the workout id, title, desc, and type of a particular workout
@@ -644,7 +634,7 @@ $app->get('/workout/{workout_id}', function ($request, $response, $args) {
     }
     catch (PDOException $e)
     {
-        echo '{"error":{"text"' . $e->getMessage() . '}}';
+        echo "\"There was an error\"";
     }
 });
 /*
@@ -677,7 +667,7 @@ $app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args
     }
     catch (PDOException $e)
     {
-        echo '{"error":{"text"' . $e->getMessage() . '}}';
+        echo "\"There was an error\"";
     }
 });
 */
@@ -716,7 +706,7 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
     }
     catch (PDOException $e)
     {
-        echo '{"error":{"text"' . $e->getMessage() . '}}';
+        echo "\"There was an error\"";
     }
 });
 $app->post('/editFavorite',
@@ -728,7 +718,6 @@ $app->post('/editFavorite',
 		$sets = $_POST['sets'];
 		$reps = $_POST['reps'];
 		$duration = $_POST['duration'];
-
     try {
 		$query = $db->prepare(
 		"DELETE
@@ -749,8 +738,7 @@ $app->post('/editFavorite',
   }
   catch (PDOException $e)
   {
-      echo '{"error":{"text"' . $e->getMessage() . '}}';
+      echo "\"There was an error\"";
   }
-
 });
 ?>
