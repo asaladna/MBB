@@ -608,7 +608,10 @@ angular.module('starter.controllers', ["chart.js"])
     
 
     
-    
+ $scope.home = function() {
+    $state.go('app.dashboard');
+  } 
+
 
     
     
