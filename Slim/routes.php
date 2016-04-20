@@ -358,7 +358,7 @@ $app->get('/favorites/{user_id}',
 
     }
     catch(PDOException $e) {
-        echo '{"error":{"text":". $e->getMessage() ."}}';
+        echo "\"There was an error\"";
     }
 });
 $app->get('/favoriteTypes/{fav_id}',
