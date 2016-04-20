@@ -441,6 +441,7 @@ $app->post('/addCompletedWorkout',
 			$weight = 9001;
 			$duration = NULL;
 */
+      try {
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
 									 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
@@ -453,6 +454,10 @@ $app->post('/addCompletedWorkout',
 						)
 			);
       echo "\"Workout Added.\"";
+    }
+    catch(PDOException $e) {
+        echo "\"There was an error\"";
+    }
 });
 $app->get('/workoutTypes',
     function ($request, $response, $args) {
