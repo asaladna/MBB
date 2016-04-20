@@ -685,7 +685,7 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
 					$start = $args['start'];
 					$uid = $args['user_id'];
 					$query = $db->prepare(
-							"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.weight
+							"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
 								 FROM Workout_History AS h RIGHT JOIN Workout w
 								 	 ON h.Workout_workout_id = w.workout_id
 								WHERE h.User_user_id = :user_id
