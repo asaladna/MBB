@@ -68,8 +68,8 @@ angular.module('starter.controllers', ["chart.js"])
               $http.get("http://52.37.226.62/achievements", { } )
                 .success(function(data) {
 
-                    var gymRat_id = 65;
-
+                    var gymRat_id = 66;
+                    console.log(data[gymRat_id]);
                     $scope.completedAchievement = data[gymRat_id];
 
                     //POST that achievement was completed
@@ -87,7 +87,7 @@ angular.module('starter.controllers', ["chart.js"])
                           
                       })
                       .error(function(data) {
-                          alert("API ERROR at " + apiLink + "\n" + "/achievements/{user_id}");
+                          alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
                       });
                 })
                 .error(function(data) {
@@ -96,10 +96,8 @@ angular.module('starter.controllers', ["chart.js"])
             }
       })
       .error(function(data) {
-          alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
+          alert("API ERROR at " + apiLink + "\n" + "/achievements/{user_id}");
       });
-
-  
 
   $scope.workoutDashClick = function() {
     $state.go('app.workoutDashboard');
@@ -200,7 +198,7 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.workouts = [ ];
   $scope.nextText = "none";
 
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workouts/" + "arms")
+  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com/workouts/" + "arms")
     .success(function(data) {
         $scope.workouts = data;
         console.log(data);
@@ -409,8 +407,7 @@ angular.module('starter.controllers', ["chart.js"])
 
 .controller('AchieveCtrl', function($scope, $http, userData) {
 
-  $scope.user_id = userData.getId();
-  
+  $scope.user_id = 1;//userData.getId();
 
   $http.get("http://52.37.226.62/achievements")
     .success(function(data) {
@@ -429,16 +426,13 @@ angular.module('starter.controllers', ["chart.js"])
               for (i = 0; i < $scope.compAchievements.length; i++) {
                 $scope.achievements[$scope.compAchievements[i].achieve_id - 1].image = "checkmark_icon";    
               }
-
-              // console.log(data);
           })
           .error(function(data) {
-              alert("API ERROR at " + apiLink + "\n" + 1);
+              alert("API ERROR" + "\n" + "/achievements/{user_id}");
           });
-          //console.log(data[0].desc);
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + 2);
+        alert("API ERROR " + "\n" + "/achievements");
     });
 
   
