@@ -33,6 +33,18 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.closeModal = function() {
     $scope.modal.hide();
   };
+    
+ $http.get("http://private-1b0f9-pocketgains.apiary-mock.com" + "/getHistory/" + 0)
+    .success(function(workoutData) {
+        $scope.workoutHist = workoutData;
+        console.log($scope.workoutHist);
+
+
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
+    });       
+
 
   // ----- Get First achievement for creating account (gym rat) if not complete
   // Get list of completed achievements
@@ -569,21 +581,10 @@ angular.module('starter.controllers', ["chart.js"])
       
     }
     
+
     
     
-    $http.get(apiLink + "/workout/" + $scope.user_id)
-    .success(function(workoutData) {
-        $scope.items = workoutData;
-        console.log($scope.items);
-        $scope.items.push('Card ')
-//      
-//            for(var i = 0; i < 1000; i++) {
-//              $scope.items.push('Card ' + i);
-//        }
-    })
-    .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
-    });
+
     
     
 })

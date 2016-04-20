@@ -28,12 +28,20 @@
     </button>
 </div>
         
-<div class="card" collection-repeat="item in items">
+<div class="card" ng-repeat="item in workoutHist">
           <div class="item item-text-wrap">
-            {{item}}
+            <p>({{item.time_stamp}})</p>
+              {{item.title}} 
+            <h3>Reps </h3> {{item.reps}}
+              <br>
+               <h3>Sets </h3>
+             
+              {{item.sets}}
           </div>
 </div>
 
+        
+     
 
 
             

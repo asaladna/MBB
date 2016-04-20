@@ -1723,8 +1723,23 @@ ALTER TABLE Workout_History ADD CONSTRAINT Workout_History_Workout FOREIGN KEY W
         insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 5);
         insert into Achievements_Completed(User_user_id, Achievements_achieve_id) values (2, 6);
 
-        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (1, 1, 1, 10, 20, 30, 40);
-        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (2, 2, 1, 10, 20, 30, 40);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (1, 1, 1, 10, 1, 40, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (2, 2, 2, 10, 2, 70, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (3, 3, 3, 13, 3, 85, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (4, 4, 4, 10, 3, 40, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (5, 5, 5, 10, 2, 120, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (6, 6, 6, 10, 2, 45, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (7, 7, 7, 10, 3, 15, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (8, 8, 1, 10, 1, 145, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (9, 9, 2, 10, 2, 180, NULL);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (10, 10, 3, NULL, NULL, NULL, 10);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (11, 11, 1, NULL, NULL, NULL, 30);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (12, 11, 2, NULL, NULL, NULL, 120);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (13, 11, 4, NULL, NULL, NULL, 50);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (14, 11, 5, NULL, NULL, NULL, 20);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (15, 11, 1, NULL, NULL, NULL, 15);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (16, 11, 5, NULL, NULL, NULL, 35);
+        insert into Faved_Workouts(fav_id, Workout_workout_id, User_user_id, reps, sets, weight, duration) values (17, 11, 4, NULL, NULL, NULL, 40);
 
         insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (1, 1, 1, '2013-01-19 03:14:07', 10, 10, 10, 10);
         insert into Workout_History(hist_id, Workout_workout_id, User_user_id, time_stamp, duration, reps, sets, weight) values (2, 1, 1, '2012-01-19 03:14:07', 20, 20, 20, 20);
