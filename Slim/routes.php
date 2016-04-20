@@ -228,7 +228,7 @@ $app->post('/completedAchievement',
         $query->bindParam(':user_id', $uid);
         $query->bindParam(':achieve_id', $aid);
         $query->execute();
-        echo "Completed Achievement Added.";
+        echo "\"Completed Achievement Added.\"";
       }
       catch(PDOException $e) {
           echo "\"There was an error\"";
@@ -330,7 +330,7 @@ $app->get('/workout/{user_id}/{workout_id}',
         echo "\"There was an error\"";
     }
 });
-$app->get('/favorites/{user_id}', 
+$app->get('/favorites/{user_id}',
     function ($request, $response, $args) {
     try {
         $db = $this->api_login;
@@ -347,16 +347,16 @@ $app->get('/favorites/{user_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
- 
+
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
-        } 
+        }
         else {
             throw new PDOException('No records found.');
         }
- 
-    } 
+
+    }
     catch(PDOException $e) {
         echo '{"error":{"text":". $e->getMessage() ."}}';
     }
@@ -452,7 +452,7 @@ $app->post('/addCompletedWorkout',
 							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
 						)
 			);
-      echo "Workout Added.";
+      echo "\"Workout Added.\"";
 });
 $app->get('/workoutTypes',
     function ($request, $response, $args) {
@@ -506,7 +506,7 @@ $app->post('/addFavorite',
 						'sets' => $sets, 'reps' => $reps, 'duration' => $duration
 					)
 		);
-    echo "Favorite Added.";
+    echo "\"Favorite Added.\"";
   }
   catch(PDOException $e) {
       echo "\"There was an error\"";
@@ -735,7 +735,7 @@ $app->post('/editFavorite',
 					'sets' => $sets, 'reps' => $reps, 'duration' => $duration
 				)
 		);
-    echo "Favorite Edited";
+    echo "\"Favorite Edited\"";
   }
   catch (PDOException $e)
   {
