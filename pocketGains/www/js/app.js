@@ -124,6 +124,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
         }
       }
     })
+  
+    .state('app.leaderboard', {
+      url: '/leaderboard',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/leaderboard.html',
+          controller: 'LeaderCatCtrl'
+        }
+      }
+    })
 
     .state('app.login', {
       url: '/login',

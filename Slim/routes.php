@@ -228,7 +228,7 @@ $app->post('/completedAchievement',
         $query->bindParam(':user_id', $uid);
         $query->bindParam(':achieve_id', $aid);
         $query->execute();
-        echo "Completed Achievement Added.";
+        echo "\"Completed Achievement Added.\"";
       }
       catch(PDOException $e) {
           echo "\"There was an error\"";
@@ -339,8 +339,7 @@ $app->get('/favorites/{user_id}',
                 FROM Faved_Workouts f, User u, Is_Type it, Types t, Workout w
                 WHERE :user_id = u.user_id
                 AND u.user_id = f.User_user_id
-                AND f.Workout_workout_id = w.workout_id
-                AND w.workout_id = it.Workout_workout_id;'
+                AND f.Workout_workout_id = w.workout_id;'
             );
         $query->execute(
             array(
@@ -348,6 +347,7 @@ $app->get('/favorites/{user_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
+
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
@@ -355,9 +355,10 @@ $app->get('/favorites/{user_id}',
         else {
             throw new PDOException('No records found.');
         }
+
     }
     catch(PDOException $e) {
-        echo "\"There was an error\"";
+        echo '{"error":{"text":". $e->getMessage() ."}}';
     }
 });
 $app->get('/favoriteTypes/{fav_id}',
@@ -451,7 +452,7 @@ $app->post('/addCompletedWorkout',
 							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
 						)
 			);
-      echo "Workout Added.";
+      echo "\"Workout Added.\"";
 });
 $app->get('/workoutTypes',
     function ($request, $response, $args) {
@@ -505,7 +506,7 @@ $app->post('/addFavorite',
 						'sets' => $sets, 'reps' => $reps, 'duration' => $duration
 					)
 		);
-    echo "Favorite Added.";
+    echo "\"Favorite Added.\"";
   }
   catch(PDOException $e) {
       echo "\"There was an error\"";
@@ -684,7 +685,7 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
 					$start = $args['start'];
 					$uid = $args['user_id'];
 					$query = $db->prepare(
-							"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.weight
+							"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
 								 FROM Workout_History AS h RIGHT JOIN Workout w
 								 	 ON h.Workout_workout_id = w.workout_id
 								WHERE h.User_user_id = :user_id
@@ -734,7 +735,7 @@ $app->post('/editFavorite',
 					'sets' => $sets, 'reps' => $reps, 'duration' => $duration
 				)
 		);
-    echo "Favorite Edited";
+    echo "\"Favorite Edited\"";
   }
   catch (PDOException $e)
   {

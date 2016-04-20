@@ -454,7 +454,31 @@ angular.module('starter.controllers', ["chart.js"])
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + 1);
     });
+    
+    $scope.showCard= function(workout){
+        $state.go('app.leaderboard');
+    }
 })
+
+.controller('LeaderCatCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate) {
+
+  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+    
+    $http.get(apiLink + "/workoutTypes/")
+    .success(function(data) {
+        $scope.buttons = data;
+    })
+    .error(function(data) {
+        alert("API ERROR at " + apiLink + "\n" + 1);
+    });
+    
+    $scope.showCard= function(workout){
+        $state.go('app.leaderboard');
+    }
+    
+    
+})
+
 
 .controller('WorkoutDashCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate) {
 
