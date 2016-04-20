@@ -335,7 +335,7 @@ $app->get('/favorites/{user_id}',
     try {
         $db = $this->api_login;
         $query = $db->prepare(
-            'SELECT DISTINCT f.fav_id, f.Workout_workout_id, w.title, f.reps, f.sets, f.weight, f.duration
+            'SELECT DISTINCT f.Workout_workout_id AS ID, w.title, f.reps, f.sets, f.weight, f.duration
                 FROM Faved_Workouts f, User u, Is_Type it, Types t, Workout w
                 WHERE :user_id = u.user_id
                 AND u.user_id = f.User_user_id
