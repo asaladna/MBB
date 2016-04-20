@@ -330,7 +330,7 @@ $app->get('/workout/{user_id}/{workout_id}',
         echo "\"There was an error\"";
     }
 });
-$app->get('/favorites/{user_id}',
+$app->get('/favorites/{user_id}', 
     function ($request, $response, $args) {
     try {
         $db = $this->api_login;
@@ -339,8 +339,7 @@ $app->get('/favorites/{user_id}',
                 FROM Faved_Workouts f, User u, Is_Type it, Types t, Workout w
                 WHERE :user_id = u.user_id
                 AND u.user_id = f.User_user_id
-                AND f.Workout_workout_id = w.workout_id
-                AND w.workout_id = it.Workout_workout_id;'
+                AND f.Workout_workout_id = w.workout_id;'
             );
         $query->execute(
             array(
@@ -348,16 +347,18 @@ $app->get('/favorites/{user_id}',
                 )
             );
         $arr = $query->fetchAll(PDO::FETCH_ASSOC);
+ 
         if($arr) {
             return $response->write(json_encode($arr));
             $db = null;
-        }
+        } 
         else {
             throw new PDOException('No records found.');
         }
-    }
+ 
+    } 
     catch(PDOException $e) {
-        echo "\"There was an error\"";
+        echo '{"error":{"text":". $e->getMessage() ."}}';
     }
 });
 $app->get('/favoriteTypes/{fav_id}',
