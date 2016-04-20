@@ -34,7 +34,7 @@ angular.module('starter.controllers', ["chart.js"])
     $scope.modal.hide();
   };
     
- $http.get("http://private-1b0f9-pocketgains.apiary-mock.com" + "/getHistory/" + 0)
+ $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
     .success(function(workoutData) {
         $scope.workoutHist = workoutData;
         console.log($scope.workoutHist);
@@ -68,15 +68,15 @@ angular.module('starter.controllers', ["chart.js"])
               $http.get("http://52.37.226.62/achievements", { } )
                 .success(function(data) {
 
-                    var gymRat_id = 66;
-                    console.log(data[gymRat_id]);
+                    var gymRat_id = 65;
+                    console.log("User " + $scope.user_id + " earned achievement w/ id: " + data[gymRat_id].achieve_id);
                     $scope.completedAchievement = data[gymRat_id];
 
                     //POST that achievement was completed
                     $http.post("http://52.37.226.62/completedAchievement", 
                           {
                             "user_id": $scope.user_id,
-                            "achieve_id": gymRat_id
+                            "achieve_id": data[gymRat_id].achieve_id
                           }
                       )
                       .success(function(data) {
@@ -193,7 +193,6 @@ angular.module('starter.controllers', ["chart.js"])
   }
 
   // Modal for selecting fav workout for each category
-  var apiLink = null;
 
   $scope.workouts = [ ];
   $scope.nextText = "none";
@@ -407,7 +406,7 @@ angular.module('starter.controllers', ["chart.js"])
 
 .controller('AchieveCtrl', function($scope, $http, userData) {
 
-  $scope.user_id = 1;//userData.getId();
+  $scope.user_id = userData.getId();
 
   $http.get("http://52.37.226.62/achievements")
     .success(function(data) {
@@ -416,6 +415,8 @@ angular.module('starter.controllers', ["chart.js"])
         $http.get("http://52.37.226.62/achievements/" + $scope.user_id)
           .success(function(data) {
               $scope.compAchievements = data;
+
+              console.log($scope.compAchievements);
 
               // Give a lock icon to all achievements
               for (i = 0; i < $scope.achievements.length; i++) {
@@ -461,7 +462,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.form = {};
 
-  $scope.user_id = 1;//userData.getId();
+  $scope.user_id = userData.getId();
 
   // Get users suggested workouts
   $http.get(apiLink + "/getSuggestedWorkouts/" + $scope.user_id)
