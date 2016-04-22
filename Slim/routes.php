@@ -726,13 +726,11 @@ $app->post('/editFavorite',
 		$duration = $_POST['duration'];
     try {
 		$query = $db->prepare(
-		"DELETE
-			 FROM Faved_Workouts
-			WHERE Workout_workout_id = :workout_id
-				AND User_user_id = :user_id
-		INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
-					 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
-						 :duration)"
+		"UPDATE Faved_Workouts
+		    SET Workout_workout_id = :workout_id, weight = :weight, sets = :sets,
+            reps = :reps, duration = :duration
+      WHERE Workout_workout_id = :workout_id
+  			AND User_user_id = :user_id"
 		);
 		$query->execute(
 				array(
