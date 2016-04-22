@@ -2,107 +2,100 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 // Routes
-// Creates an acccount and adds it to the database then takes the user
-// to the login page
+// Creates an acccount and adds it to the database
 $app->post('/createNewUser', function ($request, $response, $args) {
-    // assumes fields aren't left blank and contain proper information from client side
-    if (isset($_POST['submit']))
+    try
     {
-        // retrieve user information from html page
-        $user_id = null;
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $sex = $_POST['sex'];
-        $goal = $_POST['goal'];
-        $fav_arm_id = $_POST['arms'];
-        $fav_leg_id = $_POST['legs'];
-        $fav_back_id = $_POST['back'];
-        $fav_shoulder_id = $_POST['shoulders'];
-        $fav_chest_id = $_POST['chest'];
-        $fav_cardio = $_POST['cardio'];
-        // protect against 1st order sql injection using stripslashes and parameterized queries
-        $username = stripslashes($username);
-        $password = stripslashes($password);
-        $sex = stripslashes($sex);
-        $goal = stripslashes($goal);
-        $fav_arm_id = stripslashes($fav_arm_id);
-        $fav_leg_id = stripslashes($fav_leg_id);
-        $fav_back_id = stripslashes($fav_back_id);
-        $fav_shoulder_id = stripslashes($fav_shoulder_id);
-        $fav_chest_id = stripslashes($fav_chest_id);
-        $fav_cardio = stripslashes($fav_cardio);
-        // hash and salt password using bcrypt
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        try
-        {
-            // connect to pocketgains database
-            $db = $this->api_login;
-            if ($db)
-            {
-                // check if username is taken
-                $query = $db->prepare("SELECT username from User WHERE username = :username LIMIT 1");
-                $query->execute(array('username' => $username));
-                // username is not in use
-                // need to figure out the way we want to display errors to the user
-                if ($query->rowCount() == 0)
-                {
-                    // insert user info into db
-                    $query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref, exp)
-                        values (:username, :password, :sex, :goal, :cardioPref :exp)");
-                    $query->execute(array('username' => $username, 'password' =>$password, 'sex' => $sex,
-                        'goal' => $goal, 'cardioPref' => $fav_cardio , 'exp' => 0));
-                    // get user_id from db for the new account
-                    $query = $db->prepare("SELECT user_id FROM User WHERE username = :username LIMIT 1");
-                    $query->execute(array('username' => $username));
-                    $result = $query->fetchAll(PDO::FETCH_ASSOC);
-                    // insert user preferred workouts into db if the account was sucessfully created
-                    if ($result)
-                    {
-                        $user_id = $result;
-                        // add pref arm workout
-                        $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
-                            values (:Workout_workout_id, :User_user_id)");
-                        $query->execute(array('Workout_workout_id' => $fav_arm_id, 'User_user_id' =>
-                            $user_id));
-                        // add pref leg workout
-                        $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
-                            values (:Workout_workout_id, :User_user_id)");
-                        $query->execute(array('Workout_workout_id' => $fav_leg_id, 'User_user_id' =>
-                            $user_id));
-                        // add pref back workout
-                        $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
-                            values (:Workout_workout_id, :User_user_id)");
-                        $query->execute(array('Workout_workout_id' => $fav_back_id, 'User_user_id' =>
-                            $user_id));
-                        // add pref shoulder workout
-                        $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
-                            values (:Workout_workout_id, :User_user_id)");
-                        $query->execute(array('Workout_workout_id' => $fav_shoulder_id, 'User_user_id' =>
-                            $user_id));
-                        // add pref chest workout
-                        $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
-                            values (:Workout_workout_id, :User_user_id)");
-                        $query->execute(array('Workout_workout_id' => $fav_chest_id, 'User_user_id' =>
-                            $user_id));
-                        // add pref cardio workout
-                        $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
-                             values (:Workout_workout_id, :User_user_id)");
-                        $query->execute(array('Workout_workout_id' => $fav_cardio, 'User_user_id' =>
-                            $user_id));
-                    }
-                    else
-                        throw new PDOException("error creating account");
-                }
-                else
-                    throw new PDOException("error creating account");
-            }
-            else
-                throw new PDOException("username already in use");
-        }
-        catch (PDOException $e)
-        {
-            echo "\"There was an error\"";
-        }
+    	// assumes fields aren't left blank and contain proper information from client side
+    	$db = $this->api_login;
+
+    	$params = $request->getParsedBody();
+    	$username = $params['username'];
+    	$password = $params['password'];
+    	$sex = $params['sex'];
+    	$goal = $params['goal'];
+    	$cardioPref = $params['cardioPref'];
+    	$exp = 0;
+    	$fav_arm_id = $params['arms'];
+    	$fav_leg_id = $params['legs'];
+    	$fav_back_id = $params['back'];
+    	$fav_shoulder_id = $params['shoulders'];
+    	$fav_chest_id = $params['chest'];
+
+    	// hash and salt password using bcrypt
+    	$password = password_hash($password, PASSWORD_BCRYPT);
+
+    	// check connection to db
+    	if ($db)
+    	{
+    		// check if username is taken
+    		$query = $db->prepare("SELECT username from User WHERE username = :username LIMIT 1");
+    		$query->execute(array('username' => $username));
+
+    		// username is not in use
+    		if ($query->rowCount() == 0)
+    		{
+    			// insert user info into db
+    			$query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref,
+    				exp) values ('$username', '$password', '$sex', '$goal', '$cardioPref', $exp)");
+    			$query->bindParam(':username', $username);
+    			$query->bindParam(':password', $password);
+    			$query->bindParam(':sex', $sex);
+    			$query->bindParam(':goal', $goal);
+    			$query->bindParam('cardioPref', $cardioPref);
+    			$query->bindParam(':exp', $exp);
+    			$query->execute();
+    		}
+    		else
+    			echo "error creating an account";
+
+    		// get user_id to add preferred workouts to db
+    		$query = $db->prepare("SELECT user_id from User WHERE username = :username LIMIT 1");
+    		$query->execute(array('username' => $username));
+    		$result = $query->fetch();
+
+    		// insert preferred workouts for the new account if the account was sucessfully created
+    		if ($result)
+    		{
+                $user_id = $result['user_id'];
+
+    			// add preferred arm workout
+                $query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
+                    values ($fav_arm_id, $user_id)");
+    			$query->bindParam('fav_arm_id', $fav_arm_id);
+    			$query->bindParam('$user_id', $user_id);
+    			$query->execute();
+
+    			// add preferred leg workout
+    			$query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
+    				values ($fav_leg_id, $user_id)");
+    			$query->bindParam('fav_leg_id', $fav_leg_id);
+    			$query->bindParam('$user_id', $user_id);
+    			$query->execute();
+
+    			// add preferred shoulder workout
+    			$query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
+    				values ($fav_shoulder_id, $user_id)");
+    			$query->bindParam('fav_shoulder_id', $fav_shoulder_id);
+    			$query->bindParam('$user_id', $user_id);
+    			$query->execute();
+
+    			// add preferred chest workout
+    			$query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
+    				values ($fav_chest_id, $user_id)");
+    			$query->bindParam('fav_chest_id', $fav_chest_id);
+    			$query->bindParam('$user_id', $user_id);
+    			$query->execute();
+    		}
+    		else
+                echo "error adding preferred workouts";
+    	}
+    	else
+    		echo "error creating an account";
+    }
+    catch (PDOException $e)
+    {
+    	echo "\"There was an error\"";
     }
 });
 // Queries db to see if entered credentials are correct
