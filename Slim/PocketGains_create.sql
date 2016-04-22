@@ -19,7 +19,7 @@ CREATE TABLE Achievements (
 
 -- Table: Achievements_Completed
 CREATE TABLE Achievements_Completed (
-    User_user_id int NOT NULL AUTO_INCREMENT,
+    User_user_id int NOT NULL,
     Achievements_achieve_id int NOT NULL,
     CONSTRAINT Achievements_Completed_pk PRIMARY KEY (User_user_id,Achievements_achieve_id)
 );
@@ -74,11 +74,9 @@ CREATE TABLE Types (
 -- Table: User
 CREATE TABLE User (
     user_id int NOT NULL AUTO_INCREMENT,
-    authToken varchar(25) NULL,
     session_id int NULL,
     username varchar(25) NOT NULL,
     password varchar(25) NOT NULL,
-    salt varchar(25) NULL,
     email varchar(35) NULL,
     sex varchar(15) NOT NULL,
     goal varchar(25) NOT NULL,
@@ -91,7 +89,7 @@ CREATE TABLE User (
 CREATE TABLE Workout (
     workout_id int NOT NULL AUTO_INCREMENT,
     title varchar(50) NOT NULL,
-    `desc` varchar(1500) NULL,
+    `desc` varchar(1250) NULL,
     CONSTRAINT Workout_pk PRIMARY KEY (workout_id)
 );
 
