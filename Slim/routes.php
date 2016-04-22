@@ -594,8 +594,12 @@ $app->get('/workouts/{type}', function ($request, $response, $args) {
         $db = $this->api_login;
         if ($db)
         {
-            $query = $db->prepare("SELECT DISTINCT w.workout_id, w.title, w.desc FROM Workout w, Is_Type i
-                WHERE i.Types_type_id = :type AND i.Workout_workout_id = w.workout_id");
+            $query = $db->prepare("SELECT w.workout_id, w.title, w.desc
+                FROM (Workout w LEFT JOIN Is_Type i
+                     ON w.workout_id = i.Workout_workout_id)
+              LEFT JOIN Types t
+                     ON i.Types_type_id = t.type_id
+                WHERE t.name = :type AND i.Workout_workout_id = w.workout_id");
             $query->execute(array('type' => $type));
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             if ($result)
