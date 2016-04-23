@@ -47,7 +47,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->execute();
     		}
     		else
-    			echo "error creating an account";
+    			throw new PDOException("error creating an account");
 
     		// get user_id to add preferred workouts to db
     		$query = $db->prepare("SELECT user_id from User WHERE username = :username LIMIT 1");
@@ -88,10 +88,10 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->execute();
     		}
     		else
-                echo "error adding preferred workouts";
+                throw new PDOException("error adding preferred workouts");
     	}
     	else
-    		echo "error creating an account";
+    		throw new PDOException("error creating an account");
     }
     catch (PDOException $e)
     {
@@ -110,9 +110,6 @@ $app->post('/login', function ($request, $response, $args) {
         // retreive user information from html page
         $username = $_POST['username'];
         $password = $_POST['password'];
-        // protect against sql injection using stripslashes and parameterized queries
-        $username = stripslashes($username);
-        $password = stripslashes($password);
         // connect to pocketgains db
         $db = $this->api_login;
         try
