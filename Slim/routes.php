@@ -544,9 +544,9 @@ $app->get('/getHistoryWorkout/{user_id}/{hist_id}',
 			echo "\"There was an error\"";
 	}
 });
-/*
-/*
-$app->get('/workoutDaysback/{user_id}/{start}/{end}',
+*/
+
+$app->get('/getHistory/{user_id}/{start}/{end}',
     function ($request, $response, $args) {
 			try {
 			$db = $this->api_login;
@@ -554,10 +554,10 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			$end = $args['end'];
 			$uid = $args['user_id'];
 			$query = $db->prepare(
-					"SELECT h.hist_id
-						 FROM Workout_History AS h RIGHT JOIN User AS u
-						 	 ON h.User_user_id = u.user_id
-						WHERE u.user_id = :user_id
+					"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+             FROM Workout_History AS h RIGHT JOIN Workout w
+               ON h.Workout_workout_id = w.workout_id
+						WHERE h.User_user_id = :user_id
 							AND h.time_stamp > :start
 							AND h.time_stamp < $end"
 			);
@@ -570,7 +570,7 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 					return $response->write(json_encode($arr));
 					$db = null;
 			}
-			else {
+      else {
 					throw new PDOException("\"No records found.\"");
 			}
 	}
@@ -578,7 +578,7 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			echo $e->getMessage();
 		}
 });
-*/
+
 // Displays a list of all the workouts for a particular workout type
 $app->get('/workouts/{type}', function ($request, $response, $args) {
     // get type id
