@@ -88,14 +88,14 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->execute();
     		}
     		else
-                throw new PDOException("error adding preferred workouts");
+                throw new PDOException("\"error adding preferred workouts\"");
     	}
     	else
-    		throw new PDOException("error creating an account");
+    		throw new PDOException("\"error creating an account\"");
     }
     catch (PDOException $e)
     {
-    	echo $e->getMessage();
+    	echo e->getMessage();
     }
 });
 // Queries db to see if entered credentials are correct
@@ -146,13 +146,13 @@ $app->post('/login', function ($request, $response, $args) {
                     $query->execute(array('session_id' => $session_id, 'username' => $username));
                 }
                 else
-                    throw new PDOException("invalid username or password");
+                    throw new PDOException("\"invalid username or password\"");
             }
             else
-                throw new PDOException("invalid username or password");
+                throw new PDOException("\"invalid username or password\"");
         }
         else
-            throw new PDOException("could not connect to db");
+            throw new PDOException("\"could not connect to db\"");
     }
     catch (PDOException $e)
     {
@@ -571,7 +571,7 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 					$db = null;
 			}
 			else {
-					throw new PDOException('No records found.');
+					throw new PDOException("\"No records found.\"");
 			}
 	}
 	catch(PDOException $e) {
@@ -704,10 +704,10 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
                 return $response->write(json_encode($result));
             }
             else
-                throw new PDOException("no results found");
+                throw new PDOException("\"no results found\"");
         }
         else
-            throw new PDOException("could not connect to db");
+            throw new PDOException("\"could not connect to db\"");
     }
     catch (PDOException $e)
     {
