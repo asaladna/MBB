@@ -127,6 +127,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
   
     .state('app.leaderboard', {
       url: '/leaderboard',
+      params: {
+            choice: null
+        },
       views: {
         'menuContent': {
           templateUrl: 'templates/leaderboard.html',

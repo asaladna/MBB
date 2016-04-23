@@ -456,20 +456,20 @@ angular.module('starter.controllers', ["chart.js"])
     });
     
     $scope.showCard= function(workout){
-        console.log(workout);
         $state.go('app.leaderboard', {choice: workout});
     }
 })
 
-.controller('LeaderCatCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate,choice) {
+.controller('LeaderCatCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate, $stateParams) {
 
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
+    var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
     
-
-    $http.get(apiLink + "/workoutTypes/" + choice)
+    console.log("yo");
+    console.log($stateParams.choice);
+    myChoice = $stateParams.choice;
+    $http.get(apiLink + "/getLeaders/" + myChoice)
     .success(function(data) {
         $scope.leaders = data;
-        
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + 1);
