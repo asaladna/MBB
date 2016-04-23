@@ -2,7 +2,7 @@
 <ion-content>
     <div class="list">
         <a ng-repeat="item in buttons"
-           ng-click="showCard($item.name)"
+           ng-click="showCard(item.name)"
            class="item item-stable">
           {{ item.name }}
         </a>

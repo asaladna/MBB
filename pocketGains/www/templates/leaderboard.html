@@ -3,7 +3,9 @@
     <ion-list>
       <div class="list">
           <a class="item item-thumbnail-left" ng-repeat="leader in leaders" href="#/app/leaderboards/{{leader.id}}">
-            <h4>{{leader.name}}</h4>
+            <img ng-src= "img/{{leader.user_id}}.png"></img>
+            <h2>{{leader.username}}</h4>
+            <h4>Points: {{leader.points}}</h4>
           </a>
       </div>
     </ion-list>
