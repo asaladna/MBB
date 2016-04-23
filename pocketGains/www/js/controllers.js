@@ -501,6 +501,7 @@ angular.module('starter.controllers', ["chart.js"])
   $http.get("http://52.37.226.62/favorites/" + $scope.user_id)
     .success(function(data) {
         $scope.favoriteWorkouts = data;
+        console.log($scope.favoriteWorkouts);
     })
     .error(function(data) {
         alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Favorites");
@@ -548,6 +549,7 @@ angular.module('starter.controllers', ["chart.js"])
       if (index == 1) {
         $scope.activeWorkout = activeTitle;
         $scope.workoutId = activeId;
+        console.log("Workout ID: " + $scope.workoutId);
         $scope.modal.show();  
       } else if (index == 2) {
         $ionicSlideBoxDelegate.slide(0);
@@ -557,15 +559,19 @@ angular.module('starter.controllers', ["chart.js"])
       } 
     }
 
-    $scope.submitWorkout = function(form) {
-      $scope.user_id = userData.getId();
-      $scope.workoutId = $scope.activeId;
-      $scope.reps = $scope.form.reps;
-      $scope.sets = $scope.form.sets;
-      $scope.weight = $scope.form.weight;
-      $scope.duration = null;
+    $scope.submitWorkout = function() {
 
-      $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/addCompletedWorkout", 
+      console.log(this.form.sets);
+      $scope.user_id = userData.getId();
+      $scope.workoutId = $scope.workoutId;
+      $scope.reps = this.form.reps;
+      $scope.sets = this.form.sets;
+      $scope.weight = this.form.weight;
+      $scope.duration = "";
+
+      console.log($scope.user_id + " . " + $scope.workoutId + " . " + $scope.reps + " . " + $scope.sets + " . " + $scope.weight + " . " + $scope.duration);
+
+      $http.post("http://52.37.226.62/addCompletedWorkout", 
         {
           "user_id": $scope.user_id,
           "workout_id": $scope.workoutId,
