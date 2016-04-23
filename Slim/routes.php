@@ -170,7 +170,6 @@ $app->get('/achievements',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
- 		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
         $query = $db->prepare(
             'SELECT *
                 FROM Achievements');
@@ -193,7 +192,6 @@ $app->get('/achievements/{user_id}',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
- 		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
         $query = $db->prepare(
             'SELECT a.achieve_id, a.name, a.desc
                 FROM Achievements a, User u, Achievements_Completed ac
@@ -397,8 +395,6 @@ $app->post('/userData',
     try {
 			$db = $this->api_login;
 			$user_id = $_POST['user_id'];
-			//TEST CASE HARDCODED TEST USER
-			//$user_id = 12;
 			$query = $db->prepare(
 			'SELECT u.username, u.exp, u.cardioPref, p.arms, p.legs, p.chest, p.back, p.shoulders, p.cardio
 					FROM User as u LEFT JOIN Points as p
@@ -428,21 +424,10 @@ $app->post('/addCompletedWorkout',
 			$db = $this->api_login;
 			$user_id = $_POST['user_id'];
 			$workout_id = $_POST['workout_id'];
-//			$title = $_POST['title'];
 			$sets = $_POST['sets'];
 			$reps = $_POST['reps'];
 			$weight = $_POST['weight'];
-//			$desc = $_POST['desc'];
 			$duration = $_POST['duration'];
-/*
-			//TEST CASE HARDCODED TEST USER
-			$user_id = 12;
-//			$title = "Humbug";
-			$sets = 1;
-			$reps = 15156;
-			$weight = 9001;
-			$duration = NULL;
-*/
       try {
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
@@ -492,15 +477,6 @@ $app->post('/addFavorite',
 		$sets = $_POST['sets'];
 		$reps = $_POST['reps'];
 		$duration = $_POST['duration'];
-/*
-		//Test code
-		$user_id = 12;
-		$workout_id = 1;
-		$weight = 120;
-		$sets = 3;
-		$reps = 12;
-		$duration = NULL;
-*/
     try {
 		$query = $db->prepare(
 		"INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
@@ -519,41 +495,7 @@ $app->post('/addFavorite',
       echo "\"There was an error\"";
   }
 });
-/*
-$app->get('/getHistoryWorkout/{user_id}/{hist_id}',
-    function ($request, $response, $args) {
-	try {
-		$db = $this->api_login;
-		$query = $db->prepare(
-				'SELECT w.workout_id, w.title, h.time_stamp, h.duration, h.reps,
-								h.sets, h.weight, w.desc
-					 FROM (Workout_History AS h LEFT JOIN Workout AS w ON h.Workout_workout_id
-					 = w.workout_id) RIGHT JOIN User AS u ON h.User_user_id = u.user_id
-					WHERE u.user_id = :user_id
-								AND h.hist_id = :hist_id'
-		);
-		$query->execute(
-				array(
-						'user_id' => $args['user_id'],
-						'hist_id' => $args['hist_id']
-						)
-				);
-		$arr = $query->fetchAll(PDO::FETCH_ASSOC);
-		if($arr) {
-				return $response->write(json_encode($arr));
-				$db = null;
-		}
-		else {
-				throw new PDOException('No records found.');
-		}
-		}
-	catch(PDOException $e) {
-			echo "\"There was an error\"";
-	}
-});
-/*
-/*
-$app->get('/workoutDaysback/{user_id}/{start}/{end}',
+$app->get('/getHistory/{user_id}/{start}/{end}',
     function ($request, $response, $args) {
 			try {
 			$db = $this->api_login;
@@ -561,10 +503,10 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			$end = $args['end'];
 			$uid = $args['user_id'];
 			$query = $db->prepare(
-					"SELECT h.hist_id
-						 FROM Workout_History AS h RIGHT JOIN User AS u
-						 	 ON h.User_user_id = u.user_id
-						WHERE u.user_id = :user_id
+					"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+             FROM Workout_History AS h RIGHT JOIN Workout w
+               ON h.Workout_workout_id = w.workout_id
+						WHERE h.User_user_id = :user_id
 							AND h.time_stamp > :start
 							AND h.time_stamp < $end"
 			);
@@ -577,7 +519,7 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 					return $response->write(json_encode($arr));
 					$db = null;
 			}
-			else {
+      else {
 					throw new PDOException("\"No records found.\"");
 			}
 	}
@@ -585,7 +527,6 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			echo $e->getMessage();
 		}
 });
-*/
 // Displays a list of all the workouts for a particular workout type
 $app->get('/workouts/{type}', function ($request, $response, $args) {
     // get type id
@@ -649,40 +590,6 @@ $app->get('/workout/{workout_id}', function ($request, $response, $args) {
         echo "\"There was an error\"";
     }
 });
-/*
-// Displays suggested workouts for the logged in user
-$app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args) {
-    // get user id
-    $user_id = $args['user_id'];
-    try
-    {
-        // connect to pocketgains db
-        $db = $this->api_login;
-        if ($db)
-        {
-            // assuming this query is correct, no dummy data in Suggested_Workouts table
-            // will add some later to check if query works properly
-            $query = $db->prepare("SELECT w.title, s.sets, s.reps, s.weight, s.duration
-                FROM Suggested_Workouts s, Workout w WHERE s.User_user_id = :user_id
-                AND s.Workout_workout_id = w.workout_id");
-            $query->execute(array('user_id' => $user_id));
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            if ($result)
-            {
-                return $response->write(json_encode($result));
-            }
-            else
-                throw new PDOException("no results found");
-        }
-        else
-            throw new PDOException("could not connect to db");
-    }
-    catch (PDOException $e)
-    {
-        echo "\"There was an error\"";
-    }
-});
-*/
 // Displays the workout history of the logged in user
 $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args) {
     // get user id
