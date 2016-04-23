@@ -102,7 +102,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     }
     catch (PDOException $e)
     {
-    	echo e->getMessage();
+    	echo $e->getMessage();
     }
 });
 // Queries db to see if entered credentials are correct
