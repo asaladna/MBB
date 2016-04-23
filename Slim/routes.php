@@ -95,7 +95,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     }
     catch (PDOException $e)
     {
-    	echo "\"There was an error\"";
+    	echo $e->getMessage();
     }
 });
 // Queries db to see if entered credentials are correct
@@ -156,7 +156,7 @@ $app->post('/login', function ($request, $response, $args) {
     }
     catch (PDOException $e)
     {
-        echo "\"There was an error\"";
+        echo $e->getMessage();
     }
 });
 $app->get('/achievements',
@@ -575,7 +575,7 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			}
 	}
 	catch(PDOException $e) {
-			echo "\"There was an error\"";
+			echo $e->getMessage();
 		}
 });
 */
@@ -711,7 +711,7 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
     }
     catch (PDOException $e)
     {
-        echo "\"There was an error\"";
+        echo $e->getMessage();
     }
 });
 $app->post('/editFavorite',
