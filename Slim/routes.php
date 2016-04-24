@@ -449,7 +449,6 @@ $app->post('/addCompletedWorkout',
 			$query->bindParam(':weight', $weight);
 			$query->bindParam(':duration', $duration);
 			$query->execute();
-			);
       echo "\"Workout Added.\"";
     }
     catch(PDOException $e) {
