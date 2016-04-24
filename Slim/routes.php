@@ -428,24 +428,27 @@ $app->get('/userData/{user_id}',
 });
 $app->post('/addCompletedWorkout',
     function ($request, $response, $args) {
+			$params = $request->getParsedBody();
 			$db = $this->api_login;
-			$user_id = $_POST['user_id'];
-			$workout_id = $_POST['workout_id'];
-			$sets = $_POST['sets'];
-			$reps = $_POST['reps'];
-			$weight = $_POST['weight'];
-			$duration = $_POST['duration'];
+			$user_id = $params['user_id'];
+			$workout_id = $params['workout_id'];
+			$sets = $params['sets'];
+			$reps = $params['reps'];
+			$weight = $params['weight'];
+			$duration = $params['duration'];
       try {
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
 									 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
 									 :duration)"
 			);
-			$query->execute(
-					array(
-							'user_id' => $user_id, 'workout_id' => $workout_id, 'sets' => $sets,
-							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
-						)
+			$query->bindParam(':user_id', $user_id);
+			$query->bindParam(':workout_id', $workout_id);
+			$query->bindParam(':sets', $sets);
+			$query->bindParam(':reps', $reps);
+			$query->bindParam(':weight', $weight);
+			$query->bindParam(':duration', $duration);
+			$query->execute();
 			);
       echo "\"Workout Added.\"";
     }
