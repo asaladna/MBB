@@ -14,7 +14,6 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     	$password = $params['password'];
     	$sex = $params['sex'];
     	$goal = $params['goal'];
-    	$cardioPref = $params['cardioPref'];
     	$exp = 0;
     	$fav_arm_id = $params['arms'];
     	$fav_leg_id = $params['legs'];
@@ -36,13 +35,12 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     		if ($query->rowCount() == 0)
     		{
     			// insert user info into db
-    			$query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref,
-    				exp) values ('$username', '$password', '$sex', '$goal', '$cardioPref', $exp)");
+    			$query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
+    				values ('$username', '$password', '$sex', '$goal', $exp)");
     			$query->bindParam(':username', $username);
     			$query->bindParam(':password', $password);
     			$query->bindParam(':sex', $sex);
     			$query->bindParam(':goal', $goal);
-    			$query->bindParam('cardioPref', $cardioPref);
     			$query->bindParam(':exp', $exp);
     			$query->execute();
     		}
