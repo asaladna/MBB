@@ -10,7 +10,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     	$db = $this->api_login;
 
     	$params = $request->getParsedBody();
-    	$username = $params['username'];
+        $username = $params['username'];
     	$password = $params['password'];
     	$sex = $params['sex'];
     	$goal = $params['goal'];
@@ -93,6 +93,8 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->bindParam('fav_chest_id', $fav_chest_id);
     			$query->bindParam('$user_id', $user_id);
     			$query->execute();
+
+                return $response->write(json_encode($user_id));
     		}
     		else
                 throw new PDOException("\"error adding preferred workouts\"");
