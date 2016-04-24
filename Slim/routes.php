@@ -461,7 +461,7 @@ $app->post('/addCompletedWorkout',
 
 				foreach($result as $row)
 				{
-					$type_id = row['Type_type_id'];
+					$type_id = $row['Type_type_id'];
 
 					// update points for all the categories the workout is in
 					// update back
