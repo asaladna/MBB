@@ -139,7 +139,7 @@ $app->post('/login', function ($request, $response, $args) {
                     $hash = $row['password'];
                 
                 // verify passwords match
-                if (hash_equals($password, $hash))
+                if (password_verify($password, $hash))
                 {
                     // create a new session for the user and store session id in db
                     session_start();
