@@ -122,11 +122,12 @@ $app->post('/login', function ($request, $response, $args) {
         $params = $request->getParsedBody();
         $username = $params['username'];
         $password = $params['password'];
+        $user_id = 0;
 
         if ($db)
         {
             // grab username and password from db
-            $query = $db->prepare("SELECT username, password FROM User WHERE username = :username
+            $query = $db->prepare("SELECT user_id, username, password FROM User WHERE username = :username
                 LIMIT 1");
             $query->execute(array('username' => $username));
             
@@ -138,12 +139,15 @@ $app->post('/login', function ($request, $response, $args) {
                 $hash = "";
                 
                 foreach($result as $row)
+                {
+                    $user_id = $row['user_id'];
                     $hash = $row['password'];
+                }
                 
                 // verify passwords match
                 if (password_verify($password, $hash))
                 {
-                    if (!isset($_SESSION) || $_SESSION['username'] != $username)
+                    if (!isset($_SESSION))
                     {
                     	// destroy old session and create a new session for the user and store session id in db
                     	session_destroy();
@@ -156,6 +160,8 @@ $app->post('/login', function ($request, $response, $args) {
                     	$query = $db->prepare("UPDATE User SET session_id = :session_id
                         	WHERE username = :username");
                     	$query->execute(array('session_id' => $session_id, 'username' => $username));
+
+                        return $response->write(json_encode($user_id));
                     }
                 }
                 else
