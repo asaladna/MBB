@@ -436,6 +436,7 @@ $app->post('/addCompletedWorkout',
 			$reps = $params['reps'];
 			$weight = $params['weight'];
 			$duration = $params['duration'];
+			$points = $params['points'];
       try {
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
@@ -449,7 +450,66 @@ $app->post('/addCompletedWorkout',
 			$query->bindParam(':weight', $weight);
 			$query->bindParam(':duration', $duration);
 			$query->execute();
-      echo "\"Workout Added.\"";
+
+			// get the workout type
+			$query = $db->prepare("SELECT Type_type_id FROM IS_TYPE WHERE Workout_workout_id = :workout_id");
+			$query->execute(array(':workout_id', $workout_id));
+
+			if ($query)
+			{
+				$result = $query->fetchAll();
+
+				foreach($result as $row)
+				{
+					$type_id = row['Type_type_id'];
+
+					// update points for all the categories the workout is in
+					// update back
+					if ($type_id == 1)
+					{
+						$query = $db->prepare("UPDATE Points SET back = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update arms
+					if ($type _id == 2)
+					{
+						$query = $db->prepare("UPDATE Points SET arms = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update shoulders
+					if ($type _id == 3)
+					{
+						$query = $db->prepare("UPDATE Points SET shoulders = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update legs
+					if ($type _id == 4)
+					{
+						$query = $db->prepare("UPDATE Points SET legs = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update cardio
+					if ($type _id == 5)
+					{
+						$query = $db->prepare("UPDATE Points SET cardio = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update chest
+					if ($type _id == 6)
+					{
+						$query = $db->prepare("UPDATE Points SET chest = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+				}
+			}
+			else
+				throw new PDOException("\"Unable to update points\"");
+
     }
     catch(PDOException $e) {
         echo "\"There was an error\"";
