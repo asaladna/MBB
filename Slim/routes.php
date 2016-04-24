@@ -397,11 +397,11 @@ $app->get('/favoriteTypes/{fav_id}',
         echo "\"There was an error\"";
     }
 });
-$app->post('/userData',
+$app->get('/userData/{user_id}',
     function ($request, $response, $args) {
     try {
 			$db = $this->api_login;
-			$user_id = $_POST['user_id'];
+			$user_id = $args['user_id'];
 			$query = $db->prepare(
 			'SELECT u.username, u.exp, u.cardioPref, p.arms, p.legs, p.chest, p.back, p.shoulders, p.cardio
 					FROM User as u LEFT JOIN Points as p
@@ -419,7 +419,7 @@ $app->post('/userData',
 					$db = null;
 			}
 			else {
-					throw new PDOException('No records found.');
+					throw new PDOException("\"No records found.\"");
 			}
 		}
 		catch(PDOException $e) {
