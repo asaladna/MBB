@@ -472,35 +472,35 @@ $app->post('/addCompletedWorkout',
 					}
 
 					// update arms
-					if ($type _id == 2)
+					if ($type_id == 2)
 					{
 						$query = $db->prepare("UPDATE Points SET arms = :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update shoulders
-					if ($type _id == 3)
+					if ($type_id == 3)
 					{
 						$query = $db->prepare("UPDATE Points SET shoulders = :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update legs
-					if ($type _id == 4)
+					if ($type_id == 4)
 					{
 						$query = $db->prepare("UPDATE Points SET legs = :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update cardio
-					if ($type _id == 5)
+					if ($type_id == 5)
 					{
 						$query = $db->prepare("UPDATE Points SET cardio = :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update chest
-					if ($type _id == 6)
+					if ($type_id == 6)
 					{
 						$query = $db->prepare("UPDATE Points SET chest = :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
