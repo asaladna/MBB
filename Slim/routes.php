@@ -141,9 +141,10 @@ $app->post('/login', function ($request, $response, $args) {
                 // verify passwords match
                 if (password_verify($password, $hash))
                 {
-                    if (!isset($_SESSION))
+                    if (!isset($_SESSION) || $_SESSION['username'] != $username)
                     {
-                    	// create a new session for the user and store session id in db
+                    	// destroy old session and create a new session for the user and store session id in db
+                    	session_destroy();
                     	session_start();
                     	$session_id = session_id();
                     	// assign the username to the session
