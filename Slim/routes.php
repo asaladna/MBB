@@ -141,16 +141,19 @@ $app->post('/login', function ($request, $response, $args) {
                 // verify passwords match
                 if (password_verify($password, $hash))
                 {
-                    // create a new session for the user and store session id in db
-                    session_start();
-                    $session_id = session_id();
-                    // assign the username to the session
-                    $_SESSION['username'] = $username;
+                    if (!isset($_SESSION))
+                    {
+                    	// create a new session for the user and store session id in db
+                    	session_start();
+                    	$session_id = session_id();
+                    	// assign the username to the session
+                    	$_SESSION['username'] = $username;
                     
-                    // add session id to db for the logged in user
-                    $query = $db->prepare("UPDATE User SET session_id = :session_id
-                        WHERE username = :username");
-                    $query->execute(array('session_id' => $session_id, 'username' => $username));
+                    	// add session id to db for the logged in user
+                    	$query = $db->prepare("UPDATE User SET session_id = :session_id
+                        	WHERE username = :username");
+                    	$query->execute(array('session_id' => $session_id, 'username' => $username));
+                    }
                 }
                 else
                     throw new PDOException("\"invalid username or password\"");
