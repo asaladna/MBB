@@ -45,7 +45,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->execute();
     		}
     		else
-    			throw new PDOException("error creating an account");
+    			throw new PDOException("\"username already in use\"");
 
     		// get user_id to add preferred workouts to db
     		$query = $db->prepare("SELECT user_id from User WHERE username = :username LIMIT 1");
