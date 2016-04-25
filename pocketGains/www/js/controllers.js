@@ -15,21 +15,19 @@ angular.module('starter.controllers', ["chart.js"])
 
   var apiLink = "http://52.37.226.62";
 
-  // $scope.getHistory = function() {
-    $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
-      .success(function(workoutData) {
-        if (workoutData!= "no results found") {
-          $scope.workoutHist = workoutData;
-          
-          $scope.workoutHist.sort(function(a, b) {
-            return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
-          });
-        }
-      })
-      .error(function(data) {
-          alert("API ERROR" + "\n" + "/getHistory");
-      });
-  // }
+  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
+    .success(function(workoutData) {
+      if (workoutData!= "no results found") {
+        $scope.workoutHist = workoutData;
+
+        $scope.workoutHist.sort(function(a, b) {
+          return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
+        });
+      }
+    })
+    .error(function(data) {
+        alert("API ERROR" + "\n" + "/getHistory");
+    });
 
   // Modal for when an achievement is completed - celebrate the User
   $ionicModal.fromTemplateUrl('templates/completedAchievement-modal.html', {
@@ -47,17 +45,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.closeModal = function() {
     $scope.modal.hide();
-  };
-    
- $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
-    .success(function(workoutData) {
-      if (workoutData!= "no results found") {
-        $scope.workoutHist = workoutData;
-      }
-    })
-    .error(function(data) {
-        alert("API ERROR" + "\n" + "/getHistory");
-    });       
+  };    
 
 
   // ----- Get First achievement for creating account (gym rat) if not complete
@@ -116,10 +104,7 @@ angular.module('starter.controllers', ["chart.js"])
 })
 
 
-
-
-
-
+// ******************** Profile Builder (First Time Login) Controller **********************************
 
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
@@ -294,8 +279,9 @@ angular.module('starter.controllers', ["chart.js"])
 
 
 })
-  
-  
+
+
+// ******************** Login Page Controller **********************************
 
 .controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicConfig, $ionicSideMenuDelegate, $state, $http, userData) {
 
