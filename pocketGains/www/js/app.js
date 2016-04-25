@@ -76,6 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
   })
 
   .state('app.dashboard', {
+    cache: false,
     url: '/dashboard',
     views: {
       'menuContent': {
