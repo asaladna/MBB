@@ -451,17 +451,16 @@ $app->post('/addCompletedWorkout',
 			$query->bindParam(':duration', $duration);
 			$query->execute();
 
-			// get the workout type
-			$query = $db->prepare("SELECT Type_type_id FROM IS_TYPE WHERE Workout_workout_id = :workout_id");
-			$query->execute(array(':workout_id' => $workout_id));
+            $query = $db->prepare("SELECT Types_type_id FROM Is_Type WHERE Workout_workout_id = :workout_id");
+            $query->execute(array(':workout_id' => $workout_id));
 
 			if ($query)
 			{
 				$result = $query->fetchAll();
-
-				foreach($result as $row)
-				{
-					$type_id = $row['Type_type_id'];
+                
+                foreach ($result as $row)
+                {
+                    $type_id = $row['Types_type_id'];
 
 					// update points for all the categories the workout is in
 					// update back
