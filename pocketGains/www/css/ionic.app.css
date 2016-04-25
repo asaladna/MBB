@@ -38,6 +38,24 @@ $dark:                            #444 !default;
   border: 4px dashed #ef473a;
   padding: 20px; }
 
+#Theme {
+  background-color: #212121; }
+
+#Theme h2 {
+  color: #FFD91F; }
+
+#Theme h4 {
+  color: #FFD91F; }
+
+#loginFields {
+  background-color: #212121; }
+
+#loginButtons {
+  background-color: #333333; }
+
+#loginButtons p {
+  color: #FFD91F; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

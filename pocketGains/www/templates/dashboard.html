@@ -31,7 +31,7 @@
 
 <div  class="card" ng-repeat="item in workoutHist track by $index" item-positive>
           <div id= "workoutLog" class="item item-text-wrap" ng-click="">
-            <p>({{item.time_stamp}})</p>
+            <p>{{myDate| date:'yyyy'}}</p>
              <h2>{{item.title}} </h2> 
             <h3>Reps </h3> 
               <p>{{item.reps}}</p>

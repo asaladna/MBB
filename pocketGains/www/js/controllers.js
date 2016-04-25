@@ -5,7 +5,7 @@ angular.module('starter.controllers', ["chart.js"])
 
 // ******************** Main Page (Dashboard) Controller **********************************
 
-.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory,$stateParams, $ionicSlideBoxDelegate) {
+.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory,$stateParams, $ionicSlideBoxDelegate, $filter) {
     
   // User data
   $scope.username = userData.getUsername();
@@ -17,12 +17,15 @@ angular.module('starter.controllers', ["chart.js"])
 
   $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
     .success(function(workoutData) {
-      if (workoutData!= "no results found") {
         $scope.workoutHist = workoutData;
 
         $scope.workoutHist.sort(function(a, b) {
-          return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
+          $scope.myDate= Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
+            
+   
         });
+    if (workoutData!= "no results found") {
+
       }
     })
     .error(function(data) {
@@ -625,5 +628,3 @@ angular.module('starter.controllers', ["chart.js"])
     
     
 })
-
-
