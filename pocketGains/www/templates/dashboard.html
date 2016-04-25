@@ -22,14 +22,14 @@
 
     </div>
       
-<div class="item item-text-wrap item-positive">
+<div id= world class="item item-text-wrap item-positive">
     <button class="button button-full button-positive" ng-click= "workoutDashClick()">
       Start Workout
     </button>
 </div>
         
 <div class="card" ng-repeat="item in workoutHist">
-          <div class="item item-text-wrap" ng-click="">
+          <div class="item item-text-wrap item-assertive" ng-click="">
             <p>({{item.time_stamp}})</p>
               {{item.title}} 
             <h3>Reps </h3> {{item.reps}}

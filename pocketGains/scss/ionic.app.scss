@@ -18,7 +18,9 @@ $assertive:                       #ef473a !default;
 $big-bg:                          #212121 !default;
 $positive:                        #212121 !default;
 
-
+#world{
+    $positive:    #ef473a !default;
+}
 .scroll-bg {
   background: $big-bg;
   background-size: cover;

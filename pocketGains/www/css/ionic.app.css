@@ -20,7 +20,7 @@ $dark:                            #444 !default;
   background-size: cover; }
 
 .button-block {
-  border: 4px solid #ef473a;
+  border: 4px dashed #ef473a;
   padding: 20px; }
 
 /*!

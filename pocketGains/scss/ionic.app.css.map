@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "ionic.app.css",
+  "sources": [
+    "ionic.app.scss"
+  ],
+  "sourcesContent": [],
+  "mappings": "AAAA;;;;;;;;;;;;;;;EAeE;;AAMF,UAAU,CAAC;EACT,UAAU,EALsB,OAAO;EAMvC,eAAe,EAAE,KAAM,GAFb;;;AAKZ,aAAa,CAAA;EACT,MAAM,EAAE,GAAG,CAAC,MAAM,CAXY,OAAO;EAYrC,OAAO,EAAE,IAAK,GAFJ",
+  "names": []
+}
