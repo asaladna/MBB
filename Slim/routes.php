@@ -92,6 +92,12 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->bindParam('$user_id', $user_id);
     			$query->execute();
 
+                // add user to Points table
+                $query = $db->prepare("INSERT into Points (User_user_id, cardio, arms, legs, back,
+                    shoulders, chest) values ($user_id, 0, 0, 0, 0, 0, 0)");
+                $query->bindParam('user_id', $user_id);
+                $query->execute();
+
                 return $response->write(json_encode($user_id));
     		}
     		else
