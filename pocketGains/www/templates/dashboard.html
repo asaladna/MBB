@@ -1,4 +1,4 @@
-<ion-view view-title="Pocket Gains">
+<ion-view view-title="Pocket Gains" ng-controller="DashboardCtrl">
     
     <ion-nav-buttons side="secondary">
       <button class="button" ng-click="leaders()">
@@ -28,15 +28,16 @@
     </button>
 </div>
         
-<div class="card" ng-repeat="item in workoutHist">
-          <div class="item item-text-wrap item-assertive" ng-click="">
+
+<div  class="card" ng-repeat="item in workoutHist track by $index" item-positive>
+          <div id= "workoutLog" class="item item-text-wrap" ng-click="">
             <p>({{item.time_stamp}})</p>
-              {{item.title}} 
-            <h3>Reps </h3> {{item.reps}}
-              <br>
+             <h2>{{item.title}} </h2> 
+            <h3>Reps </h3> 
+              <p>{{item.reps}}</p>
                <h3>Sets </h3>
              
-              {{item.sets}}
+              <p>{{item.sets}}</p>
           </div>
 </div>
 

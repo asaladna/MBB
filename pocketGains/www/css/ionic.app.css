@@ -15,6 +15,21 @@ $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
+* {
+  font-family: Ubuntu; }
+
+#workoutLog {
+  background-color: #333333; }
+
+#workoutLog h3 {
+  color: #FFD91F; }
+
+#workoutLog h2 {
+  color: #FFD91F; }
+
+#workoutLog p {
+  color: #FFFFFF; }
+
 .scroll-bg {
   background: #212121;
   background-size: cover; }

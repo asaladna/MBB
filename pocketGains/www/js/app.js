@@ -76,6 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
   })
 
   .state('app.dashboard', {
+    cache: false,
     url: '/dashboard',
     views: {
       'menuContent': {
@@ -96,6 +97,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
     })
 
   .state('app.workoutDashboard', {
+      cache: false,
       url: '/workoutDashboard',
       views: {
         'menuContent': {

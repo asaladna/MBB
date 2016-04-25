@@ -18,8 +18,23 @@ $assertive:                       #ef473a !default;
 $big-bg:                          #212121 !default;
 $positive:                        #212121 !default;
 
-#world{
-    $positive:    #ef473a !default;
+//#world{
+//    $positive:    #ef473a !default;
+//}
+*{
+font-family: Ubuntu
+}
+#workoutLog{
+    background-color: #333333
+}
+#workoutLog h3{
+    color: #FFD91F
+}
+#workoutLog h2{
+    color: #FFD91F
+}
+#workoutLog p{
+    color: #FFFFFF
 }
 .scroll-bg {
   background: $big-bg;

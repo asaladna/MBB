@@ -15,6 +15,19 @@ angular.module('starter.controllers', ["chart.js"])
 
   var apiLink = "http://52.37.226.62";
 
+  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
+    .success(function(workoutData) {
+      if (workoutData!= "no results found") {
+        $scope.workoutHist = workoutData;
+
+        $scope.workoutHist.sort(function(a, b) {
+          return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
+        });
+      }
+    })
+    .error(function(data) {
+        alert("API ERROR" + "\n" + "/getHistory");
+    });
 
   // Modal for when an achievement is completed - celebrate the User
   $ionicModal.fromTemplateUrl('templates/completedAchievement-modal.html', {
@@ -32,18 +45,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.closeModal = function() {
     $scope.modal.hide();
-  };
-    
- $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
-    .success(function(workoutData) {
-        $scope.workoutHist = workoutData;
-        console.log($scope.workoutHist);
-
-
-    })
-    .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
-    });       
+  };    
 
 
   // ----- Get First achievement for creating account (gym rat) if not complete
@@ -51,8 +53,6 @@ angular.module('starter.controllers', ["chart.js"])
   $http.get("http://52.37.226.62/achievements/" + $scope.user_id )
       .success(function(data) {
           $scope.compAchievements = data;
-
-          console.log($scope.compAchievements);
 
           for (i = 0; i < $scope.compAchievements.length; i++) {
             if($scope.compAchievements[i].achieve_id == 66) {
@@ -62,38 +62,33 @@ angular.module('starter.controllers', ["chart.js"])
           }
 
           // IF the user has not yet earned the Gym Rat achieve, give it to them
-            console.log("achieve flag = " + $scope.firstAchievement)
-            if ($scope.firstAchievement == false) {
+          if ($scope.firstAchievement == false) {
 
-              $http.get("http://52.37.226.62/achievements", { } )
-                .success(function(data) {
+            $http.get("http://52.37.226.62/achievements", { } )
+              .success(function(data) {
 
-                    var gymRat_id = 65;
-                    console.log("User " + $scope.user_id + " earned achievement w/ id: " + data[gymRat_id].achieve_id);
-                    $scope.completedAchievement = data[gymRat_id];
+                  var gymRat_id = 65;
+                  console.log("User " + $scope.user_id + " earned achievement w/ id: " + data[gymRat_id].achieve_id);
+                  $scope.completedAchievement = data[gymRat_id];
 
-                    //POST that achievement was completed
-                    $http.post("http://52.37.226.62/completedAchievement", 
-                          {
-                            "user_id": $scope.user_id,
-                            "achieve_id": data[gymRat_id].achieve_id
-                          }
-                      )
-                      .success(function(data) {
-
-                          console.log(data);
-
-                          $scope.openModal($scope.completedAchievement);
-                          
-                      })
-                      .error(function(data) {
-                          alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
-                      });
-                })
-                .error(function(data) {
-                    alert("API ERROR at " + apiLink + "\n" + "/achievements");
-                });
-            }
+                  //POST that achievement was completed
+                  $http.post("http://52.37.226.62/completedAchievement", 
+                        {
+                          "user_id": $scope.user_id,
+                          "achieve_id": data[gymRat_id].achieve_id
+                        }
+                    )
+                    .success(function(data) {
+                        $scope.openModal($scope.completedAchievement);
+                    })
+                    .error(function(data) {
+                        alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
+                    });
+              })
+              .error(function(data) {
+                  alert("API ERROR at " + apiLink + "\n" + "/achievements");
+              });
+          }
       })
       .error(function(data) {
           alert("API ERROR at " + apiLink + "\n" + "/achievements/{user_id}");
@@ -109,10 +104,7 @@ angular.module('starter.controllers', ["chart.js"])
 })
 
 
-
-
-
-
+// ******************** Profile Builder (First Time Login) Controller **********************************
 
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
@@ -197,15 +189,6 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.workouts = [ ];
   $scope.nextText = "none";
 
-  $http.get("http://private-9f4a2-pocketgains.apiary-mock.com/workouts/" + "arms")
-    .success(function(data) {
-        $scope.workouts = data;
-        console.log(data);
-    })
-    .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + "6");
-    });
-
   $ionicModal.fromTemplateUrl('templates/workoutSelector-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -215,8 +198,18 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.openModal = function(category) {
     $scope.category = category;
-    console.log(category + " category selected!")
-    $scope.modal.show();    
+
+    $http.get("http://52.37.226.62/workouts/" + $scope.category)
+    .success(function(data) {
+        $scope.workouts = data;
+        console.log(data);
+        $scope.modal.show(); 
+    })
+    .error(function(data) {
+        alert("API ERROR" + "\n" + "/workouts/type");
+    });
+
+       
     
   }
 
@@ -250,7 +243,8 @@ angular.module('starter.controllers', ["chart.js"])
   }
 
   $scope.profileBuilderFinish = function() {
-    $http.post("http://private-9f4a2-pocketgains.apiary-mock.com/createNewUser", 
+    console.log(userData.getUsername() + " . " + userData.getPassword() + " . " + $scope.sex + " . " + $scope.goal + " . " + $scope.favs['arms']+ " . " + $scope.favs['legs']+ " . " + $scope.favs['back']+ " . " + $scope.favs['shoulders']+ " . " + $scope.favs['chest']+ " . " + $scope.favs['cardio']);
+    $http.post("http://52.37.226.62/createNewUser", 
         {
           "username": userData.getUsername(),
           "password": userData.getPassword(), 
@@ -265,7 +259,6 @@ angular.module('starter.controllers', ["chart.js"])
         }
     )
     .success(function(data) {
-        $scope.profileBuilderResponse = data;
 
         $ionicHistory.nextViewOptions({
           disableAnimate: true,
@@ -273,25 +266,24 @@ angular.module('starter.controllers', ["chart.js"])
         });
 
         // Set the user_id for the entire app
-        userData.setId(data.user_id);
-        console.log(data.user_id);
+        userData.setId(data);
+        console.log(data);
 
         $state.go('app.dashboard');
         
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + data);
+        alert("API ERROR" + "\n" + "/createNewUser");
     });
   }
 
 
 })
-  
-  
+
+
+// ******************** Login Page Controller **********************************
 
 .controller('SignInCtrl', function($scope, $ionicHistory, $ionicModal, $ionicConfig, $ionicSideMenuDelegate, $state, $http, userData) {
-
-    var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
     $scope.form = {};
 
@@ -310,6 +302,10 @@ angular.module('starter.controllers', ["chart.js"])
       if ($scope.password == $scope.verifyPass) {
         userData.setUsername($scope.username);
         userData.setPassword($scope.password);
+
+        console.log("Username: " + userData.getUsername() + " ... " + $scope.username);
+        console.log("Password: " + userData.getPassword() + " ... " + $scope.password);
+
         $state.go('app.profileBuilder');
         $scope.modal.hide();
       } else {
@@ -327,7 +323,7 @@ angular.module('starter.controllers', ["chart.js"])
           $scope.password=$scope.form.password;
       }
 
-      $http.post(apiLink + "/login", 
+      $http.post("http://52.37.226.62/login", 
             {
               "username": $scope.username, 
               "password": $scope.password
@@ -335,7 +331,9 @@ angular.module('starter.controllers', ["chart.js"])
         )
         .success(function(data) {
 
-            $scope.user_id = data.user_id;
+          if (JSON.parse(data) != "invalid username or password") {
+
+            $scope.user_id = JSON.parse(data);
 
             userData.setUsername($scope.username);
             userData.setId($scope.user_id);
@@ -349,10 +347,14 @@ angular.module('starter.controllers', ["chart.js"])
 
             $state.go('app.dashboard');
 
+          } else {
+            $scope.message = JSON.parse(data);
+          }
+
         })
         .error(function(data) {
             $state.go('app.login');
-            alert("API ERROR at " + apiLink + "\n" + "POST /login");
+            alert("API ERROR" + "\n" + "POST /login");
         });
     }
 
@@ -371,17 +373,11 @@ angular.module('starter.controllers', ["chart.js"])
 
 .controller('HomeTabCtrl', function($scope, userData, $http) {
 
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
-
   $scope.user_id = userData.getId();
 
-  $http.post(apiLink + "/userData",
-    {
-      "user_id": $scope.user_id
-    }
-  )
-
+  $http.get("http://52.37.226.62/userData/" + $scope.user_id)
   .success(function(data) {
+      data = data[0];
       $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
       $scope.userPoints =  {
                       "arms": data["arms"],
@@ -391,6 +387,7 @@ angular.module('starter.controllers', ["chart.js"])
                       "chest": data["chest"],
                       "cardio": data["cardio"]
                     };
+      console.log(data);
 
       $scope.data = [[$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest]];
       
@@ -435,24 +432,20 @@ angular.module('starter.controllers', ["chart.js"])
     .error(function(data) {
         alert("API ERROR " + "\n" + "/achievements");
     });
-
-  
-
-
 })
-
-
             
 .controller('LeaderCtrl', function($scope, $state, userData, $http) {
 
   $scope.user_id = userData.getId();
+//      for (i = 0; i < $scope.compAchievements.length; i++)
 
   $http.get("http://52.37.226.62/workoutTypes")
     .success(function(data) {
         $scope.buttons = data;
+      
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + 1);
+        alert("API ERROR" + "\n" + "/workoutTypes");
     });
     
     $scope.showCard= function(workout){
@@ -485,28 +478,34 @@ angular.module('starter.controllers', ["chart.js"])
 
 .controller('WorkoutDashCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate) {
 
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
-
   $scope.form = {};
 
   $scope.user_id = userData.getId();
 
-  // Get users suggested workouts
-  $http.get(apiLink + "/getSuggestedWorkouts/" + $scope.user_id)
+  // -------------- Calculate the Suggested Workouts for the User -------------- //
+  var d = new Date();
+  d.setDate(d.getDate()-2);
+
+  console.log(d.toISOString());
+
+  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/" + d.toISOString())
     .success(function(data) {
-        $scope.suggestedWorkouts = data;
+        $scope.workoutHistory = data;
+
+        console.log($scope.workoutHistory);
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Suggested");
+        alert("API ERROR" + "\n" + "/getHistory");
     });
 
   // Get users favorite workouts
   $http.get("http://52.37.226.62/favorites/" + $scope.user_id)
     .success(function(data) {
         $scope.favoriteWorkouts = data;
+        console.log($scope.favoriteWorkouts);
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + "WorkoutDashCtrl Favorites");
+        alert("API ERROR" + "\n" + "/favorites");
     });
 
    $http.get("http://52.37.226.62" + "/workoutTypes")
@@ -551,6 +550,7 @@ angular.module('starter.controllers', ["chart.js"])
       if (index == 1) {
         $scope.activeWorkout = activeTitle;
         $scope.workoutId = activeId;
+        console.log("Workout ID: " + $scope.workoutId);
         $scope.modal.show();  
       } else if (index == 2) {
         $ionicSlideBoxDelegate.slide(0);
@@ -560,21 +560,27 @@ angular.module('starter.controllers', ["chart.js"])
       } 
     }
 
-    $scope.submitWorkout = function(form) {
-      $scope.user_id = userData.getId();
-      $scope.workoutId = $scope.activeId;
-      $scope.reps = $scope.form.reps;
-      $scope.sets = $scope.form.sets;
-      $scope.weight = $scope.form.weight;
-      $scope.duration = null;
+    $scope.submitWorkout = function() {
 
-      $http.post("http://private-9f4a2-pocketgains.apiary-mock.com" + "/addCompletedWorkout", 
+      console.log(this.form.sets);
+      $scope.user_id = userData.getId();
+      $scope.workoutId = $scope.workoutId;
+      $scope.reps = this.form.reps;
+      $scope.sets = this.form.sets;
+      $scope.weight = this.form.weight;
+      $scope.points = 15;
+      $scope.duration = "";
+
+      console.log($scope.user_id + " . " + $scope.workoutId + " . " + $scope.reps + " . " + $scope.sets + " . " + $scope.weight + " . " + $scope.points + " . " + $scope.duration);
+
+      $http.post("http://52.37.226.62/addCompletedWorkout", 
         {
           "user_id": $scope.user_id,
           "workout_id": $scope.workoutId,
           "sets": $scope.sets,
           "reps": $scope.reps,
           "weight": $scope.weight,
+          "points": $scope.points,
           "duration": $scope.duration
         }
       )
@@ -592,12 +598,12 @@ angular.module('starter.controllers', ["chart.js"])
           
       })
       .error(function(data) {
-          alert("API ERROR at " + apiLink + "\n" + "POST /addCompletedWorkout" + "\n" + data);
+          alert("API ERROR" + "\n" + "POST /addCompletedWorkout" + "\n" + data);
       });
     }
 
     $scope.loadWorkouts = function(type) {
-      $http.get("http://private-9f4a2-pocketgains.apiary-mock.com" + "/workouts/" + type)
+      $http.get("http://52.37.226.62/workouts/" + type)
         .success(function(data) {
             $scope.workouts = data;
             console.log(data);
