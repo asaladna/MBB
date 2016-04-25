@@ -453,7 +453,7 @@ $app->post('/addCompletedWorkout',
 
 			// get the workout type
 			$query = $db->prepare("SELECT Type_type_id FROM IS_TYPE WHERE Workout_workout_id = :workout_id");
-			$query->execute(array(':workout_id', $workout_id));
+			$query->execute(array(':workout_id' => $workout_id));
 
 			if ($query)
 			{
