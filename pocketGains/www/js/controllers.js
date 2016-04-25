@@ -481,12 +481,17 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.user_id = userData.getId();
 
   // -------------- Calculate the Suggested Workouts for the User -------------- //
-  var d = new Date();
-  d.setDate(d.getDate()-2);
+  var date_twoDaysBack = new Date();
+  var date_oneDayBack = new Date();
+  var date_today = new Date();
+  date_twoDaysBack.setDate(date_twoDaysBack.getDate()-2);
+  date_oneDayBack.setDate(date_oneDayBack.getDate()-1);
+  date_today.setDate(date_today.getDate());
 
-  console.log(d.toISOString());
+  console.log(date_twoDaysBack.toISOString() + " ... " + date_oneDayBack.toISOString());
 
-  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/" + d.toISOString())
+  // Get workout history between one and two days back...
+  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/" + date_oneDayBack.toISOString() + "/" + date_twoDaysBack.toISOString())
     .success(function(data) {
         $scope.workoutHistory = data;
 
