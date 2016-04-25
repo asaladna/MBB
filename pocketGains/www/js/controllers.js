@@ -437,10 +437,12 @@ angular.module('starter.controllers', ["chart.js"])
 .controller('LeaderCtrl', function($scope, $state, userData, $http) {
 
   $scope.user_id = userData.getId();
+//      for (i = 0; i < $scope.compAchievements.length; i++)
 
   $http.get("http://52.37.226.62/workoutTypes")
     .success(function(data) {
         $scope.buttons = data;
+      
     })
     .error(function(data) {
         alert("API ERROR" + "\n" + "/workoutTypes");

@@ -92,6 +92,12 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->bindParam('$user_id', $user_id);
     			$query->execute();
 
+                // add user to Points table
+                $query = $db->prepare("INSERT into Points (User_user_id, cardio, arms, legs, back,
+                    shoulders, chest) values ($user_id, 0, 0, 0, 0, 0, 0)");
+                $query->bindParam('user_id', $user_id);
+                $query->execute();
+
                 return $response->write(json_encode($user_id));
     		}
     		else
@@ -451,44 +457,47 @@ $app->post('/addCompletedWorkout',
 			$query->bindParam(':duration', $duration);
 			$query->execute();
 
-			// get the workout type
-			$query = $db->prepare("SELECT Type_type_id FROM IS_TYPE WHERE Workout_workout_id = :workout_id");
-			$query->execute(array(':workout_id' => $workout_id));
+            $query = $db->prepare("SELECT Types_type_id FROM Is_Type WHERE Workout_workout_id = :workout_id");
+            $query->execute(array(':workout_id' => $workout_id));
 
 			if ($query)
 			{
 				$result = $query->fetchAll();
-
-				foreach($result as $row)
-				{
-					$type_id = $row['Type_type_id'];
+                
+                foreach ($result as $row)
+                {
+                    $type_id = $row['Types_type_id'];
 
 					// update points for all the categories the workout is in
 					// update back
 					if ($type_id == 1)
 					{
-						$query = $db->prepare("UPDATE Points SET back = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET back = back + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update arms
 					if ($type_id == 2)
 					{
-						$query = $db->prepare("UPDATE Points SET arms = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET arms = arms + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update shoulders
 					if ($type_id == 3)
 					{
-						$query = $db->prepare("UPDATE Points SET shoulders = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET shoulders = shoulders + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update legs
 					if ($type_id == 4)
 					{
-						$query = $db->prepare("UPDATE Points SET legs = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET legs = legs + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
