@@ -10,11 +10,10 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     	$db = $this->api_login;
 
     	$params = $request->getParsedBody();
-    	$username = $params['username'];
+        $username = $params['username'];
     	$password = $params['password'];
     	$sex = $params['sex'];
     	$goal = $params['goal'];
-    	$cardioPref = $params['cardioPref'];
     	$exp = 0;
     	$fav_arm_id = $params['arms'];
     	$fav_leg_id = $params['legs'];
@@ -36,18 +35,17 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     		if ($query->rowCount() == 0)
     		{
     			// insert user info into db
-    			$query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref,
-    				exp) values ('$username', '$password', '$sex', '$goal', '$cardioPref', $exp)");
+    			$query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
+    				values ('$username', '$password', '$sex', '$goal', $exp)");
     			$query->bindParam(':username', $username);
     			$query->bindParam(':password', $password);
     			$query->bindParam(':sex', $sex);
     			$query->bindParam(':goal', $goal);
-    			$query->bindParam('cardioPref', $cardioPref);
     			$query->bindParam(':exp', $exp);
     			$query->execute();
     		}
     		else
-    			throw new PDOException("error creating an account");
+    			throw new PDOException("\"username already in use\"");
 
     		// get user_id to add preferred workouts to db
     		$query = $db->prepare("SELECT user_id from User WHERE username = :username LIMIT 1");
@@ -73,6 +71,13 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->bindParam('$user_id', $user_id);
     			$query->execute();
 
+    			// add preferred back workout
+    			$query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
+    				values ($fav_back_id, $user_id)");
+    			$query->bindParam('fav_back_id', $fav_back_id);
+    			$query->bindParam('$user_id', $user_id);
+    			$query->execute();
+
     			// add preferred shoulder workout
     			$query = $db->prepare("INSERT into Faved_Workouts (Workout_workout_id, User_user_id)
     				values ($fav_shoulder_id, $user_id)");
@@ -86,16 +91,18 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->bindParam('fav_chest_id', $fav_chest_id);
     			$query->bindParam('$user_id', $user_id);
     			$query->execute();
+
+                return $response->write(json_encode($user_id));
     		}
     		else
-                throw new PDOException("error adding preferred workouts");
+                throw new PDOException("\"error adding preferred workouts\"");
     	}
     	else
-    		throw new PDOException("error creating an account");
+    		throw new PDOException("\"error creating an account\"");
     }
     catch (PDOException $e)
     {
-    	echo "\"There was an error\"";
+    	echo $e->getMessage();
     }
 });
 // Queries db to see if entered credentials are correct
@@ -113,11 +120,12 @@ $app->post('/login', function ($request, $response, $args) {
         $params = $request->getParsedBody();
         $username = $params['username'];
         $password = $params['password'];
+        $user_id = 0;
 
         if ($db)
         {
             // grab username and password from db
-            $query = $db->prepare("SELECT username, password FROM User WHERE username = :username
+            $query = $db->prepare("SELECT user_id, username, password FROM User WHERE username = :username
                 LIMIT 1");
             $query->execute(array('username' => $username));
             
@@ -129,12 +137,16 @@ $app->post('/login', function ($request, $response, $args) {
                 $hash = "";
                 
                 foreach($result as $row)
+                {
+                    $user_id = $row['user_id'];
                     $hash = $row['password'];
+                }
                 
                 // verify passwords match
-                if (hash_equals($password, $hash))
+                if (password_verify($password, $hash))
                 {
-                    // create a new session for the user and store session id in db
+                    // destroy old session and create a new session for the user and store session id in db
+                    session_destroy();
                     session_start();
                     $session_id = session_id();
                     // assign the username to the session
@@ -144,26 +156,27 @@ $app->post('/login', function ($request, $response, $args) {
                     $query = $db->prepare("UPDATE User SET session_id = :session_id
                         WHERE username = :username");
                     $query->execute(array('session_id' => $session_id, 'username' => $username));
+
+                    return $response->write(json_encode($user_id));
                 }
                 else
-                    throw new PDOException("invalid username or password");
+                    throw new PDOException("\"invalid username or password\"");
             }
             else
-                throw new PDOException("invalid username or password");
+                throw new PDOException("\"invalid username or password\"");
         }
         else
-            throw new PDOException("could not connect to db");
+            throw new PDOException("\"could not connect to db\"");
     }
     catch (PDOException $e)
     {
-        echo "\"There was an error\"";
+        echo $e->getMessage();
     }
 });
 $app->get('/achievements',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
- 		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
         $query = $db->prepare(
             'SELECT *
                 FROM Achievements');
@@ -186,7 +199,6 @@ $app->get('/achievements/{user_id}',
 	function ($request, $response, $args) {
     try {
     	$db = $this->api_login;
- 		//FIX SQL STATEMENT FOR NEWLY UPDATED DB
         $query = $db->prepare(
             'SELECT a.achieve_id, a.name, a.desc
                 FROM Achievements a, User u, Achievements_Completed ac
@@ -385,13 +397,11 @@ $app->get('/favoriteTypes/{fav_id}',
         echo "\"There was an error\"";
     }
 });
-$app->post('/userData',
+$app->get('/userData/{user_id}',
     function ($request, $response, $args) {
     try {
 			$db = $this->api_login;
-			$user_id = $_POST['user_id'];
-			//TEST CASE HARDCODED TEST USER
-			//$user_id = 12;
+			$user_id = $args['user_id'];
 			$query = $db->prepare(
 			'SELECT u.username, u.exp, u.cardioPref, p.arms, p.legs, p.chest, p.back, p.shoulders, p.cardio
 					FROM User as u LEFT JOIN Points as p
@@ -409,7 +419,7 @@ $app->post('/userData',
 					$db = null;
 			}
 			else {
-					throw new PDOException('No records found.');
+					throw new PDOException("\"No records found.\"");
 			}
 		}
 		catch(PDOException $e) {
@@ -418,37 +428,88 @@ $app->post('/userData',
 });
 $app->post('/addCompletedWorkout',
     function ($request, $response, $args) {
+			$params = $request->getParsedBody();
 			$db = $this->api_login;
-			$user_id = $_POST['user_id'];
-			$workout_id = $_POST['workout_id'];
-//			$title = $_POST['title'];
-			$sets = $_POST['sets'];
-			$reps = $_POST['reps'];
-			$weight = $_POST['weight'];
-//			$desc = $_POST['desc'];
-			$duration = $_POST['duration'];
-/*
-			//TEST CASE HARDCODED TEST USER
-			$user_id = 12;
-//			$title = "Humbug";
-			$sets = 1;
-			$reps = 15156;
-			$weight = 9001;
-			$duration = NULL;
-*/
+			$user_id = $params['user_id'];
+			$workout_id = $params['workout_id'];
+			$sets = $params['sets'];
+			$reps = $params['reps'];
+			$weight = $params['weight'];
+			$duration = $params['duration'];
+			$points = $params['points'];
       try {
 			$query = $db->prepare(
 			"INSERT INTO Workout_History(User_user_id, Workout_workout_id, sets, reps, weight,
 									 duration) VALUES (:user_id, :workout_id, :sets, :reps, :weight,
 									 :duration)"
 			);
-			$query->execute(
-					array(
-							'user_id' => $user_id, 'workout_id' => $workout_id, 'sets' => $sets,
-							'reps' => $reps, 'weight' => $weight, 'duration' => $duration
-						)
-			);
-      echo "\"Workout Added.\"";
+			$query->bindParam(':user_id', $user_id);
+			$query->bindParam(':workout_id', $workout_id);
+			$query->bindParam(':sets', $sets);
+			$query->bindParam(':reps', $reps);
+			$query->bindParam(':weight', $weight);
+			$query->bindParam(':duration', $duration);
+			$query->execute();
+
+			// get the workout type
+			$query = $db->prepare("SELECT Type_type_id FROM IS_TYPE WHERE Workout_workout_id = :workout_id");
+			$query->execute(array(':workout_id' => $workout_id));
+
+			if ($query)
+			{
+				$result = $query->fetchAll();
+
+				foreach($result as $row)
+				{
+					$type_id = $row['Type_type_id'];
+
+					// update points for all the categories the workout is in
+					// update back
+					if ($type_id == 1)
+					{
+						$query = $db->prepare("UPDATE Points SET back = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update arms
+					if ($type_id == 2)
+					{
+						$query = $db->prepare("UPDATE Points SET arms = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update shoulders
+					if ($type_id == 3)
+					{
+						$query = $db->prepare("UPDATE Points SET shoulders = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update legs
+					if ($type_id == 4)
+					{
+						$query = $db->prepare("UPDATE Points SET legs = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update cardio
+					if ($type_id == 5)
+					{
+						$query = $db->prepare("UPDATE Points SET cardio = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+
+					// update chest
+					if ($type_id == 6)
+					{
+						$query = $db->prepare("UPDATE Points SET chest = :points WHERE User_user_id = :user_id");
+						$query->execute(array('points' => $points, 'user_id' => $user_id));
+					}
+				}
+			}
+			else
+				throw new PDOException("\"Unable to update points\"");
+
     }
     catch(PDOException $e) {
         echo "\"There was an error\"";
@@ -485,15 +546,6 @@ $app->post('/addFavorite',
 		$sets = $_POST['sets'];
 		$reps = $_POST['reps'];
 		$duration = $_POST['duration'];
-/*
-		//Test code
-		$user_id = 12;
-		$workout_id = 1;
-		$weight = 120;
-		$sets = 3;
-		$reps = 12;
-		$duration = NULL;
-*/
     try {
 		$query = $db->prepare(
 		"INSERT INTO Faved_Workouts(User_user_id, Workout_workout_id, sets, reps, weight,
@@ -512,41 +564,7 @@ $app->post('/addFavorite',
       echo "\"There was an error\"";
   }
 });
-/*
-$app->get('/getHistoryWorkout/{user_id}/{hist_id}',
-    function ($request, $response, $args) {
-	try {
-		$db = $this->api_login;
-		$query = $db->prepare(
-				'SELECT w.workout_id, w.title, h.time_stamp, h.duration, h.reps,
-								h.sets, h.weight, w.desc
-					 FROM (Workout_History AS h LEFT JOIN Workout AS w ON h.Workout_workout_id
-					 = w.workout_id) RIGHT JOIN User AS u ON h.User_user_id = u.user_id
-					WHERE u.user_id = :user_id
-								AND h.hist_id = :hist_id'
-		);
-		$query->execute(
-				array(
-						'user_id' => $args['user_id'],
-						'hist_id' => $args['hist_id']
-						)
-				);
-		$arr = $query->fetchAll(PDO::FETCH_ASSOC);
-		if($arr) {
-				return $response->write(json_encode($arr));
-				$db = null;
-		}
-		else {
-				throw new PDOException('No records found.');
-		}
-		}
-	catch(PDOException $e) {
-			echo "\"There was an error\"";
-	}
-});
-/*
-/*
-$app->get('/workoutDaysback/{user_id}/{start}/{end}',
+$app->get('/getHistory/{user_id}/{start}/{end}',
     function ($request, $response, $args) {
 			try {
 			$db = $this->api_login;
@@ -554,10 +572,10 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 			$end = $args['end'];
 			$uid = $args['user_id'];
 			$query = $db->prepare(
-					"SELECT h.hist_id
-						 FROM Workout_History AS h RIGHT JOIN User AS u
-						 	 ON h.User_user_id = u.user_id
-						WHERE u.user_id = :user_id
+					"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+             FROM Workout_History AS h RIGHT JOIN Workout w
+               ON h.Workout_workout_id = w.workout_id
+						WHERE h.User_user_id = :user_id
 							AND h.time_stamp > :start
 							AND h.time_stamp < $end"
 			);
@@ -570,15 +588,14 @@ $app->get('/workoutDaysback/{user_id}/{start}/{end}',
 					return $response->write(json_encode($arr));
 					$db = null;
 			}
-			else {
-					throw new PDOException('No records found.');
+      else {
+					throw new PDOException("\"No records found.\"");
 			}
 	}
 	catch(PDOException $e) {
-			echo "\"There was an error\"";
+			echo $e->getMessage();
 		}
 });
-*/
 // Displays a list of all the workouts for a particular workout type
 $app->get('/workouts/{type}', function ($request, $response, $args) {
     // get type id
@@ -642,40 +659,6 @@ $app->get('/workout/{workout_id}', function ($request, $response, $args) {
         echo "\"There was an error\"";
     }
 });
-/*
-// Displays suggested workouts for the logged in user
-$app->get('/getSuggestedWorkouts/{user_id}', function($request, $response, $args) {
-    // get user id
-    $user_id = $args['user_id'];
-    try
-    {
-        // connect to pocketgains db
-        $db = $this->api_login;
-        if ($db)
-        {
-            // assuming this query is correct, no dummy data in Suggested_Workouts table
-            // will add some later to check if query works properly
-            $query = $db->prepare("SELECT w.title, s.sets, s.reps, s.weight, s.duration
-                FROM Suggested_Workouts s, Workout w WHERE s.User_user_id = :user_id
-                AND s.Workout_workout_id = w.workout_id");
-            $query->execute(array('user_id' => $user_id));
-            $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            if ($result)
-            {
-                return $response->write(json_encode($result));
-            }
-            else
-                throw new PDOException("no results found");
-        }
-        else
-            throw new PDOException("could not connect to db");
-    }
-    catch (PDOException $e)
-    {
-        echo "\"There was an error\"";
-    }
-});
-*/
 // Displays the workout history of the logged in user
 $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args) {
     // get user id
@@ -704,14 +687,14 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
                 return $response->write(json_encode($result));
             }
             else
-                throw new PDOException("no results found");
+                throw new PDOException("\"no results found\"");
         }
         else
-            throw new PDOException("could not connect to db");
+            throw new PDOException("\"could not connect to db\"");
     }
     catch (PDOException $e)
     {
-        echo "\"There was an error\"";
+        echo $e->getMessage();
     }
 });
 $app->post('/editFavorite',
