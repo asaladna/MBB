@@ -466,28 +466,32 @@ $app->post('/addCompletedWorkout',
 					// update back
 					if ($type_id == 1)
 					{
-						$query = $db->prepare("UPDATE Points SET back = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET back = back + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update arms
 					if ($type_id == 2)
 					{
-						$query = $db->prepare("UPDATE Points SET arms = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET arms = arms + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update shoulders
 					if ($type_id == 3)
 					{
-						$query = $db->prepare("UPDATE Points SET shoulders = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET shoulders = shoulders + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update legs
 					if ($type_id == 4)
 					{
-						$query = $db->prepare("UPDATE Points SET legs = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET legs = legs + :points
+                            WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
