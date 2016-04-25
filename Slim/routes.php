@@ -581,12 +581,14 @@ $app->get('/getHistory/{user_id}/{start}/{end}',
 			$end = $args['end'];
 			$uid = $args['user_id'];
 			$query = $db->prepare(
-					"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
-             FROM Workout_History AS h RIGHT JOIN Workout w
-               ON h.Workout_workout_id = w.workout_id
-						WHERE h.User_user_id = :user_id
-							AND h.time_stamp > :start
-							AND h.time_stamp < $end"
+					"SELECT w.title, t.name, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+				             FROM ((Workout_History AS h LEFT JOIN Workout w
+				               ON h.Workout_workout_id = w.workout_id) LEFT JOIN Is_Type i
+				               ON w.workout_id = i.Workout_workout_id) LEFT JOIN Types t
+				               ON i.Types_type_id = t.type_id
+				            WHERE h.User_user_id = :user_id
+				              AND h.time_stamp > :start
+					      AND h.time_stamp < $end"
 			);
 			$query->bindParam(':user_id', $uid);
 			$query->bindParam(':start', $start);
@@ -681,11 +683,13 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
 					$start = $args['start'];
 					$uid = $args['user_id'];
 					$query = $db->prepare(
-							"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
-								 FROM Workout_History AS h RIGHT JOIN Workout w
-								 	 ON h.Workout_workout_id = w.workout_id
-								WHERE h.User_user_id = :user_id
-									AND h.time_stamp > :start"
+							"SELECT w.title, t.name, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+					             	FROM ((Workout_History AS h LEFT JOIN Workout w
+					               ON h.Workout_workout_id = w.workout_id) LEFT JOIN Is_Type i
+					               ON w.workout_id = i.Workout_workout_id) LEFT JOIN Types t
+					               ON i.Types_type_id = t.type_id
+					            WHERE h.User_user_id = :user_id
+					              AND h.time_stamp > :start"
 					);
 					$query->bindParam(':user_id', $uid);
 					$query->bindParam(':start', $start);
