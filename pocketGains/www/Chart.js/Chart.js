@@ -102,7 +102,7 @@
 			scaleFontStyle: "normal",
 
 			// String - Scale label font colour
-			scaleFontColor: "#666",
+			scaleFontColor: "rgb(250,250,250)",
 
 			// Boolean - whether or not the chart should be responsive and resize when the browser does.
 			responsive: false,

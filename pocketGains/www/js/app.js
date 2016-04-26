@@ -65,7 +65,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'ui.route
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, ChartJsProvider) {
+    
+//    ChartJsProvider.setOptions({ colours : [ '#803690', '#803690', '#803690', '#803690', '#803690', '#803690', '#803690', '#803690', '#803690', '#803690'] });
+//    
   $stateProvider
 
     .state('app', {
