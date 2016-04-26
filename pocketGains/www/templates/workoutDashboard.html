@@ -32,12 +32,13 @@
         
         <div class="row">
           <a ng-repeat="type in workoutTypes1"
-               class="button col border" ng-click="openModal(3,null,null,type.name)">{{type.name}}</a>
+               class="button col border" ng-click="openModal(3,null,null,type.name)"><img src="/img/{{type.name}}.png"> {{type.name}}</a>
         </div>
         <div class="row">
           <a ng-repeat="type in workoutTypes2"
-               class="button col border" ng-click="openModal(3,null,null,type.name)">{{type.name}}</a>
+               class="button col border" ng-click="openModal(3,null,null,type.name)"><img src="/img/{{type.name}}.png">  {{type.name}}</a>
         </div>
+	         	
 
         <br/>
 

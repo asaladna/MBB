@@ -18,7 +18,7 @@
 	      	
 	    </ion-nav-buttons>
 	   
-	    <ion-slide-box id="Theme" ng-init="disableSlide()" on-slide-changed="slideChanged(index)">
+	    <ion-slide-box ng-init="disableSlide()" on-slide-changed="slideChanged(index)">
 	      
 	    <!-- Get from user: Male or female? -->
 	    <ion-slide id= "Theme">
@@ -28,15 +28,15 @@
 	         	<h1>Male</h1>
 	        </div>
 	        <div id="female-button-container" ng-click="selectFemale()">
-	         	<img src="/img/female_icon.png">
+	         	<img src="/img/girl.png">
 	         	<h1>Female</h1>
 	        </div>
 	    </ion-slide>
 	      
 	    <!-- Get from user: General workout goal? -->
-	    <ion-slide>
+	    <ion-slide id= "buildProf">
 	      	<h3>What is your fitness goal?</h3>
-	      	<div id="scale-button-container" ng-click="selectScale()">
+	      	<div  id="scale-button-container" ng-click="selectScale()">
 	         	<img src="/img/scale_icon.png">
 	         	<h1>Lose<br/>Weight</h1>
 	        </div>

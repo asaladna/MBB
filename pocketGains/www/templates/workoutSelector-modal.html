@@ -4,7 +4,7 @@
       <h1 class="title">Select a Workout</h1>
     </ion-header-bar>
 
-    <ion-content id= "Theme">
+    <ion-content id= "profBuilder">
 
 <!--
     	<ion-list id= "Theme">
@@ -13,8 +13,8 @@
         	</ion-item>
        	</ion-list>
 -->
-        <div  id= "Theme"class="card" ng-repeat="workout in workouts">
-        <div id= "workoutLog" class="item item-text-wrap"  ng-click="openModal(1,workout.title,workout.workout_id, null)">
+        <div  id= "workoutLog" class="card" ng-repeat="workout in workouts track by $index">
+        <div  id= "workoutLog" class="item item-text-wrap"  ng-click="openModal(1,workout.title,workout.workout_id, null)">
              <h2>{{workout.title}}</h2>
         </div>
     </div>

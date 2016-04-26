@@ -26,6 +26,9 @@ $positive:                        #212121 !default;
 *{
 font-family: Ubuntu
 }
+#profBuilder{
+    background-color: #212121
+}
 #workoutLog{
     background-color: #333333
 }
@@ -33,7 +36,7 @@ font-family: Ubuntu
     color: #FFD91F
 }
 #workoutLog h2{
-    color: #FFD91F
+    color: #FFD91F;
 }
 #workoutLog p{
     color: #FFFFFF
@@ -55,6 +58,17 @@ font-family: Ubuntu
 #NavButtons{
     color: #FAFAFA;
 }
+
+#buildProf{
+    background-color: #212121;
+}
+#buildProf h1{
+    color: white;
+}
+#buildProf h3{
+    color: white;
+}
+
 
 #Theme{
     background-color: #212121;

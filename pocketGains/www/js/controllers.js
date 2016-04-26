@@ -204,7 +204,7 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.workouts = [ ];
   $scope.nextText = "none";
 
-  $ionicModal.fromTemplateUrl('templates/workoutSelector-modal.html', {
+  $ionicModal.fromTemplateUrl('templates/workoutSelectorProfBuilder-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
