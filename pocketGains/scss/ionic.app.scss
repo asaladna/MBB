@@ -84,6 +84,9 @@ font-family: Ubuntu
     color: white;
 }
 
+#description p{
+    color: #FAFAFA 
+}
 
 #Theme{
     background-color: #212121;
@@ -111,11 +114,14 @@ font-family: Ubuntu
 #loginFields{
     background-color: #212121
 }
+#loginFields #description{
+    color: #FAFAFA;
+}
 #themeButtons{
     
    background-color: #333333; 
 }
-#themeButtons p{
+#themeButtons {
     
    color: #FFD91F 
 }

@@ -1,16 +1,16 @@
 /*
 Error: File to import not found or unreadable: www/lib/ionic/scss/ionic.
-        on line 176 of ionic.app.scss
+        on line 182 of ionic.app.scss
 
-171: 
-172: // The path for our ionicons font files, relative to the built CSS in www/css
-173: $ionicons-font-path: "../lib/ionic/fonts" !default;
-174: 
-175: // Include all of Ionic
-176: @import "www/lib/ionic/scss/ionic";
+177: 
+178: // The path for our ionicons font files, relative to the built CSS in www/css
+179: $ionicons-font-path: "../lib/ionic/fonts" !default;
+180: 
+181: // Include all of Ionic
+182: @import "www/lib/ionic/scss/ionic";
 
 Backtrace:
-ionic.app.scss:176
+ionic.app.scss:182
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:67:in `rescue in import'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:45:in `import'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/tree/import_node.rb:28:in `imported_file'
@@ -53,4 +53,4 @@ ionic.app.scss:176
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: www/lib/ionic/scss/ionic.\A         on line 176 of ionic.app.scss\A \A 171: \A 172: // The path for our ionicons font files, relative to the built CSS in www/css\A 173: $ionicons-font-path: \"../lib/ionic/fonts\" !default;\A 174: \A 175: // Include all of Ionic\A 176: @import \"www/lib/ionic/scss/ionic\";"; }
+  content: "Error: File to import not found or unreadable: www/lib/ionic/scss/ionic.\A         on line 182 of ionic.app.scss\A \A 177: \A 178: // The path for our ionicons font files, relative to the built CSS in www/css\A 179: $ionicons-font-path: \"../lib/ionic/fonts\" !default;\A 180: \A 181: // Include all of Ionic\A 182: @import \"www/lib/ionic/scss/ionic\";"; }
