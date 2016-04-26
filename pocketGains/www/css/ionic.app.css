@@ -45,6 +45,10 @@ $dark:                            #444 !default;
   background-repeat: no-repeat;
   background-color: #212121; }
 
+#LoginTheme h3 {
+  color: #FAFAFA;
+  text-align: center; }
+
 #NavButtons {
   color: #FAFAFA; }
 

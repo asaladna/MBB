@@ -574,16 +574,25 @@ angular.module('starter.controllers', ["chart.js"])
         $scope.workoutId = activeId;
         console.log("Workout ID: " + $scope.workoutId);
         $scope.modal.show();  
+         $scope.back = function() {
+            $scope.modal.hide();
+          } 
       } else if (index == 2) {
         $ionicSlideBoxDelegate.slide(0);
         // console.log("On slide #" + $ionicSlideBoxDelegate.currentIndex());
         $scope.typeModal.show();
+         $scope.back = function() {
+            $scope.typeModal.hide();
+          } 
 
       } else if(index == 3){
           $scope.workoutType= workoutType;
           console.log($scope.workoutType);
           $scope.loadWorkouts($scope.workoutType);
           $scope.workoutSelectorModal.show();
+           $scope.back = function() {
+            $scope.workoutSelectorModal.hide();
+          } 
       }
     }
 
