@@ -1,4 +1,4 @@
-var apiLink = "http://52.37.226.62"; //"http://pocketgains.us";
+var apiLink = "http://pocketgains.us";
 
 angular.module('starter.controllers', ["chart.js"])
 
@@ -26,6 +26,11 @@ angular.module('starter.controllers', ["chart.js"])
 
         // This changes the time_stamp to daysBack for nicer display
         for (var key in $scope.workoutHist) {
+
+          // check if there is a workout in the history that satisfies an achievement
+
+
+
           // Set todays date and the date of the workout
           todays_date = new Date();
           time_stamp = $scope.workoutHist[key]['time_stamp'];
@@ -59,7 +64,22 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.closeModal = function() {
     $scope.modal.hide();
-  };    
+  };  
+
+  $scope.completeAchievement = function(id) {
+    $http.post(apiLink + "/completedAchievement", 
+          {
+            "user_id": $scope.user_id,
+            "achieve_id": id
+          }
+      )
+      .success(function(data) {
+          $scope.openModal($scope.completedAchievement);
+      })
+      .error(function(data) {
+          alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
+      });
+  }; 
 
 
   // ----- Get First achievement for creating account (gym rat) if not complete
@@ -68,17 +88,16 @@ angular.module('starter.controllers', ["chart.js"])
       .success(function(data) {
           $scope.compAchievements = data;
 
+          // check if the user has earned the first achievement yet
           for (i = 0; i < $scope.compAchievements.length; i++) {
             if($scope.compAchievements[i].achieve_id == 66) {
               $scope.firstAchievement = true;
-              console.log($scope.firstAchievement)
             }
           }
 
           // IF the user has not yet earned the Gym Rat achieve, give it to them
           if ($scope.firstAchievement == false) {
-
-            $http.get(apiLink + "/achievements", { } )
+            $http.get(apiLink + "/achievements")
               .success(function(data) {
 
                   var gymRat_id = 65;
@@ -86,18 +105,7 @@ angular.module('starter.controllers', ["chart.js"])
                   $scope.completedAchievement = data[gymRat_id];
 
                   //POST that achievement was completed
-                  $http.post(apiLink + "/completedAchievement", 
-                        {
-                          "user_id": $scope.user_id,
-                          "achieve_id": data[gymRat_id].achieve_id
-                        }
-                    )
-                    .success(function(data) {
-                        $scope.openModal($scope.completedAchievement);
-                    })
-                    .error(function(data) {
-                        alert("API ERROR at " + apiLink + "\n" + "POST /completedAchievement");
-                    });
+                  $scope.completeAchievement(data[gymRat_id].achieve_id);
               })
               .error(function(data) {
                   alert("API ERROR at " + apiLink + "\n" + "/achievements");
@@ -502,11 +510,113 @@ angular.module('starter.controllers', ["chart.js"])
   console.log(date_twoDaysBack.toISOString() + " ... " + date_oneDayBack.toISOString());
 
   // Get workout history between one and two days back...
-  $http.get(apiLink + "/getHistory/" + $scope.user_id + "/" + date_oneDayBack.toISOString() + "/" + date_twoDaysBack.toISOString())
+  $http.get(apiLink + "/getHistory/" + $scope.user_id + "/'" + date_twoDaysBack.toISOString() + "'/'" + date_oneDayBack.toISOString() + "'")
     .success(function(data) {
-        $scope.workoutHistory = data;
 
-        console.log($scope.workoutHistory);
+        //create array of types from these workouts
+        var typesHist = [];
+        for (var key in data) {
+          // 'name' meane 'type' because DB fools...
+          typesHist.push(data[key]['name']);
+        }
+        console.log(typesHist);
+
+        //track the count of types in the array
+        var typesCount = [ ];
+        typesCount["Arms"] = 0;
+        typesCount["Legs"] = 0;
+        typesCount["Shoulders"] = 0;
+        typesCount["Back"] = 0;
+        typesCount["Chest"] = 0;
+        typesCount["Cardio"] = 0;
+        for (var i=0; i<typesHist.length; i++) {
+          if (typesHist[i] == "Arms") {
+            typesCount["Arms"] += 1;
+          } else if (typesHist[i] == "Legs") {
+            typesCount["Legs"] += 1;
+          } else if (typesHist[i] == "Shoulders") {
+            typesCount["Shoulders"] += 1;
+          } else if (typesHist[i] == "Back") {
+            typesCount["Back"] += 1;
+          } else if (typesHist[i] == "Chest") {
+            typesCount["Chest"] += 1;
+          } else if (typesHist[i] == "Cardio") {
+            typesCount["Cardio"] += 1;
+          }
+        }
+
+        // Find the category with the highest count
+        var highestCount = 0;
+        var highestCountType = "";
+        for (var key in typesCount) {
+          if (typesCount[key] > highestCount) {
+            highestCountType = key;
+          }
+        }
+
+        //Determine what workouts to choose based on highestCountType
+        if (highestCountType == "Arms") {
+          $http.get(apiLink + "/workouts/" + "Legs")
+            .success(function(data) {
+                $scope.suggestedWorkouts = data;
+                $scope.suggestedWorkouts.splice(4);
+                console.log($scope.suggestedWorkouts);
+            })
+            .error(function(data) {
+                alert("API ERROR" + "\n" + "/workouts/{type}");
+          });
+        } else if (highestCountType == "Legs") {
+          $http.get(apiLink + "/workouts/" + "Arms")
+            .success(function(data) {
+                $scope.suggestedWorkouts = data;
+                $scope.suggestedWorkouts.splice(4);
+                console.log($scope.suggestedWorkouts);
+            })
+            .error(function(data) {
+                alert("API ERROR" + "\n" + "/workouts/{type}");
+          });
+        } else if (highestCountType == "Shoulders") {
+          $http.get(apiLink + "/workouts/" + "Legs")
+            .success(function(data) {
+                $scope.suggestedWorkouts = data;
+                $scope.suggestedWorkouts.splice(4);
+                console.log($scope.suggestedWorkouts);
+            })
+            .error(function(data) {
+                alert("API ERROR" + "\n" + "/workouts/{type}");
+          });
+        } else if (highestCountType == "Chest") {
+          $http.get(apiLink + "/workouts/" + "Back")
+            .success(function(data) {
+                $scope.suggestedWorkouts = data;
+                $scope.suggestedWorkouts.splice(4);
+                console.log($scope.suggestedWorkouts);
+            })
+            .error(function(data) {
+                alert("API ERROR" + "\n" + "/workouts/{type}");
+          });
+        } else if (highestCountType == "Back") {
+          $http.get(apiLink + "/workouts/" + "Chest")
+            .success(function(data) {
+                $scope.suggestedWorkouts = data;
+                $scope.suggestedWorkouts.splice(4);
+                console.log($scope.suggestedWorkouts);
+            })
+            .error(function(data) {
+                alert("API ERROR" + "\n" + "/workouts/{type}");
+          });
+        } else if (highestCountType == "Cardio") {
+          $http.get(apiLink + "/workouts/" + "Arms")
+            .success(function(data) {
+                $scope.suggestedWorkouts = data;
+                $scope.suggestedWorkouts.splice(4);
+                console.log($scope.suggestedWorkouts);
+            })
+            .error(function(data) {
+                alert("API ERROR" + "\n" + "/workouts/{type}");
+          });
+        }
+
     })
     .error(function(data) {
         alert("API ERROR" + "\n" + "/getHistory");
@@ -643,7 +753,6 @@ angular.module('starter.controllers', ["chart.js"])
       $http.get(apiLink + "/workouts/" + type)
         .success(function(data) {
             $scope.workouts = data;
-            console.log(data);
         })
         .error(function(data) {
             alert("API ERROR" + "\n" + "/workouts/{type}");
