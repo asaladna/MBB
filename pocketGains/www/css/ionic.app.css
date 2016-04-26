@@ -34,27 +34,61 @@ $dark:                            #444 !default;
   background: #212121;
   background-size: cover; }
 
-.button-block {
-  border: 4px dashed #ef473a;
-  padding: 20px; }
+#LoginTheme {
+  background-image: url("/img/background.png");
+  background-position: bottom;
+  background-position: 50% 90%;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-color: #212121; }
+
+#NavButtons {
+  color: #FAFAFA; }
 
 #Theme {
   background-color: #212121; }
 
-#Theme h2 {
+#Theme p {
+  color: #FFD91F; }
+
+#Theme h3 {
   color: #FFD91F; }
 
 #Theme h4 {
   color: #FFD91F; }
 
+#Theme h1 {
+  color: #FAFAFA; }
+
 #loginFields {
   background-color: #212121; }
 
-#loginButtons {
+#themeButtons {
   background-color: #333333; }
 
-#loginButtons p {
+#themeButtons p {
   color: #FFD91F; }
+
+/* Below CSS is for WorkoutDash*/
+.gallery {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap; }
+
+#workoutDashTheme h3 {
+  color: #01B0F0; }
+
+#workoutDashTheme .button {
+  background-color: #333333;
+  color: white; }
+
+#workoutDashTheme .button:hover {
+  color: #FF358B; }
+
+.content {
+  background-color: #000000; }
+
+#radar line backgroundColor {
+  borderColor: #FAFAFA; }
 
 /*!
   Ionicons, v2.0.1

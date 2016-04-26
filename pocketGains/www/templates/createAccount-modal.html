@@ -5,9 +5,9 @@
       <h1 class="title">Create Account</h1>
     </ion-header-bar>
 
- 	<ion-content>
+ 	<ion-content id= "Theme">
 
-		<div class="list list-inset">
+		<div id= "loginFields"class="list list-inset">
 	      <form name="info" name='input' action="" ng-submit='createAcc()'>
 	          <label class="item item-input">
 	              <input type="text" placeholder="Username" ng-model="form.username">
@@ -18,7 +18,7 @@
 	          <label class="item item-input">
 	              <input type="password" placeholder="Verify Password" ng-model="form.verifyPassword">
 	          </label>
-	        <button class="button button-block button-positive">Create Account</button>
+	        <button id= "themeButtons"class="button button-block button-positive"><p>Create Account</p></button>
 	      </form>
 	      <h3>{{message}}</h3>
 	  </div>

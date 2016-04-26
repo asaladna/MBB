@@ -26,30 +26,3 @@
 }
 
 
-/* Below CSS is for WorkoutDash*/
-.gallery {
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-
-h3 {
-	color: #01B0F0;
-}
-
-.button {
-	background-color: #333333;
-	color: white;
-}
-
-.button:hover {
-    color: #FF358B;
-}
-
-.content {
-	background-color: #000000;
-}
-
-
-.dividing-line {
-	color: #FF358B;
-}

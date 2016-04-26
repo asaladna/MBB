@@ -6,7 +6,7 @@
   <ion-nav-buttons side="right">     
   </ion-nav-buttons>
 
-  <ion-content id= "Theme" class="padding">
+  <ion-content id= "LoginTheme" class="padding">
       <div id= "loginFields" class="list list-inset">
           <form name="info" name='input' action="" ng-submit='login()'>
               <label class="item item-input">
@@ -15,9 +15,9 @@
               <label class="item item-input">
                   <input type="password" placeholder="Password" ng-model="form.password">
               </label>
-            <button id= "loginButtons" class="button button-block button-positive"><p>Login</p></button>
+            <button id= "themeButtons" class="button button-block button-positive"><p>Login</p></button>
           </form>
-          <button id= "loginButtons" class="button button-block button-positive" ng-click= "openModal()"><p>Create Account</p></button>
+          <button id= "themeButtons" class="button button-block button-positive" ng-click= "openModal()"><p>Create Account</p></button>
           <h3>{{message}}</h3>
       </div>
   </ion-content>

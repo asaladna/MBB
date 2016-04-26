@@ -8,11 +8,11 @@
 	    
 	    <ion-nav-buttons side="right"> 
 	    	<!-- Next Button -->
-	       <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex == 2" style="display:{{nextText}}">
+	       <button id= "NavButtons" class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex == 2" style="display:{{nextText}}">
 				Next
 	        </button>
 
-	        <button class="button button-positive button-clear no-animation" ng-click="profileBuilderFinish()" ng-show="slideIndex == 4">
+	        <button id= "NavButtons" class="button button-positive button-clear no-animation" ng-click="profileBuilderFinish()" ng-show="slideIndex == 4">
 				Confirm
 	        </button>
 	      	
@@ -51,7 +51,7 @@
 	    </ion-slide>
 
 	    <!-- Get from user: favorite workout from each category -->
-	    <ion-slide>
+	    <ion-slide id= "Theme">
 	        <h3>Select your favorite workout for each category</h3>
 	        <div id="workout-selector-container" class="{{interacted['arms']}}" ng-click="openModal('arms')">
 	         	<h1>Arms</h1>
@@ -88,7 +88,7 @@
 	    </ion-slide>
 
 	    <!-- Summary and confimartion of selections -->
-	    <ion-slide>
+	    <ion-slide id= "Theme">
 	      	<h3>Are these details correct?</h3>
 	      	<p>Sex: {{sex}}</p>
 	      	<p>Workout Goal: {{goal}}</p>
