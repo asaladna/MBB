@@ -14,7 +14,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     	$password = $params['password'];
     	$sex = $params['sex'];
     	$goal = $params['goal'];
-        $cardioPref = $params['cardioPref'];
+        $cardioPref = $params['cardio'];
     	$exp = 0;
     	$fav_arm_id = $params['arms'];
     	$fav_leg_id = $params['legs'];

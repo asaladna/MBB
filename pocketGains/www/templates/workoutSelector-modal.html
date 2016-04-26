@@ -4,13 +4,20 @@
       <h1 class="title">Select a Workout</h1>
     </ion-header-bar>
 
-    <ion-content>
+    <ion-content id= "Theme">
 
-    	<ion-list>
-        	<ion-item ng-repeat="workout in workouts">
-          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.workout_id, workout.title)">{{workout.title}}</button>
+<!--
+    	<ion-list id= "Theme">
+        	<ion-item id= "Theme" ng-repeat="workout in workouts">
+          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.workout_id, workout.title)"><h4>{{workout.title}}</h4></button>
         	</ion-item>
        	</ion-list>
+-->
+        <div  id= "Theme"class="card" ng-repeat="workout in workouts">
+        <div id= "workoutLog" class="item item-text-wrap"  ng-click="openModal(1,workout.title,workout.workout_id, null)">
+             <h2>{{workout.title}}</h2>
+        </div>
+    </div>
       
     </ion-content>
 

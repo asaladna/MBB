@@ -69,20 +69,28 @@ $dark:                            #444 !default;
 #themeButtons p {
   color: #FFD91F; }
 
+#Theme h1 {
+  color: #FFD91F;
+  text-align: center; }
+
 /* Below CSS is for WorkoutDash*/
 .gallery {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap; }
 
 #workoutDashTheme h3 {
-  color: #01B0F0; }
+  color: #FFD91F; }
 
 #workoutDashTheme .button {
   background-color: #333333;
-  color: white; }
+  color: white;
+  margin: 5px; }
+
+#allWorkouts {
+  position: center; }
 
 #workoutDashTheme .button:hover {
-  color: #FF358B; }
+  color: #FFD91F; }
 
 .content {
   background-color: #000000; }

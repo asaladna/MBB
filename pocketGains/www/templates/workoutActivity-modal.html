@@ -4,12 +4,12 @@
       <h1 class="title">Workout in Progress</h1>
     </ion-header-bar>
 
-    <ion-content>
+    <ion-content id= "Theme">
 
-      <div class="list list-inset">
+      <div class="list list-inset" id= "loginFields">
         <form name="form" ng-submit='submitWorkout()'>
 
-            <h1 class="centerText"> {{activeWorkout}} </h1>
+            <h1 id= "logWorkoutHeader" class="centerText"> {{activeWorkout}} </h1>
 
             <label class="item item-input">
                 <input type="text" placeholder="reps" ng-model="form.reps">
@@ -20,7 +20,7 @@
             <label class="item item-input">
                 <input type="text" placeholder="weight" ng-model="form.weight">
             </label>
-          <button class="button button-block button-positive">Finish Workout</button>
+          <button class="button button-block button-positive" id= "themeButtons"><p>Finish Workout</p></button>
         
         </form>
       </div>
