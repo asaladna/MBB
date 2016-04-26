@@ -2,9 +2,7 @@
 
     <ion-header-bar>
       <h1 class="title">Select a Workout</h1>
-       <button class="button" ng-click="back()">
-        Back
-      </button>
+        
     </ion-header-bar>
 
     <ion-content id= "profBuilder">
@@ -12,16 +10,20 @@
 <!--
     	<ion-list id= "Theme">
         	<ion-item id= "Theme" ng-repeat="workout in workouts">
-          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.workout_id, workout.title)"><h4>{{workout.title}}</h4></button>
+          		<button class="button button-block button-positive" type="submit" ng-click="selectFavWorkout(workout.workout_id, workout.title)"><h2>{{workout.title}}</h2></button>
         	</ion-item>
        	</ion-list>
 -->
+        
+        
         <div  id= "workoutLog" class="card" ng-repeat="workout in workouts track by $index">
-        <div  id= "workoutLog" class="item item-text-wrap"  ng-click="openModal(1,workout.title,workout.workout_id, null)">
+        <div  id= "workoutLog" class="item item-text-wrap"  ng-click="selectFavWorkout(workout.workout_id, workout.title)">
              <h2>{{workout.title}}</h2>
         </div>
     </div>
-      
+        
+        
+       
     </ion-content>
 
 </ion-modal-view>
