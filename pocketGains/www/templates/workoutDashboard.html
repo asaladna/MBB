@@ -14,8 +14,8 @@
         <h3 class="centerText">Suggested </h3>
         <div>
           <ion-scroll zooming="true" direction="x" style="height: 100px">
-          <div class="row gallery">
-            <a class="col col-25 button border" ng-repeat="workout in suggestedWorkouts" ng-click="openModal(1, workout.title, workout.id, null)">{{workout.title}}</a>
+          <div class="row">
+            <a class="col col-33 button border" ng-repeat="workout in suggestedWorkouts" ng-click="openModal(1, workout.title, workout.id, null)">{{workout.title}}</a>
           </div>
         </div>
         <h3 class="centerText">Favorites </h3>
@@ -25,8 +25,6 @@
             <a class="col col-33 button border" ng-repeat="workout in favoriteWorkouts track by $index" ng-click="openModal(1, workout.title, workout.id, null)">{{workout.title}}</a>
           </div>
         </div>
-
-        <hr class="dividing-line"/>
 
         <h3 class="centerText">All </h3>
         
