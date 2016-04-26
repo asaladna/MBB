@@ -223,7 +223,6 @@ angular.module('starter.controllers', ["chart.js"])
     $http.get(apiLink + "/workouts/" + $scope.category)
     .success(function(data) {
         $scope.workouts = data;
-        console.log(data);
         $scope.modal.show(); 
     })
     .error(function(data) {
@@ -316,16 +315,9 @@ angular.module('starter.controllers', ["chart.js"])
       $scope.password = $scope.form.password;
       $scope.verifyPass = $scope.form.verifyPassword;
 
-      console.log($scope.username);
-      console.log($scope.password);
-      console.log($scope.verifyPass);
-
       if ($scope.password == $scope.verifyPass) {
         userData.setUsername($scope.username);
         userData.setPassword($scope.password);
-
-        console.log("Username: " + userData.getUsername() + " ... " + $scope.username);
-        console.log("Password: " + userData.getPassword() + " ... " + $scope.password);
 
         $state.go('app.profileBuilder');
         $scope.modal.hide();
@@ -408,7 +400,6 @@ angular.module('starter.controllers', ["chart.js"])
                       "chest": data["chest"],
                       "cardio": data["cardio"]
                     };
-      console.log(data);
 
       $scope.data = [[$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest]];
       
@@ -433,8 +424,6 @@ angular.module('starter.controllers', ["chart.js"])
         $http.get(apiLink + "/achievements/" + $scope.user_id)
           .success(function(data) {
               $scope.compAchievements = data;
-
-              console.log($scope.compAchievements);
 
               // Give a lock icon to all achievements
               for (i = 0; i < $scope.achievements.length; i++) {
@@ -506,8 +495,6 @@ angular.module('starter.controllers', ["chart.js"])
   date_oneDayBack.setDate(date_oneDayBack.getDate()-1);
   date_today.setDate(date_today.getDate());
 
-  console.log(date_twoDaysBack.toISOString() + " ... " + date_oneDayBack.toISOString());
-
   // Get workout history between one and two days back...
   $http.get(apiLink + "/getHistory/" + $scope.user_id + "/'" + date_twoDaysBack.toISOString() + "'/'" + date_oneDayBack.toISOString() + "'")
     .success(function(data) {
@@ -518,7 +505,6 @@ angular.module('starter.controllers', ["chart.js"])
           // 'name' meane 'type' because DB fools...
           typesHist.push(data[key]['name']);
         }
-        console.log(typesHist);
 
         //track the count of types in the array
         var typesCount = [ ];
@@ -589,7 +575,6 @@ angular.module('starter.controllers', ["chart.js"])
             .success(function(data) {
                 $scope.suggestedWorkouts = data;
                 $scope.suggestedWorkouts.splice(4);
-                console.log($scope.suggestedWorkouts);
             })
             .error(function(data) {
                 alert("API ERROR" + "\n" + "/workouts/{type}");
@@ -660,6 +645,7 @@ angular.module('starter.controllers', ["chart.js"])
     })
     
     $ionicModal.fromTemplateUrl('templates/workoutSelector-modal.html', {
+        id: '3',
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
@@ -677,7 +663,7 @@ angular.module('starter.controllers', ["chart.js"])
           
     }
 
-    $scope.openModal = function(index, activeTitle, activeId,activeDesc, workoutType) {
+    $scope.openModal = function(index, activeTitle, activeId, activeDesc, type) {
       if (index == 1) {
         $scope.activeWorkout = activeTitle;
         $scope.workoutId = activeId;
@@ -696,9 +682,8 @@ angular.module('starter.controllers', ["chart.js"])
           } 
 
       } else if(index == 3){
-          $scope.workoutType= workoutType;
-          console.log($scope.workoutType);
-          $scope.loadWorkouts($scope.workoutType);
+          $scope.workoutType3 = type;
+          $scope.loadWorkouts($scope.workoutType3);
           $scope.workoutSelectorModal.show();
            $scope.back = function() {
             $scope.workoutSelectorModal.hide();
