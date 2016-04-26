@@ -17,7 +17,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
     .success(function(workoutData) {
-      if (workoutData!= "no results found") {
+      if (workoutData != "\"no results found\"") {
         $scope.workoutHist = workoutData;
 
         $scope.workoutHist.sort(function(a, b) {
