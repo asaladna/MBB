@@ -90,7 +90,7 @@ angular.module('starter.controllers', ["chart.js"])
 
           // check if the user has earned the first achievement yet
           for (i = 0; i < $scope.compAchievements.length; i++) {
-            if($scope.compAchievements[i].achieve_id == 66) {
+            if($scope.compAchievements[i].achieve_id == 35) {
               $scope.firstAchievement = true;
             }
           }
@@ -100,7 +100,7 @@ angular.module('starter.controllers', ["chart.js"])
             $http.get(apiLink + "/achievements")
               .success(function(data) {
 
-                  var gymRat_id = 65;
+                  var gymRat_id = 34;
                   console.log("User " + $scope.user_id + " earned achievement w/ id: " + data[gymRat_id].achieve_id);
                   $scope.completedAchievement = data[gymRat_id];
 
