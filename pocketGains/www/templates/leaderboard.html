@@ -3,7 +3,7 @@
     <ion-list>
       <div id= "workoutLog" class="list">
           <a  id= "Theme" class="item item-thumbnail-left" ng-repeat="leader in leaders" href="#/app/leaderboards/{{leader.id}}">
-            <img ng-src= "img/{{leader.user_id}}.png"></img>
+            <img ng-src= "img/{{leaders.indexOf(leader)}}Gold.png"></img>
             <h2>{{leader.username}}</h4>
             <h4>Points: {{leader.points}}</h4>
           </a>
@@ -11,3 +11,4 @@
     </ion-list>
   </ion-content>
 </ion-view>
+
