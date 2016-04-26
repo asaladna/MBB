@@ -14,7 +14,7 @@
        	</ion-list>
 -->
         <div  id= "Theme"class="card" ng-repeat="workout in workouts">
-        <div id= "workoutLog" class="item item-text-wrap"  ng-click="selectFavWorkout(workout.workout_id, workout.title)">
+        <div id= "workoutLog" class="item item-text-wrap"  ng-click="openModal(1,workout.title,workout.workout_id, null)">
              <h2>{{workout.title}}</h2>
         </div>
     </div>

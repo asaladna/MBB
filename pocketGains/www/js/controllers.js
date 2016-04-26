@@ -101,6 +101,9 @@ angular.module('starter.controllers', ["chart.js"])
  $scope.leaders = function() {
     $state.go('app.leaderboards');
   } 
+  $scope.achievments = function() {
+    $state.go('app.achievements');
+  } 
 })
 
 
@@ -539,17 +542,26 @@ angular.module('starter.controllers', ["chart.js"])
     }).then(function(modal) {
       $scope.typeModal = modal;
     })
+    
+    $ionicModal.fromTemplateUrl('templates/workoutSelector-modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.workoutSelectorModal = modal;
+      })
 
     $scope.closeModal = function(index) {
       if (index == 1) {
         $scope.modal.hide();
       } else if (index == 2) {
         $scope.typeModal.hide();
+      }else if(index == 3){
+          $scope.workoutSelectorModal.hide();
       }
           
     }
 
-    $scope.openModal = function(index, activeTitle, activeId) {
+    $scope.openModal = function(index, activeTitle, activeId, workoutType) {
       if (index == 1) {
         $scope.activeWorkout = activeTitle;
         $scope.workoutId = activeId;
@@ -560,8 +572,14 @@ angular.module('starter.controllers', ["chart.js"])
         // console.log("On slide #" + $ionicSlideBoxDelegate.currentIndex());
         $scope.typeModal.show();
 
-      } 
+      } else if(index == 3){
+          $scope.workoutType= workoutType;
+          console.log($scope.workoutType);
+          $scope.loadWorkouts($scope.workoutType);
+          $scope.workoutSelectorModal.show();
+      }
     }
+
 
     $scope.submitWorkout = function() {
 
