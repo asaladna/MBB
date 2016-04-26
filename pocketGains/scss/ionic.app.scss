@@ -18,13 +18,23 @@ $assertive:                       #ef473a !default;
 $big-bg:                          #212121 !default;
 $positive:                        #212121 !default;
 
-//#world{
-//    $positive:    #ef473a !default;
-//}
+
 
 //fix sass stuff
 *{
 font-family: Ubuntu
+}
+#world{
+    border-radius: 10px;
+    margin-top: 3%;
+    background-color: #FFD91F; 
+}
+#world button{
+    font-size: 25px;
+    font-weight: 400;
+    color: #212121;
+    background-color: #FFD91F; 
+
 }
 #profBuilder{
     background-color: #212121
