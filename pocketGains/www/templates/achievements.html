@@ -1,13 +1,14 @@
 <ion-view view-title="Achievements">
-<ion-content>
-    <ion-list>
-      <div class="list">
-          <a class="item item-thumbnail-left" ng-repeat="achievement in achievements">
-            <img ng-src="img/{{achievement.image}}.png">
-            <h2>{{achievement.name}}</h2>
-            <h4>{{achievement.desc}}</h4>
-          </a>
-      </div>
-    </ion-list>
-  </ion-content>
+<ion-content id= "Theme"> 
+    
+    <div  id= "Theme"class="card" ng-repeat="achievement in achievements">  
+        <div id= "workoutLog" class="item item-text-wrap" ng-click="showCard(item.name)">
+            <div id= "themeButtons" class="item item-avatar">
+                <img ng-src="img/{{achievement.image}}.png">
+                <h2>{{achievement.name}}</h2>
+                <h4 >{{achievement.desc}}</h4>
+            </div>
+        </div>
+    </div>  
+</ion-content>
 </ion-view>

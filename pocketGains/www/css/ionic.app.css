@@ -51,6 +51,9 @@ $dark:                            #444 !default;
 #Theme p {
   color: #FFD91F; }
 
+#Theme h2 {
+  color: #FAFAFA; }
+
 #Theme h3 {
   color: #FFD91F; }
 
@@ -58,6 +61,9 @@ $dark:                            #444 !default;
   color: #FFD91F; }
 
 #Theme h1 {
+  color: #FAFAFA; }
+
+#achievmentDesc h4 {
   color: #FAFAFA; }
 
 #loginFields {
