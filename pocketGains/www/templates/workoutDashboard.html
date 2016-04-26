@@ -28,11 +28,11 @@
 
         <h3 class="centerText">All </h3>
         
-        <div class="row">
+        <div id= "workoutCats"class="row">
           <a ng-repeat="type in workoutTypes1"
                class="button col border" ng-click="openModal(3,null,null,type.name)"><img src="/img/{{type.name}}.png"> {{type.name}}</a>
         </div>
-        <div class="row">
+        <div id= "workoutCats" class="row">
           <a ng-repeat="type in workoutTypes2"
                class="button col border" ng-click="openModal(3,null,null,type.name)"><img src="/img/{{type.name}}.png">  {{type.name}}</a>
         </div>
@@ -40,13 +40,7 @@
 
         <br/>
 
-<!--
-        <div class="row gallery">
-          <a ng-repeat="workout in workouts"
-               class="button col-50 border" 
-               ng-click="openModal(1,workout.title,workout.workout_id)">{{workout.title}}</a>
-        </div>
--->
+
 
   </ion-content>
 </ion-view>

@@ -1,5 +1,5 @@
 var apiLink = "http://pocketgains.us";
-
+//var apiLink= "http://52.37.226.62";
 angular.module('starter.controllers', ["chart.js"])
 
 .controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
@@ -677,10 +677,11 @@ angular.module('starter.controllers', ["chart.js"])
           
     }
 
-    $scope.openModal = function(index, activeTitle, activeId, workoutType) {
+    $scope.openModal = function(index, activeTitle, activeId,activeDesc, workoutType) {
       if (index == 1) {
         $scope.activeWorkout = activeTitle;
         $scope.workoutId = activeId;
+        $scope.workoutDesc= activeDesc;
         console.log("Workout ID: " + $scope.workoutId);
         $scope.modal.show();  
          $scope.back = function() {

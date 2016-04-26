@@ -126,6 +126,12 @@ $dark:                            #444 !default;
 #lineTwo p, h3 {
   display: inline; }
 
+#workoutCats img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9;
+  /* ie8 */ }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

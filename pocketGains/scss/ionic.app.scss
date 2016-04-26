@@ -152,6 +152,13 @@ font-family: Ubuntu
     display:inline;
 }
 
+
+#workoutCats img{
+   max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
