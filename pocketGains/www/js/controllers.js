@@ -110,8 +110,6 @@ angular.module('starter.controllers', ["chart.js"])
 })
 
 
-// ******************** Profile Builder (First Time Login) Controller **********************************
-
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
 
