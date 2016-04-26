@@ -120,6 +120,12 @@ $dark:                            #444 !default;
 #radar line backgroundColor {
   borderColor: #FAFAFA; }
 
+#lineOne p, h2 {
+  display: inline; }
+
+#lineTwo p, h3 {
+  display: inline; }
+
 /*!
   Ionicons, v2.0.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/

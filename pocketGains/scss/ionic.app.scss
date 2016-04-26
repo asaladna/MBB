@@ -145,8 +145,12 @@ font-family: Ubuntu
 }
 
 
-
-
+#lineOne p, h2{
+    display:inline;
+}
+#lineTwo p, h3{
+    display:inline;
+}
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;

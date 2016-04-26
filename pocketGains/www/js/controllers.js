@@ -456,9 +456,8 @@ angular.module('starter.controllers', ["chart.js"])
 })
             
 .controller('LeaderCtrl', function($scope, $state, userData, $http) {
-
   $scope.user_id = userData.getId();
-
+    
   $http.get(apiLink + "/workoutTypes")
     .success(function(data) {
         $scope.buttons = data;
@@ -474,12 +473,12 @@ angular.module('starter.controllers', ["chart.js"])
 })
 
 .controller('LeaderCatCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate, $stateParams) {
-    
     console.log($stateParams.choice);
     myChoice = $stateParams.choice;
     $http.get(apiLink + "/getLeaders/" + myChoice)
     .success(function(data) {
         $scope.leaders = data;
+
     })
     .error(function(data) {
         alert("API ERROR" + "\n" + "/getLeaders/");
