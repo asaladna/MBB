@@ -23,6 +23,20 @@ angular.module('starter.controllers', ["chart.js"])
         $scope.workoutHist.sort(function(a, b) {
           return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
         });
+
+        for (var key in $scope.workoutHist) {
+          // Set todays date and the date of the workout
+          todays_date = new Date();
+          console.log(todays_date);
+          time_stamp = $scope.workoutHist[key]['time_stamp'];
+          time_stamp = time_stamp.replace(/ /g,"T") + "Z";
+          workout_date = new Date(time_stamp);
+
+          var timeDiff = Math.abs(todays_date.getTime() - workout_date.getTime());
+          var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24)); 
+
+          $scope.workoutHist[key]["daysBack"] = diffDays;
+        }
       }
     })
     .error(function(data) {
@@ -266,8 +280,8 @@ angular.module('starter.controllers', ["chart.js"])
         });
 
         // Set the user_id for the entire app
-        userData.setId(data);
-        console.log(data);
+        userData.setId(JSON.parse(data));
+        console.log(JSON.parse(data));
 
         $state.go('app.dashboard');
         
