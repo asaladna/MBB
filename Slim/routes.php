@@ -506,14 +506,14 @@ $app->post('/addCompletedWorkout',
 					// update cardio
 					if ($type_id == 5)
 					{
-						$query = $db->prepare("UPDATE Points SET cardio = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET cardio = cardio + :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update chest
 					if ($type_id == 6)
 					{
-						$query = $db->prepare("UPDATE Points SET chest = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET chest = chest + :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 				}
