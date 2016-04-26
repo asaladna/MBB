@@ -1,3 +1,5 @@
+var apiLink = "http://52.37.226.62";
+
 angular.module('starter.controllers', ["chart.js"])
 
 .controller('AppCtrl', function($scope, userData, $http, $ionicModal, $ionicHistory) {
@@ -13,9 +15,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.firstAchievement = false;
 
-  var apiLink = "http://52.37.226.62";
-
-  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
+  $http.get(apiLink + "/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
     .success(function(workoutData) {
       if (workoutData != "\"no results found\"") {
         $scope.workoutHist = workoutData;
@@ -24,10 +24,10 @@ angular.module('starter.controllers', ["chart.js"])
           return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
         });
 
+        // This changes the time_stamp to daysBack for nicer display
         for (var key in $scope.workoutHist) {
           // Set todays date and the date of the workout
           todays_date = new Date();
-          console.log(todays_date);
           time_stamp = $scope.workoutHist[key]['time_stamp'];
           time_stamp = time_stamp.replace(/ /g,"T") + "Z";
           workout_date = new Date(time_stamp);
@@ -64,7 +64,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   // ----- Get First achievement for creating account (gym rat) if not complete
   // Get list of completed achievements
-  $http.get("http://52.37.226.62/achievements/" + $scope.user_id )
+  $http.get(apiLink + "/achievements/" + $scope.user_id )
       .success(function(data) {
           $scope.compAchievements = data;
 
@@ -78,7 +78,7 @@ angular.module('starter.controllers', ["chart.js"])
           // IF the user has not yet earned the Gym Rat achieve, give it to them
           if ($scope.firstAchievement == false) {
 
-            $http.get("http://52.37.226.62/achievements", { } )
+            $http.get(apiLink + "/achievements", { } )
               .success(function(data) {
 
                   var gymRat_id = 65;
@@ -86,7 +86,7 @@ angular.module('starter.controllers', ["chart.js"])
                   $scope.completedAchievement = data[gymRat_id];
 
                   //POST that achievement was completed
-                  $http.post("http://52.37.226.62/completedAchievement", 
+                  $http.post(apiLink + "/completedAchievement", 
                         {
                           "user_id": $scope.user_id,
                           "achieve_id": data[gymRat_id].achieve_id
@@ -123,8 +123,6 @@ angular.module('starter.controllers', ["chart.js"])
 
 
 .controller('ProfBuilderCtrl', function($scope, userData, $state, $ionicHistory, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $http) {
-
-  var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
 
   $ionicSideMenuDelegate.canDragContent(false);
   $ionicSlideBoxDelegate.enableSlide(false);
@@ -214,7 +212,7 @@ angular.module('starter.controllers', ["chart.js"])
   $scope.openModal = function(category) {
     $scope.category = category;
 
-    $http.get("http://52.37.226.62/workouts/" + $scope.category)
+    $http.get(apiLink + "/workouts/" + $scope.category)
     .success(function(data) {
         $scope.workouts = data;
         console.log(data);
@@ -259,7 +257,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.profileBuilderFinish = function() {
     console.log(userData.getUsername() + " . " + userData.getPassword() + " . " + $scope.sex + " . " + $scope.goal + " . " + $scope.favs['arms']+ " . " + $scope.favs['legs']+ " . " + $scope.favs['back']+ " . " + $scope.favs['shoulders']+ " . " + $scope.favs['chest']+ " . " + $scope.favs['cardio']);
-    $http.post("http://52.37.226.62/createNewUser", 
+    $http.post(apiLink + "/createNewUser", 
         {
           "username": userData.getUsername(),
           "password": userData.getPassword(), 
@@ -338,7 +336,7 @@ angular.module('starter.controllers', ["chart.js"])
           $scope.password=$scope.form.password;
       }
 
-      $http.post("http://52.37.226.62/login", 
+      $http.post(apiLink + "/login", 
             {
               "username": $scope.username, 
               "password": $scope.password
@@ -390,7 +388,7 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.user_id = userData.getId();
 
-  $http.get("http://52.37.226.62/userData/" + $scope.user_id)
+  $http.get(apiLink + "/userData/" + $scope.user_id)
   .success(function(data) {
       data = data[0];
       $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
@@ -420,11 +418,11 @@ angular.module('starter.controllers', ["chart.js"])
 
   $scope.user_id = userData.getId();
 
-  $http.get("http://52.37.226.62/achievements")
+  $http.get(apiLink + "/achievements")
     .success(function(data) {
         $scope.achievements = data;
 
-        $http.get("http://52.37.226.62/achievements/" + $scope.user_id)
+        $http.get(apiLink + "/achievements/" + $scope.user_id)
           .success(function(data) {
               $scope.compAchievements = data;
 
@@ -445,16 +443,15 @@ angular.module('starter.controllers', ["chart.js"])
           });
     })
     .error(function(data) {
-        alert("API ERROR " + "\n" + "/achievements");
+        alert("API ERROR" + "\n" + "/achievements");
     });
 })
             
 .controller('LeaderCtrl', function($scope, $state, userData, $http) {
 
   $scope.user_id = userData.getId();
-//      for (i = 0; i < $scope.compAchievements.length; i++)
 
-  $http.get("http://52.37.226.62/workoutTypes")
+  $http.get(apiLink + "/workoutTypes")
     .success(function(data) {
         $scope.buttons = data;
       
@@ -469,10 +466,7 @@ angular.module('starter.controllers', ["chart.js"])
 })
 
 .controller('LeaderCatCtrl', function($scope, $http, userData, $ionicModal, $ionicHistory, $state, $ionicSlideBoxDelegate, $stateParams) {
-
-    var apiLink = "http://private-9f4a2-pocketgains.apiary-mock.com";
     
-    console.log("yo");
     console.log($stateParams.choice);
     myChoice = $stateParams.choice;
     $http.get(apiLink + "/getLeaders/" + myChoice)
@@ -480,7 +474,7 @@ angular.module('starter.controllers', ["chart.js"])
         $scope.leaders = data;
     })
     .error(function(data) {
-        alert("API ERROR at " + apiLink + "\n" + 1);
+        alert("API ERROR" + "\n" + "/getLeaders/");
     });
     
     $scope.showCard= function(workout){
@@ -508,7 +502,7 @@ angular.module('starter.controllers', ["chart.js"])
   console.log(date_twoDaysBack.toISOString() + " ... " + date_oneDayBack.toISOString());
 
   // Get workout history between one and two days back...
-  $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/" + date_oneDayBack.toISOString() + "/" + date_twoDaysBack.toISOString())
+  $http.get(apiLink + "/getHistory/" + $scope.user_id + "/" + date_oneDayBack.toISOString() + "/" + date_twoDaysBack.toISOString())
     .success(function(data) {
         $scope.workoutHistory = data;
 
@@ -519,16 +513,15 @@ angular.module('starter.controllers', ["chart.js"])
     });
 
   // Get users favorite workouts
-  $http.get("http://52.37.226.62/favorites/" + $scope.user_id)
+  $http.get(apiLink + "/favorites/" + $scope.user_id)
     .success(function(data) {
         $scope.favoriteWorkouts = data;
-        console.log($scope.favoriteWorkouts);
     })
     .error(function(data) {
         alert("API ERROR" + "\n" + "/favorites");
     });
 
-   $http.get("http://52.37.226.62" + "/workoutTypes")
+   $http.get(apiLink + "/workoutTypes")
       .success(function(data) {
           $scope.workoutTypes = data;
           $scope.workoutTypes1 = data.slice(0,3);
@@ -536,7 +529,7 @@ angular.module('starter.controllers', ["chart.js"])
 
       })
       .error(function(data) {
-          alert("API ERROR at " + apiLink + "\n" + "6");
+          alert("API ERROR" + "\n" + "/workoutTypes");
       });
 
     // Modal for active workout
@@ -608,7 +601,7 @@ angular.module('starter.controllers', ["chart.js"])
 
       console.log($scope.user_id + " . " + $scope.workoutId + " . " + $scope.reps + " . " + $scope.sets + " . " + $scope.weight + " . " + $scope.points + " . " + $scope.duration);
 
-      $http.post("http://52.37.226.62/addCompletedWorkout", 
+      $http.post(apiLink + "/addCompletedWorkout", 
         {
           "user_id": $scope.user_id,
           "workout_id": $scope.workoutId,
@@ -638,19 +631,17 @@ angular.module('starter.controllers', ["chart.js"])
     }
 
     $scope.loadWorkouts = function(type) {
-      $http.get("http://52.37.226.62/workouts/" + type)
+      $http.get(apiLink + "/workouts/" + type)
         .success(function(data) {
             $scope.workouts = data;
             console.log(data);
         })
         .error(function(data) {
-            alert("API ERROR at " + apiLink + "\n" + "6");
+            alert("API ERROR" + "\n" + "/workouts/{type}");
       });
 
       
     }
-    
-
     
  $scope.home = function() {
     $state.go('app.dashboard');
