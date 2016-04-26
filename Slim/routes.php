@@ -14,6 +14,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     	$password = $params['password'];
     	$sex = $params['sex'];
     	$goal = $params['goal'];
+        $cardioPref = $params['cardioPref'];
     	$exp = 0;
     	$fav_arm_id = $params['arms'];
     	$fav_leg_id = $params['legs'];
@@ -35,12 +36,13 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     		if ($query->rowCount() == 0)
     		{
     			// insert user info into db
-    			$query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
-    				values ('$username', '$password', '$sex', '$goal', $exp)");
+    			$query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref, exp)
+    				values ('$username', '$password', '$sex', '$goal', '$cardioPref', $exp)");
     			$query->bindParam(':username', $username);
     			$query->bindParam(':password', $password);
     			$query->bindParam(':sex', $sex);
     			$query->bindParam(':goal', $goal);
+                $query->bindParam(':cardioPref', $cardioPref);
     			$query->bindParam(':exp', $exp);
     			$query->execute();
     		}
@@ -468,7 +470,7 @@ $app->post('/addCompletedWorkout',
                 {
                     $type_id = $row['Types_type_id'];
 
-					// update points for all the categories the workout is in
+					// update points and user exp for all the categories the workout is in
 					// update back
 					if ($type_id == 1)
 					{
@@ -483,6 +485,10 @@ $app->post('/addCompletedWorkout',
 						$query = $db->prepare("UPDATE Points SET arms = arms + :points
                             WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update shoulders
@@ -491,6 +497,10 @@ $app->post('/addCompletedWorkout',
 						$query = $db->prepare("UPDATE Points SET shoulders = shoulders + :points
                             WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update legs
@@ -499,20 +509,32 @@ $app->post('/addCompletedWorkout',
 						$query = $db->prepare("UPDATE Points SET legs = legs + :points
                             WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update cardio
 					if ($type_id == 5)
 					{
-						$query = $db->prepare("UPDATE Points SET cardio = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET cardio = cardio + :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update chest
 					if ($type_id == 6)
 					{
-						$query = $db->prepare("UPDATE Points SET chest = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET chest = chest + :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 				}
 			}
@@ -581,12 +603,14 @@ $app->get('/getHistory/{user_id}/{start}/{end}',
 			$end = $args['end'];
 			$uid = $args['user_id'];
 			$query = $db->prepare(
-					"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
-             FROM Workout_History AS h RIGHT JOIN Workout w
-               ON h.Workout_workout_id = w.workout_id
-						WHERE h.User_user_id = :user_id
-							AND h.time_stamp > :start
-							AND h.time_stamp < $end"
+					"SELECT w.title, t.name, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+				             FROM ((Workout_History AS h LEFT JOIN Workout w
+				               ON h.Workout_workout_id = w.workout_id) LEFT JOIN Is_Type i
+				               ON w.workout_id = i.Workout_workout_id) LEFT JOIN Types t
+				               ON i.Types_type_id = t.type_id
+				            WHERE h.User_user_id = :user_id
+				              AND h.time_stamp > :start
+					      AND h.time_stamp < $end"
 			);
 			$query->bindParam(':user_id', $uid);
 			$query->bindParam(':start', $start);
@@ -681,11 +705,13 @@ $app->get('/getHistory/{user_id}/{start}', function ($request, $response, $args)
 					$start = $args['start'];
 					$uid = $args['user_id'];
 					$query = $db->prepare(
-							"SELECT w.title, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
-								 FROM Workout_History AS h RIGHT JOIN Workout w
-								 	 ON h.Workout_workout_id = w.workout_id
-								WHERE h.User_user_id = :user_id
-									AND h.time_stamp > :start"
+							"SELECT w.title, t.name, w.desc, h.time_stamp, h.duration, h.reps, h.sets, h.weight
+					             	FROM ((Workout_History AS h LEFT JOIN Workout w
+					               ON h.Workout_workout_id = w.workout_id) LEFT JOIN Is_Type i
+					               ON w.workout_id = i.Workout_workout_id) LEFT JOIN Types t
+					               ON i.Types_type_id = t.type_id
+					            WHERE h.User_user_id = :user_id
+					              AND h.time_stamp > :start"
 					);
 					$query->bindParam(':user_id', $uid);
 					$query->bindParam(':start', $start);

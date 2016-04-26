@@ -1,8 +1,8 @@
-<ion-view view-title="Leaderboard">
-<ion-content>
+<ion-view view-title="Leaderboard" >
+<ion-content  id= "workoutLog">
     <ion-list>
-      <div class="list">
-          <a class="item item-thumbnail-left" ng-repeat="leader in leaders" href="#/app/leaderboards/{{leader.id}}">
+      <div id= "workoutLog" class="list">
+          <a  id= "Theme" class="item item-thumbnail-left" ng-repeat="leader in leaders" href="#/app/leaderboards/{{leader.id}}">
             <img ng-src= "img/{{leader.user_id}}.png"></img>
             <h2>{{leader.username}}</h4>
             <h4>Points: {{leader.points}}</h4>

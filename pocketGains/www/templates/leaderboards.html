@@ -1,5 +1,5 @@
 <ion-view view-title="Leaderboards">
-<ion-content>
+<ion-content id= "Theme">
 <!--
     <div class="list">
         <a ng-repeat="item in buttons"
@@ -9,8 +9,8 @@
         </a>
     </div>
 -->
-    <div class="card" ng-repeat="item in buttons track by $index">
-    <div class="item item-text-wrap" ng-click="showCard(item.name)">
+    <div  id= "Theme"class="card" ng-repeat="item in buttons track by $index">
+    <div id= "workoutLog" class="item item-text-wrap" ng-click="showCard(item.name)">
          <h3>{{item.name}}</h3>
     </div>
 </div>
