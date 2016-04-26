@@ -1,4 +1,4 @@
-var apiLink = "http://52.37.226.62";
+var apiLink = "http://52.37.226.62"; //"http://pocketgains.us";
 
 angular.module('starter.controllers', ["chart.js"])
 
