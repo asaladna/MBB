@@ -36,7 +36,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     		if ($query->rowCount() == 0)
     		{
     			// insert user info into db
-    			$query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
+    			$query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref, exp)
     				values ('$username', '$password', '$sex', '$goal', '$cardioPref', $exp)");
     			$query->bindParam(':username', $username);
     			$query->bindParam(':password', $password);
