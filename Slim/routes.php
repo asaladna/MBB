@@ -14,6 +14,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     	$password = $params['password'];
     	$sex = $params['sex'];
     	$goal = $params['goal'];
+        $cardioPref = $params['cardioPref'];
     	$exp = 0;
     	$fav_arm_id = $params['arms'];
     	$fav_leg_id = $params['legs'];
@@ -35,12 +36,13 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     		if ($query->rowCount() == 0)
     		{
     			// insert user info into db
-    			$query = $db->prepare("INSERT into User (username, password, sex, goal, exp)
-    				values ('$username', '$password', '$sex', '$goal', $exp)");
+    			$query = $db->prepare("INSERT into User (username, password, sex, goal, cardioPref, exp)
+    				values ('$username', '$password', '$sex', '$goal', '$cardioPref', $exp)");
     			$query->bindParam(':username', $username);
     			$query->bindParam(':password', $password);
     			$query->bindParam(':sex', $sex);
     			$query->bindParam(':goal', $goal);
+                $query->bindParam(':cardioPref', $cardioPref);
     			$query->bindParam(':exp', $exp);
     			$query->execute();
     		}
@@ -468,7 +470,7 @@ $app->post('/addCompletedWorkout',
                 {
                     $type_id = $row['Types_type_id'];
 
-					// update points for all the categories the workout is in
+					// update points and user exp for all the categories the workout is in
 					// update back
 					if ($type_id == 1)
 					{
@@ -483,6 +485,10 @@ $app->post('/addCompletedWorkout',
 						$query = $db->prepare("UPDATE Points SET arms = arms + :points
                             WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update shoulders
@@ -491,6 +497,10 @@ $app->post('/addCompletedWorkout',
 						$query = $db->prepare("UPDATE Points SET shoulders = shoulders + :points
                             WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update legs
@@ -499,20 +509,32 @@ $app->post('/addCompletedWorkout',
 						$query = $db->prepare("UPDATE Points SET legs = legs + :points
                             WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update cardio
 					if ($type_id == 5)
 					{
-						$query = $db->prepare("UPDATE Points SET cardio = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET cardio = cardio + :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 
 					// update chest
 					if ($type_id == 6)
 					{
-						$query = $db->prepare("UPDATE Points SET chest = :points WHERE User_user_id = :user_id");
+						$query = $db->prepare("UPDATE Points SET chest = chest + :points WHERE User_user_id = :user_id");
 						$query->execute(array('points' => $points, 'user_id' => $user_id));
+
+                        $query = $db->prepare("UPDATE User SET exp = exp + :points
+                            WHERE user_id = :user_id");
+                        $query->execute(array('points' => $points, 'user_id' => $user_id));
 					}
 				}
 			}
