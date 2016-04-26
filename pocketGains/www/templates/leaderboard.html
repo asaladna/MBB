@@ -1,5 +1,18 @@
 <ion-view view-title="Leaderboard" >
-<ion-content  id= "workoutLog">
+<ion-content  id= "Theme">
+    <div  id= "Theme"class="card" ng-repeat="leader in leaders track by $index">
+    <div id= "workoutLog" class="item item-avatar" ng-click="showCard(item.name)">
+            <img ng-src= "img/{{leaders.indexOf(leader)}}Gold.png"></img>
+            <h2>{{leader.username}}</h2>
+            <p>Points: {{leader.points}}</p>
+    </div>
+</div>
+  </ion-content>
+</ion-view>
+
+
+
+<!--
     <ion-list>
       <div id= "workoutLog" class="list">
           <a  id= "Theme" class="item item-thumbnail-left" ng-repeat="leader in leaders" href="#/app/leaderboards/{{leader.id}}">
@@ -8,7 +21,4 @@
             <h4>Points: {{leader.points}}</h4>
           </a>
       </div>
-    </ion-list>
-  </ion-content>
-</ion-view>
-
+    </ion-list>-->
