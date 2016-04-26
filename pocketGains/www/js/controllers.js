@@ -5,8 +5,8 @@ angular.module('starter.controllers', ["chart.js"])
 
 // ******************** Main Page (Dashboard) Controller **********************************
 
-.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory,$stateParams, $ionicSlideBoxDelegate, $filter) {
-
+.controller('DashboardCtrl', function($scope, $state, userData, $http, $ionicModal, $ionicHistory,$stateParams, $ionicSlideBoxDelegate) {
+    
   // User data
   $scope.username = userData.getUsername();
   $scope.user_id = userData.getId();
@@ -17,15 +17,12 @@ angular.module('starter.controllers', ["chart.js"])
 
   $http.get("http://52.37.226.62/getHistory/" + $scope.user_id + "/2012-4-20 00:00:00")
     .success(function(workoutData) {
+      if (workoutData != "\"no results found\"") {
         $scope.workoutHist = workoutData;
 
         $scope.workoutHist.sort(function(a, b) {
           return Date.parse(b.time_stamp) - Date.parse(a.time_stamp);
-            
-   
         });
-    if (workoutData!= "no results found") {
-
       }
     })
     .error(function(data) {
@@ -103,9 +100,6 @@ angular.module('starter.controllers', ["chart.js"])
   
  $scope.leaders = function() {
     $state.go('app.leaderboards');
-  } 
-  $scope.achievments = function() {
-    $state.go('app.achievements');
   } 
 })
 
@@ -383,7 +377,6 @@ angular.module('starter.controllers', ["chart.js"])
   .success(function(data) {
       data = data[0];
       $scope.labels = ['Cardio', 'Legs', 'Arms', 'Back', 'Shoulders', 'Chest'];
-
       $scope.userPoints =  {
                       "arms": data["arms"],
                       "legs": data["legs"],
@@ -392,13 +385,10 @@ angular.module('starter.controllers', ["chart.js"])
                       "chest": data["chest"],
                       "cardio": data["cardio"]
                     };
-      $scope.datasets= {
-
-      };
       console.log(data);
 
       $scope.data = [[$scope.userPoints.cardio, $scope.userPoints.legs, $scope.userPoints.arms, $scope.userPoints.back, $scope.userPoints.shoulders, $scope.userPoints.chest]];
-
+      
 
   })
   .error(function(data) {
@@ -638,3 +628,5 @@ angular.module('starter.controllers', ["chart.js"])
     
     
 })
+
+
