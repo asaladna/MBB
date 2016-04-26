@@ -42,7 +42,7 @@ $app->post('/createNewUser', function ($request, $response, $args) {
     			$query->bindParam(':password', $password);
     			$query->bindParam(':sex', $sex);
     			$query->bindParam(':goal', $goal);
-                $query->bindParam(':cardioPref', $cardioPref)
+                $query->bindParam(':cardioPref', $cardioPref);
     			$query->bindParam(':exp', $exp);
     			$query->execute();
     		}
